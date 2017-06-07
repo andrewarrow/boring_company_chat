@@ -44,8 +44,8 @@ class MessageList: NSScrollView {
     list.layer?.backgroundColor = NSColor.white.cgColor
 
     translatesAutoresizingMaskIntoConstraints = true
-    //autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
-    //autoresizingMask.insert(NSAutoresizingMaskOptions.viewMinYMargin)
+    autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
+    autoresizingMask.insert(NSAutoresizingMaskOptions.viewMinYMargin)
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewMaxYMargin)
 
     documentView = list

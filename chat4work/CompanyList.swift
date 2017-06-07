@@ -19,6 +19,10 @@ class CompanyList: NSScrollView {
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "companyDidChange"),
       object: "A very different name \(sender.tag)")
+    
+    NotificationCenter.default.post(
+      name:NSNotification.Name(rawValue: "channelDidChange"),
+      object: "channel \(sender.tag)")
   }
   
   override init(frame frameRect: NSRect) {

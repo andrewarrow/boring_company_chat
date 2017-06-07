@@ -14,7 +14,7 @@ class ViewController: NSViewController {
   let company = CurrentCompany(frame: NSMakeRect(70,0,220,50))
   let channels = ChannelList(frame: NSMakeRect(70,0,220,650))
   let channel = CurrentChannel(frame: NSMakeRect(70+220,0,650,50))
-  let rightscroll = MessageList(frame: NSMakeRect(70+220,0,650,500))
+  let rightscroll = MessageList(frame: NSMakeRect(70+220,30,680,250))
   
   override func viewDidLoad() {
     super.viewDidLoad()

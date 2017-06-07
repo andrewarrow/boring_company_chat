@@ -12,8 +12,17 @@ class CurrentCompany: NSView {
   
   let companyName = NSTextField(frame: NSMakeRect(0, 5, 200, 30))
   
+  func companyDidChange(notification: NSNotification) {
+    companyName.stringValue = notification.object as! String
+  }
+  
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
+    
+    NotificationCenter.default.addObserver(self,
+      selector: #selector(companyDidChange),
+      name: NSNotification.Name(rawValue: "companyDidChange"),
+      object: nil)
     
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewMinYMargin)
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewMaxYMargin)

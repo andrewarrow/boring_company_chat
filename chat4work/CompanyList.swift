@@ -16,11 +16,9 @@ class CompanyList: NSScrollView {
 
   func changeCompany(sender:NSButton) {
     
-    DispatchQueue.main.async {
-      let win = NSApplication.shared().keyWindow!.contentViewController as! ViewController
-      win.company.companyName.stringValue = "A very different name \(sender.tag)"
-    }
-    
+    NotificationCenter.default.post(
+      name:NSNotification.Name(rawValue: "companyDidChange"),
+      object: "A very different name \(sender.tag)")
   }
   
   override init(frame frameRect: NSRect) {

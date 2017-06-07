@@ -1,0 +1,62 @@
+//
+//  CompanyList.swift
+//  chat4work
+//
+//  Created by A Arrow on 6/7/17.
+//  Copyright © 2017 755R3VBZ84. All rights reserved.
+//
+
+import Cocoa
+
+class CompanyList: NSScrollView {
+    
+  let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
+  let image1 = NSImage(named: "logo1.png")
+  let image2 = NSImage(named: "ac_logo.png")
+
+  func changeCompany(sender:NSButton) {
+    
+    DispatchQueue.main.async {
+      let win = NSApplication.shared().keyWindow!.contentViewController as! ViewController
+      win.company.companyName.stringValue = "A very different name \(sender.tag)"
+    }
+    
+  }
+  
+  override init(frame frameRect: NSRect) {
+    super.init(frame:frameRect);
+    
+    wantsLayer = true
+    
+    left.wantsLayer = true
+    left.layer?.backgroundColor = NSColor.lightGray.cgColor
+    for i in 0...40 {
+      let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*60)),50,50))
+      imageView.image = image1
+      imageView.tag = i
+      imageView.target = self
+      imageView.action = #selector(changeCompany)
+      imageView.alphaValue = 1.0
+      if i % 2 == 0 {
+        imageView.image = image2
+      }
+      left.addSubview(imageView)
+    }
+
+    translatesAutoresizingMaskIntoConstraints = true
+    autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
+    
+    left.translatesAutoresizingMaskIntoConstraints = true
+    left.autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
+
+    documentView = left
+    hasVerticalScroller = false
+    documentView?.scroll(NSPoint(x: 0, y:2000))
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+
+}
+ 

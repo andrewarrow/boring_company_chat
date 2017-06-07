@@ -1,0 +1,9 @@
+*.swp
+*.swo
+.DS_Store
+*.xcuserstate
+xcuserdata
+*.xcscmblueprint
+Pods
+.idea
+.idea/workspace.xml

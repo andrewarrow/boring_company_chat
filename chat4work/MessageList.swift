@@ -12,6 +12,16 @@ class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   
+  func sendMessage(notification: NSNotification) {
+    let data = notification.object as! String
+    let imageView = NSTextField(frame: NSMakeRect(10,(CGFloat(0)),200,25))
+    imageView.stringValue = data
+    imageView.isBordered = false
+    imageView.isEditable = false
+    imageView.font = NSFont.systemFont(ofSize: 14.0)
+    list.addSubview(imageView)
+  }
+  
   func channelDidChange(notification: NSNotification) {
     let name = notification.object as! String
     list.subviews = []
@@ -36,6 +46,11 @@ class MessageList: NSScrollView {
       name: NSNotification.Name(rawValue: "channelDidChange"),
       object: nil)
     
+    NotificationCenter.default.addObserver(self,
+      selector: #selector(sendMessage),
+      name: NSNotification.Name(rawValue: "sendMessage"),
+      object: nil)
+    
     wantsLayer = true
     
     makeMessages(name: "initial")
@@ -50,7 +65,7 @@ class MessageList: NSScrollView {
 
     documentView = list
     hasVerticalScroller = true
-    documentView?.scroll(NSPoint(x: 0, y:2000))
+    //documentView?.scroll(NSPoint(x: 0, y:2000))
   }
   
   required init?(coder: NSCoder) {

@@ -8,9 +8,23 @@
 
 import Cocoa
 
-class ComposeMessage: NSView {
+class ComposeMessage: NSView, NSTextFieldDelegate {
   
   let text = NSTextField(frame: NSMakeRect(5, 5, 600, 50))
+  
+  func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
+    
+    if commandSelector == #selector(NSResponder.insertNewline(_:)) {
+      
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "sendMessage"),
+        object: text.stringValue)
+      text.stringValue = ""
+      
+      return true
+    }
+    return false
+  }
   
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
@@ -27,6 +41,7 @@ class ComposeMessage: NSView {
     text.backgroundColor = NSColor.white
     text.isBordered = true
     text.font = NSFont.systemFont(ofSize: 14.0)
+    text.delegate = self;
     addSubview(text)
     
   }

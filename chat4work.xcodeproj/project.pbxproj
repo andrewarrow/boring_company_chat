@@ -15,6 +15,7 @@
 		00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81D1EE792300026590B /* CurrentCompany.swift */; };
 		00C8B8221EE79B700026590B /* ac_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 00C8B8201EE79B700026590B /* ac_logo.png */; };
 		00C8B8231EE79B700026590B /* logo1.png in Resources */ = {isa = PBXBuildFile; fileRef = 00C8B8211EE79B700026590B /* logo1.png */; };
+		00C8B8251EE7A3200026590B /* ChannelList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B8241EE7A3200026590B /* ChannelList.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		00C8B81D1EE792300026590B /* CurrentCompany.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentCompany.swift; sourceTree = "<group>"; };
 		00C8B8201EE79B700026590B /* ac_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ac_logo.png; path = images/ac_logo.png; sourceTree = SOURCE_ROOT; };
 		00C8B8211EE79B700026590B /* logo1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = logo1.png; path = images/logo1.png; sourceTree = SOURCE_ROOT; };
+		00C8B8241EE7A3200026590B /* ChannelList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelList.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +68,7 @@
 				005E79661EE6208700160158 /* Assets.xcassets */,
 				005E79681EE6208700160158 /* Main.storyboard */,
 				005E796B1EE6208700160158 /* Info.plist */,
+				00C8B8241EE7A3200026590B /* ChannelList.swift */,
 				00C8B81B1EE790070026590B /* CompanyList.swift */,
 				00C8B81D1EE792300026590B /* CurrentCompany.swift */,
 			);
@@ -158,6 +161,7 @@
 				00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,
 				005E79631EE6208700160158 /* AppDelegate.swift in Sources */,
+				00C8B8251EE7A3200026590B /* ChannelList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

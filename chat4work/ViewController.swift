@@ -11,7 +11,8 @@ import Cocoa
 class ViewController: NSViewController {
 
   let leftscroll = CompanyList(frame: NSMakeRect(0,0,70,700))
-  let company = CurrentCompany(frame: NSMakeRect(70,0,200,50))
+  let company = CurrentCompany(frame: NSMakeRect(70,0,220,50))
+  let channels = ChannelList(frame: NSMakeRect(70,0,220,650))
     
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -19,6 +20,7 @@ class ViewController: NSViewController {
       
     view.addSubview(leftscroll)
     view.addSubview(company)
+    view.addSubview(channels)
   }
     
   override func viewDidAppear() {

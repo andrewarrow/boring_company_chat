@@ -22,7 +22,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		005E795F1EE6208700160158 /* chat4work.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = chat4work.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		005E795F1EE6208700160158 /* boring-company-chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "boring-company-chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		005E79621EE6208700160158 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		005E79641EE6208700160158 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		005E79661EE6208700160158 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -60,7 +60,7 @@
 		005E79601EE6208700160158 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				005E795F1EE6208700160158 /* chat4work.app */,
+				005E795F1EE6208700160158 /* boring-company-chat.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -96,9 +96,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		005E795E1EE6208700160158 /* chat4work */ = {
+		005E795E1EE6208700160158 /* boring-company-chat */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 005E796E1EE6208700160158 /* Build configuration list for PBXNativeTarget "chat4work" */;
+			buildConfigurationList = 005E796E1EE6208700160158 /* Build configuration list for PBXNativeTarget "boring-company-chat" */;
 			buildPhases = (
 				005E795B1EE6208700160158 /* Sources */,
 				005E795C1EE6208700160158 /* Frameworks */,
@@ -108,9 +108,9 @@
 			);
 			dependencies = (
 			);
-			name = chat4work;
+			name = "boring-company-chat";
 			productName = chat4work;
-			productReference = 005E795F1EE6208700160158 /* chat4work.app */;
+			productReference = 005E795F1EE6208700160158 /* boring-company-chat.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -129,7 +129,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 005E795A1EE6208700160158 /* Build configuration list for PBXProject "chat4work" */;
+			buildConfigurationList = 005E795A1EE6208700160158 /* Build configuration list for PBXProject "boring-company-chat" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -142,7 +142,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				005E795E1EE6208700160158 /* chat4work */,
+				005E795E1EE6208700160158 /* boring-company-chat */,
 			);
 		};
 /* End PBXProject section */
@@ -312,7 +312,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		005E795A1EE6208700160158 /* Build configuration list for PBXProject "chat4work" */ = {
+		005E795A1EE6208700160158 /* Build configuration list for PBXProject "boring-company-chat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				005E796C1EE6208700160158 /* Debug */,
@@ -321,7 +321,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		005E796E1EE6208700160158 /* Build configuration list for PBXNativeTarget "chat4work" */ = {
+		005E796E1EE6208700160158 /* Build configuration list for PBXNativeTarget "boring-company-chat" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				005E796F1EE6208700160158 /* Debug */,

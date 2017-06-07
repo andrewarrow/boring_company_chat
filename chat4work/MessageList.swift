@@ -12,19 +12,33 @@ class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   
-  override init(frame frameRect: NSRect) {
-    super.init(frame:frameRect);
-    
-    wantsLayer = true
-    
+  func channelDidChange(notification: NSNotification) {
+    let name = notification.object as! String
+    list.subviews = []
+    makeMessages(name: name)
+  }
+  
+  func makeMessages(name:String) {
     for i in 0...81 {
       let imageView = NSTextField(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
-      imageView.stringValue = "test \(i)"
+      imageView.stringValue = "\(name) test \(i)"
       imageView.isBordered = false
       imageView.isEditable = false
       imageView.font = NSFont.systemFont(ofSize: 14.0)
       list.addSubview(imageView)
     }
+  }
+  override init(frame frameRect: NSRect) {
+    super.init(frame:frameRect);
+    
+    NotificationCenter.default.addObserver(self,
+      selector: #selector(channelDidChange),
+      name: NSNotification.Name(rawValue: "channelDidChange"),
+      object: nil)
+    
+    wantsLayer = true
+    
+    makeMessages(name: "initial")
     
     list.wantsLayer = true
     list.layer?.backgroundColor = NSColor.white.cgColor

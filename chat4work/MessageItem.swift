@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import Moya
 
 class MessageItem: NSView {
   
@@ -32,6 +33,21 @@ class MessageItem: NSView {
     
     msg.backgroundColor = NSColor.darkGray
     sel1 = 1
+    
+    let provider = MoyaProvider<ChatService>()
+    provider.request(.showAccounts) { result in
+      switch result {
+      case let .success(moyaResponse):
+        //let data = moyaResponse.data
+        //let statusCode = moyaResponse.statusCode
+        Swift.print("qqq")
+
+
+      case let .failure(error):
+        Swift.print("www")
+      
+      }
+    }
   }
   
   func turnOff() {

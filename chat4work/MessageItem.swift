@@ -13,6 +13,28 @@ class MessageItem: NSView {
   let user = NSTextField(frame: NSMakeRect(5, 220, 200, 25))
   let time = NSTextField(frame: NSMakeRect(150, 220, 200, 25))
   let msg = NSTextField(frame: NSMakeRect(5, 0, 680, 200))
+  var sel1 = 0
+  var sel2 = 0
+  
+  override func mouseDown(with event: NSEvent) {
+    Swift.print("Wefwef")
+    if sel1 == 0 {
+      msg.backgroundColor = NSColor.darkGray
+      sel1 = 1
+    } else {
+      msg.backgroundColor = NSColor.white
+      sel1 = 0
+    }
+  }
+
+  override func mouseDragged(with event: NSEvent) {
+    //Swift.print("Wefwef")
+  }
+
+  override func mouseUp(with event: NSEvent) {
+    Swift.print("Wefwef")
+  }
+
   
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
@@ -20,7 +42,7 @@ class MessageItem: NSView {
     //wantsLayer = true
     //layer?.backgroundColor = NSColor.darkGray.cgColor
     
-    msg.stringValue = "Channel Name Long"
+    msg.stringValue = ""
     msg.isEditable = false
     msg.backgroundColor = NSColor.white
     msg.isBordered = false

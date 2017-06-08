@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		004640B21EE9191800C19858 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004640B11EE9191800C19858 /* MessageItem.swift */; };
 		005E79631EE6208700160158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E79621EE6208700160158 /* AppDelegate.swift */; };
 		005E79651EE6208700160158 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E79641EE6208700160158 /* ViewController.swift */; };
 		005E79671EE6208700160158 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 005E79661EE6208700160158 /* Assets.xcassets */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		004640B11EE9191800C19858 /* MessageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		005E795F1EE6208700160158 /* boring-company-chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "boring-company-chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		005E79621EE6208700160158 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		005E79641EE6208700160158 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -74,6 +76,7 @@
 		005E79611EE6208700160158 /* chat4work */ = {
 			isa = PBXGroup;
 			children = (
+				004640B11EE9191800C19858 /* MessageItem.swift */,
 				00C8B81F1EE79B5F0026590B /* images */,
 				005E79621EE6208700160158 /* AppDelegate.swift */,
 				005E79641EE6208700160158 /* ViewController.swift */,
@@ -183,6 +186,7 @@
 				00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,
 				00C8B8271EE7A8FE0026590B /* CurrentChannel.swift in Sources */,
+				004640B21EE9191800C19858 /* MessageItem.swift in Sources */,
 				005E79631EE6208700160158 /* AppDelegate.swift in Sources */,
 				00C8B8291EE7AA450026590B /* MessageList.swift in Sources */,
 				00C8B8251EE7A3200026590B /* ChannelList.swift in Sources */,

@@ -17,13 +17,13 @@ class MessageList: NSScrollView {
 
     var i = 81
     while i > 0 {
-      let prev = list.subviews[i] as! NSTextField
-      let item = list.subviews[i-1] as! NSTextField
+      let prev = list.subviews[i] as! MessageItem
+      let item = list.subviews[i-1] as! MessageItem
       i = i - 1
-      prev.stringValue = item.stringValue
+      prev.setStringValue(val: item.getStringValue())
     }
-    let item = list.subviews[0] as! NSTextField
-    item.stringValue = data
+    let item = list.subviews[0] as! MessageItem
+    item.setStringValue(val: data)
   }
   
   func channelDidChange(notification: NSNotification) {
@@ -34,11 +34,8 @@ class MessageList: NSScrollView {
   
   func makeMessages(name:String) {
     for i in 0...81 {
-      let imageView = NSTextField(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
-      imageView.stringValue = "\(name) test \(i)"
-      imageView.isBordered = false
-      imageView.isEditable = false
-      imageView.font = NSFont.systemFont(ofSize: 14.0)
+      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
+      imageView.setStringValue(val: "\(name) test \(i)")
       list.addSubview(imageView)
     }
   }

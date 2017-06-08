@@ -12,7 +12,10 @@ class CompanyList: NSScrollView {
     
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
   let image1 = NSImage(named: "logo1.png")
-  let image2 = NSImage(named: "ac_logo.png")
+  let image2 = NSImage(named: "ibm_logo.png")
+  let image3 = NSImage(named: "hp.png")
+  let image4 = NSImage(named: "insta.png")
+  let image5 = NSImage(named: "mena.png")
 
   func changeCompany(sender:NSButton) {
     
@@ -42,6 +45,16 @@ class CompanyList: NSScrollView {
       if i % 2 == 0 {
         imageView.image = image2
       }
+      if i % 3 == 0 {
+        imageView.image = image3
+      }
+      if i % 4 == 0 {
+        imageView.image = image4
+      }
+      if i % 5 == 0 {
+        imageView.image = image5
+      }
+
       left.addSubview(imageView)
     }
 

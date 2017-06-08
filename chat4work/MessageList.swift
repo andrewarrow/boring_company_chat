@@ -15,14 +15,7 @@ class MessageList: NSScrollView {
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String
-    let imageView = NSTextField(frame: NSMakeRect(10,(CGFloat(0)),200,25))
-    imageView.stringValue = data
-    imageView.isBordered = false
-    imageView.isEditable = false
-    imageView.font = NSFont.systemFont(ofSize: 14.0)
-    //Swift.print("\(list.subviews.count)")
-    //list.addSubview(imageView)
-    
+  
     var ro = Array<NSTextField>()
     for case let sv as NSTextField in list.subviews {
       ro.insert(sv, at: 0)
@@ -35,6 +28,10 @@ class MessageList: NSScrollView {
       }
       prev = sv
     }
+    
+    let first = list.subviews[0] as! NSTextField
+    first.stringValue = data
+
     
   }
   

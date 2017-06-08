@@ -7,3 +7,5 @@ xcuserdata
 Pods
 .idea
 .idea/workspace.xml
+Carthage/Build
+Carthage/Checkouts

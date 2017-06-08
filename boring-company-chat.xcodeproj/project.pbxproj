@@ -15,6 +15,12 @@
 		0074870A1EE8F0EA00853F06 /* hp.png in Resources */ = {isa = PBXBuildFile; fileRef = 007487091EE8F0EA00853F06 /* hp.png */; };
 		0074870E1EE8F1C200853F06 /* insta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0074870D1EE8F1C200853F06 /* insta.png */; };
 		007487101EE8F22200853F06 /* mena.png in Resources */ = {isa = PBXBuildFile; fileRef = 0074870F1EE8F22200853F06 /* mena.png */; };
+		00AB4B691EE9BE9C002CB196 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B681EE9BE9C002CB196 /* Moya.framework */; };
+		00AB4B6A1EE9BE9C002CB196 /* Moya.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B681EE9BE9C002CB196 /* Moya.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00AB4B6C1EE9BEA6002CB196 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6B1EE9BEA6002CB196 /* Result.framework */; };
+		00AB4B6D1EE9BEA6002CB196 /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6B1EE9BEA6002CB196 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00AB4B6F1EE9BEB0002CB196 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */; };
+		00AB4B701EE9BEB0002CB196 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C8B81C1EE790070026590B /* CompanyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81B1EE790070026590B /* CompanyList.swift */; };
 		00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81D1EE792300026590B /* CurrentCompany.swift */; };
 		00C8B8221EE79B700026590B /* ibm_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 00C8B8201EE79B700026590B /* ibm_logo.png */; };
@@ -24,6 +30,22 @@
 		00C8B8291EE7AA450026590B /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B8281EE7AA450026590B /* MessageList.swift */; };
 		00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B82A1EE7AFC80026590B /* ComposeMessage.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		00F71BE41EE99D4F00F7E169 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				00AB4B6A1EE9BE9C002CB196 /* Moya.framework in Embed Frameworks */,
+				00AB4B701EE9BEB0002CB196 /* Alamofire.framework in Embed Frameworks */,
+				00AB4B6D1EE9BEA6002CB196 /* Result.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		004640B11EE9191800C19858 /* MessageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
@@ -36,6 +58,9 @@
 		007487091EE8F0EA00853F06 /* hp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hp.png; path = images/hp.png; sourceTree = SOURCE_ROOT; };
 		0074870D1EE8F1C200853F06 /* insta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = insta.png; path = images/insta.png; sourceTree = SOURCE_ROOT; };
 		0074870F1EE8F22200853F06 /* mena.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mena.png; path = images/mena.png; sourceTree = SOURCE_ROOT; };
+		00AB4B681EE9BE9C002CB196 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/Mac/Moya.framework; sourceTree = "<group>"; };
+		00AB4B6B1EE9BEA6002CB196 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
+		00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
 		00C8B81B1EE790070026590B /* CompanyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyList.swift; sourceTree = "<group>"; };
 		00C8B81D1EE792300026590B /* CurrentCompany.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentCompany.swift; sourceTree = "<group>"; };
 		00C8B8201EE79B700026590B /* ibm_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ibm_logo.png; path = images/ibm_logo.png; sourceTree = SOURCE_ROOT; };
@@ -51,6 +76,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00AB4B691EE9BE9C002CB196 /* Moya.framework in Frameworks */,
+				00AB4B6F1EE9BEB0002CB196 /* Alamofire.framework in Frameworks */,
+				00AB4B6C1EE9BEA6002CB196 /* Result.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,6 +88,9 @@
 		005E79561EE6208700160158 = {
 			isa = PBXGroup;
 			children = (
+				00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */,
+				00AB4B6B1EE9BEA6002CB196 /* Result.framework */,
+				00AB4B681EE9BE9C002CB196 /* Moya.framework */,
 				005E79611EE6208700160158 /* chat4work */,
 				005E79601EE6208700160158 /* Products */,
 			);
@@ -115,6 +146,7 @@
 				005E795B1EE6208700160158 /* Sources */,
 				005E795C1EE6208700160158 /* Frameworks */,
 				005E795D1EE6208700160158 /* Resources */,
+				00F71BE41EE99D4F00F7E169 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -302,8 +334,13 @@
 		005E796F1EE6208700160158 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = chat4work/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = higher.team.chat4work;
@@ -315,8 +352,13 @@
 		005E79701EE6208700160158 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/Mac",
+				);
 				INFOPLIST_FILE = chat4work/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = higher.team.chat4work;

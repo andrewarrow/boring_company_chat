@@ -11,6 +11,7 @@ import Cocoa
 class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
+  var prev: NSTextField? = nil
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String
@@ -19,7 +20,22 @@ class MessageList: NSScrollView {
     imageView.isBordered = false
     imageView.isEditable = false
     imageView.font = NSFont.systemFont(ofSize: 14.0)
-    list.addSubview(imageView)
+    //Swift.print("\(list.subviews.count)")
+    //list.addSubview(imageView)
+    
+    var ro = Array<NSTextField>()
+    for case let sv as NSTextField in list.subviews {
+      ro.insert(sv, at: 0)
+    }
+    
+    for sv in ro {
+      if (prev != nil) {
+        Swift.print("\(sv.stringValue)")
+        prev?.stringValue = sv.stringValue
+      }
+      prev = sv
+    }
+    
   }
   
   func channelDidChange(notification: NSNotification) {

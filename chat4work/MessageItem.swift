@@ -18,7 +18,9 @@ class MessageItem: NSView {
   
   
   @IBAction func copy(_ sender:NSObject) {
-    Swift.print("hi")
+    let pasteboard = NSPasteboard.general()
+    pasteboard.declareTypes([NSPasteboardTypeString], owner: nil)
+    pasteboard.setString(msg.stringValue, forType: NSPasteboardTypeString)
   }
   
   override func mouseDown(with event: NSEvent) {

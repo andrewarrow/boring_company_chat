@@ -10,7 +10,7 @@ import Cocoa
 
 class MessageList: NSScrollView {
     
-  let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
+  let list = NSView(frame: NSMakeRect(0,0,680,1560+900))
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String
@@ -34,7 +34,7 @@ class MessageList: NSScrollView {
   
   func makeMessages(name:String) {
     for i in 0...81 {
-      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*300)),200,250))
+      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*300)),680,250))
       imageView.setStringValue(val: "\(name) test \(i)")
       list.addSubview(imageView)
     }

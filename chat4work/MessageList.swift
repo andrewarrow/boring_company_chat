@@ -10,7 +10,7 @@ import Cocoa
 
 class MessageList: NSScrollView {
     
-  let list = NSView(frame: NSMakeRect(0,0,680,1560+900))
+  let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String

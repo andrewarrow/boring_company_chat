@@ -34,7 +34,7 @@ class MessageList: NSScrollView {
   
   func makeMessages(name:String) {
     for i in 0...81 {
-      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
+      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*300)),200,250))
       imageView.setStringValue(val: "\(name) test \(i)")
       list.addSubview(imageView)
     }

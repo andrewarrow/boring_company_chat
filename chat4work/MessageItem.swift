@@ -10,6 +10,8 @@ import Cocoa
 
 class MessageItem: NSView {
   
+  let user = NSTextField(frame: NSMakeRect(5, 50, 200, 25))
+  let time = NSTextField(frame: NSMakeRect(50, 50, 200, 25))
   let msg = NSTextField(frame: NSMakeRect(5, 5, 200, 25))
   
   override init(frame frameRect: NSRect) {
@@ -24,7 +26,20 @@ class MessageItem: NSView {
     msg.isBordered = false
     msg.font = NSFont.systemFont(ofSize: 14.0)
     addSubview(msg)
+
+    user.stringValue = "andrew"
+    user.isEditable = false
+    user.backgroundColor = NSColor.white
+    user.isBordered = false
+    user.font = NSFont.systemFont(ofSize: 14.0)
+    addSubview(user)
     
+    time.stringValue = "13:01"
+    time.isEditable = false
+    time.backgroundColor = NSColor.white
+    time.isBordered = false
+    time.font = NSFont.systemFont(ofSize: 14.0)
+    addSubview(time)
   }
   
   func getStringValue() -> String {

@@ -76,7 +76,6 @@
 		005E79611EE6208700160158 /* chat4work */ = {
 			isa = PBXGroup;
 			children = (
-				004640B11EE9191800C19858 /* MessageItem.swift */,
 				00C8B81F1EE79B5F0026590B /* images */,
 				005E79621EE6208700160158 /* AppDelegate.swift */,
 				005E79641EE6208700160158 /* ViewController.swift */,
@@ -85,6 +84,7 @@
 				005E796B1EE6208700160158 /* Info.plist */,
 				00C8B8241EE7A3200026590B /* ChannelList.swift */,
 				00C8B81B1EE790070026590B /* CompanyList.swift */,
+				004640B11EE9191800C19858 /* MessageItem.swift */,
 				00C8B8281EE7AA450026590B /* MessageList.swift */,
 				00C8B81D1EE792300026590B /* CurrentCompany.swift */,
 				00C8B82A1EE7AFC80026590B /* ComposeMessage.swift */,

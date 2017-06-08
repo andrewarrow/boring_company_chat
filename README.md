@@ -6,20 +6,20 @@ this is the start of a macOS navtive AppKit cocoa swift3 chat app.
 
 # require reading
 
-https://slack.com
-https://about.mattermost.com
-https://rocket.chat
-https://ryver.com
-https://www.bitrix24.com
-http://moxtra.com
-https://fleep.io
-https://www.hipchat.com
+1 https://slack.com
+1 https://about.mattermost.com
+1 https://rocket.chat
+1 https://ryver.com
+1 https://www.bitrix24.com
+1 http://moxtra.com
+1 https://fleep.io
+1 https://www.hipchat.com
 
-https://www.skype.com/
-https://en.wikipedia.org/wiki/AOL_Instant_Messenger
-https://en.wikipedia.org/wiki/ICQ
-https://en.wikipedia.org/wiki/Windows_Live_Messenger
-https://messenger.yahoo.com
-https://www.trillian.im
-https://www.ejabberd.im
+2 https://www.skype.com/
+2 https://en.wikipedia.org/wiki/AOL_Instant_Messenger
+2 https://en.wikipedia.org/wiki/ICQ
+2 https://en.wikipedia.org/wiki/Windows_Live_Messenger
+2 https://messenger.yahoo.com
+2 https://www.trillian.im
+2 https://www.ejabberd.im
 

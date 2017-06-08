@@ -10,8 +10,8 @@ import Cocoa
 
 class MessageItem: NSView {
   
-  let user = NSTextField(frame: NSMakeRect(5, 100, 200, 25))
-  let time = NSTextField(frame: NSMakeRect(150, 100, 200, 25))
+  let user = NSTextField(frame: NSMakeRect(5, 220, 200, 25))
+  let time = NSTextField(frame: NSMakeRect(150, 220, 200, 25))
   let msg = NSTextField(frame: NSMakeRect(5, 0, 680, 200))
   
   override init(frame frameRect: NSRect) {

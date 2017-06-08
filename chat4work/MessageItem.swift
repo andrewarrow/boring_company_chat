@@ -24,16 +24,19 @@ class MessageItem: NSView {
   }
   
   override func mouseDown(with event: NSEvent) {
-    Swift.print("Wefwef")
     NSApplication.shared().keyWindow!.makeFirstResponder(self)
     
-    if sel1 == 0 {
-      msg.backgroundColor = NSColor.darkGray
-      sel1 = 1
-    } else {
-      msg.backgroundColor = NSColor.white
-      sel1 = 0
-    }
+    NotificationCenter.default.post(
+      name:NSNotification.Name(rawValue: "turnAllOff"),
+      object: nil)
+    
+    msg.backgroundColor = NSColor.darkGray
+    sel1 = 1
+  }
+  
+  func turnOff() {
+    sel1 = 0
+    msg.backgroundColor = NSColor.white
   }
 
   override func mouseDragged(with event: NSEvent) {

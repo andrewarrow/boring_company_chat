@@ -32,6 +32,13 @@ class MessageList: NSScrollView {
     makeMessages(name: name)
   }
   
+  func turnAllOff(notification: NSNotification) {
+    for sv in list.subviews {
+      let mi = sv as! MessageItem
+      mi.turnOff()
+    }
+  }
+  
   func makeMessages(name:String) {
     for i in 0...81 {
       let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*300)),680,250))
@@ -51,6 +58,11 @@ class MessageList: NSScrollView {
       selector: #selector(sendMessage),
       name: NSNotification.Name(rawValue: "sendMessage"),
       object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+         selector: #selector(turnAllOff),
+         name: NSNotification.Name(rawValue: "turnAllOff"),
+         object: nil)
     
     wantsLayer = true
     

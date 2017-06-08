@@ -9,6 +9,16 @@
 import Cocoa
 import Moya
 
+private func JSONResponseDataFormatter(_ data: Data) -> Data {
+  do {
+    let dataAsJSON = try JSONSerialization.jsonObject(with: data)
+    let prettyData =  try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
+    return prettyData
+  } catch {
+    return data // fallback to original data if it can't be serialized.
+  }
+}
+
 class MessageItem: NSView {
   
   let user = NSTextField(frame: NSMakeRect(5, 220, 200, 25))
@@ -36,16 +46,15 @@ class MessageItem: NSView {
     
     let value = ProcessInfo.processInfo.environment["SLACK_TOKENS"]
     let tokens = value?.components(separatedBy: ",")
-    let token = tokens?[0]
-    let authPlugin = AccessTokenPlugin(token: token!)
+    let token = tokens?[4]
     
-    let provider = MoyaProvider<ChatService>(plugins: [authPlugin])
-    provider.request(.showAccounts) { result in
+    let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
+    provider.request(.showAccounts(token: token!)) { result in
       switch result {
       case let .success(moyaResponse):
-        //let data = moyaResponse.data
+        let data = moyaResponse.data
         //let statusCode = moyaResponse.statusCode
-        Swift.print("qqq1111")
+        Swift.print("qqq1111 \(moyaResponse)")
 
 
       case let .failure(error):

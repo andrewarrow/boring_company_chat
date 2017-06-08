@@ -14,11 +14,12 @@ enum ChatService {
   case showUser(id: Int)
   case createUser(firstName: String, lastName: String)
   case updateUser(id:Int, firstName: String, lastName: String)
-  case showAccounts
+  case showAccounts(token: String)
 }
 
 extension ChatService: TargetType {
   var baseURL: URL { return URL(string: "https://slack.com")! }
+  
   var path: String {
     switch self {
     case .zen:
@@ -41,8 +42,10 @@ extension ChatService: TargetType {
   }
   var parameters: [String: Any]? {
     switch self {
-    case .zen, .showUser, .showAccounts:
+    case .zen, .showUser:
       return nil
+    case .showAccounts(let token):
+      return ["token": token]
     case .createUser(let firstName, let lastName), .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
     }
@@ -67,12 +70,7 @@ extension ChatService: TargetType {
     case .updateUser(let id, let firstName, let lastName):
       return "{\"id\": \(id), \"first_name\": \"\(firstName)\", \"last_name\": \"\(lastName)\"}".utf8Encoded
     case .showAccounts:
-      // Provided you have a file named accounts.json in your bundle.
-      guard let url = Bundle.main.url(forResource: "accounts", withExtension: "json"),
-        let data = try? Data(contentsOf: url) else {
-          return Data()
-      }
-      return data
+      return "{\"id\":\"123\"}".utf8Encoded
     }
   }
   var task: Task {

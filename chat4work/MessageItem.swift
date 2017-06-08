@@ -34,13 +34,18 @@ class MessageItem: NSView {
     msg.backgroundColor = NSColor.darkGray
     sel1 = 1
     
-    let provider = MoyaProvider<ChatService>()
+    let value = ProcessInfo.processInfo.environment["SLACK_TOKENS"]
+    let tokens = value?.components(separatedBy: ",")
+    let token = tokens?[0]
+    let authPlugin = AccessTokenPlugin(token: token!)
+    
+    let provider = MoyaProvider<ChatService>(plugins: [authPlugin])
     provider.request(.showAccounts) { result in
       switch result {
       case let .success(moyaResponse):
         //let data = moyaResponse.data
         //let statusCode = moyaResponse.statusCode
-        Swift.print("qqq")
+        Swift.print("qqq1111")
 
 
       case let .failure(error):

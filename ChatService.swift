@@ -18,7 +18,7 @@ enum ChatService {
 }
 
 extension ChatService: TargetType {
-  var baseURL: URL { return URL(string: "https://api.myservice.com")! }
+  var baseURL: URL { return URL(string: "https://slack.com")! }
   var path: String {
     switch self {
     case .zen:
@@ -28,7 +28,7 @@ extension ChatService: TargetType {
     case .createUser(_, _):
       return "/users"
     case .showAccounts:
-      return "/accounts"
+      return "/api/channels.list"
     }
   }
   var method: Moya.Method {

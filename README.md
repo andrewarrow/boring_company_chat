@@ -37,3 +37,6 @@ So I want to build an "open source slack replacement" with the following goals:
 * Offers peer-to-peer no server solution for small teams that can handle that
 * Offers slack style company owns the data no peer to peer needed
 
+# env var
+
+xcuserdata in .gitignore

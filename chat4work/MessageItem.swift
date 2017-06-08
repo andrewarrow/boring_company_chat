@@ -16,13 +16,14 @@ class MessageItem: NSView {
   var sel1 = 0
   var sel2 = 0
   
-  @IBAction func copy(sender:NSObject) {
+  
+  @IBAction func copy(_ sender:NSObject) {
     Swift.print("hi")
   }
   
   override func mouseDown(with event: NSEvent) {
     Swift.print("Wefwef")
-    NSApplication.shared().keyWindow!.makeFirstResponder(msg)
+    NSApplication.shared().keyWindow!.makeFirstResponder(self)
     
     if sel1 == 0 {
       msg.backgroundColor = NSColor.darkGray

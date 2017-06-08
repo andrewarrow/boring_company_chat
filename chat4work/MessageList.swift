@@ -11,28 +11,19 @@ import Cocoa
 class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
-  var prev: NSTextField? = nil
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String
-  
-    var ro = Array<NSTextField>()
-    for case let sv as NSTextField in list.subviews {
-      ro.insert(sv, at: 0)
-    }
-    
-    for sv in ro {
-      if (prev != nil) {
-        Swift.print("\(sv.stringValue)")
-        prev?.stringValue = sv.stringValue
-      }
-      prev = sv
-    }
-    
-    let first = list.subviews[0] as! NSTextField
-    first.stringValue = data
 
-    
+    var i = 81
+    while i > 0 {
+      let prev = list.subviews[i] as! NSTextField
+      let item = list.subviews[i-1] as! NSTextField
+      i = i - 1
+      prev.stringValue = item.stringValue
+    }
+    let item = list.subviews[0] as! NSTextField
+    item.stringValue = data
   }
   
   func channelDidChange(notification: NSNotification) {

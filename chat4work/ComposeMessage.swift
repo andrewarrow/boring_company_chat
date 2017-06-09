@@ -35,11 +35,9 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       } else if text.stringValue.hasPrefix("/tokens") {
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
         Swift.print("www \(String(describing: existing))")
-        
+      } else if text.stringValue.hasPrefix("/logout") {
+        UserDefaults.standard.removeObject(forKey: "bcc_tokens")
       }
-          // UserDefaults.standard.removeObject(forKey: "token")
-        // UserDefaults.standard.setValue(customer.value(forKey: "username"), forKey: "username")
-        // let username = UserDefaults.standard.value(forKey: "username")
 
       
       NotificationCenter.default.post(

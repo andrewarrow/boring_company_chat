@@ -117,6 +117,29 @@ class MessageItem: NSView {
         
       }
     }
+    
+    
+    provider.request(.showUsers(token: token!)) { result in
+      switch result {
+      case let .success(moyaResponse):
+        
+        do {
+          let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
+          let channels = json?["members"] as? [[String: Any]]
+          for channel in channels! {
+            let name = channel["name"]
+            Swift.print("qqq1111 \(String(describing: name))")
+          }
+          
+        } catch {
+          Swift.print("Error deserializing JSON: \(error)")
+        }
+        
+      case let .failure(error):
+        Swift.print("err \(error)")
+        
+      }
+    }
 
   }
   

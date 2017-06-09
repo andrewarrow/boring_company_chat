@@ -18,7 +18,24 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       
       if text.stringValue.hasPrefix("/token ") {
         let tokens = text.stringValue.components(separatedBy: " ")
-        Swift.print("www \(tokens)")
+        
+        
+        let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
+        
+        if (existing != nil) {
+          let defaults = UserDefaults.standard
+          var to_save = defaults.value(forKey: "bcc_tokens") as! Array<String>
+          to_save.append(tokens[1])
+          defaults.set(to_save, forKey: "bcc_tokens")
+        } else {
+          let to_save = [tokens[1]]
+          let defaults = UserDefaults.standard
+          defaults.set(to_save, forKey: "bcc_tokens")
+        }
+      } else if text.stringValue.hasPrefix("/tokens") {
+        let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
+        Swift.print("www \(String(describing: existing))")
+        
       }
           // UserDefaults.standard.removeObject(forKey: "token")
         // UserDefaults.standard.setValue(customer.value(forKey: "username"), forKey: "username")

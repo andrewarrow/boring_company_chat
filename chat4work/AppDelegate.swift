@@ -18,5 +18,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ aNotification: Notification) {
     // Insert code here to tear down your application
   }
+  
+  @IBAction func pref(_ sender:NSObject) {
+    Swift.print("wefwe211")
+  }
 }
 

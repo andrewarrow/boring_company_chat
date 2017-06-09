@@ -16,6 +16,15 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
     
     if commandSelector == #selector(NSResponder.insertNewline(_:)) {
       
+      if text.stringValue.hasPrefix("/token ") {
+        let tokens = text.stringValue.components(separatedBy: " ")
+        Swift.print("www \(tokens)")
+      }
+          // UserDefaults.standard.removeObject(forKey: "token")
+        // UserDefaults.standard.setValue(customer.value(forKey: "username"), forKey: "username")
+        // let username = UserDefaults.standard.value(forKey: "username")
+
+      
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "sendMessage"),
         object: text.stringValue)

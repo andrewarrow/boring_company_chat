@@ -18,9 +18,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ aNotification: Notification) {
     // Insert code here to tear down your application
   }
+  // UserDefaults.standard.removeObject(forKey: "token")
+  // UserDefaults.standard.setValue(customer.value(forKey: "username"), forKey: "username")
+  // let username = UserDefaults.standard.value(forKey: "username")
   
   @IBAction func pref(_ sender:NSObject) {
-    Swift.print("wefwe211")
+ 
+    //  "https://slack.com/oauth/authorize?client_id=3192071428.96285304358&scope=client&redirect_uri=https://higher.team/wxslak"
+    //let url = URL(string: "https://higher.team/tokens")
+    let url = URL(string: "https://slack.com/oauth/authorize?client_id=124337043952.195173593026&scope=client&redirect_uri=https://higher.team/slack")
+    NSWorkspace.shared().open(url!)
+    
   }
 }
 

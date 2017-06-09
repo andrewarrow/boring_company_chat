@@ -30,7 +30,7 @@ class ViewController: NSViewController {
   }
     
   override func viewDidAppear() {
-    compose.text.resignFirstResponder()
+    
   }
 
   override var representedObject: Any? {

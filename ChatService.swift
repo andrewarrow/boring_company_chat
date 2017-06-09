@@ -14,7 +14,9 @@ enum ChatService {
   case showUser(id: Int)
   case createUser(firstName: String, lastName: String)
   case updateUser(id:Int, firstName: String, lastName: String)
-  case showAccounts(token: String)
+  case showChannels(token: String)
+  case showGroups(token: String)
+  case showIMs(token: String)
 }
 
 extension ChatService: TargetType {
@@ -28,13 +30,17 @@ extension ChatService: TargetType {
       return "/users/\(id)"
     case .createUser(_, _):
       return "/users"
-    case .showAccounts:
+    case .showChannels:
       return "/api/channels.list"
+    case .showGroups:
+      return "/api/groups.list"
+    case .showIMs:
+      return "/api/im.list"
     }
   }
   var method: Moya.Method {
     switch self {
-    case .zen, .showUser, .showAccounts:
+    case .zen, .showUser, .showChannels, .showGroups, .showIMs:
       return .get
     case .createUser, .updateUser:
       return .post
@@ -44,7 +50,7 @@ extension ChatService: TargetType {
     switch self {
     case .zen, .showUser:
       return nil
-    case .showAccounts(let token):
+    case .showChannels(let token), .showGroups(let token), .showIMs(let token):
       return ["token": token]
     case .createUser(let firstName, let lastName), .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
@@ -53,29 +59,18 @@ extension ChatService: TargetType {
   
   var parameterEncoding: ParameterEncoding {
     switch self {
-    case .zen, .showUser, .showAccounts, .updateUser:
+    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser:
       return URLEncoding.default // Send parameters in URL
     case .createUser:
       return JSONEncoding.default // Send parameters as JSON in request body
     }
   }
   var sampleData: Data {
-    switch self {
-    case .zen:
-      return "Half measures are as bad as nothing at all.".utf8Encoded
-    case .showUser(let id):
-      return "{\"id\": \(id), \"first_name\": \"Harry\", \"last_name\": \"Potter\"}".utf8Encoded
-    case .createUser(let firstName, let lastName):
-      return "{\"id\": 100, \"first_name\": \"\(firstName)\", \"last_name\": \"\(lastName)\"}".utf8Encoded
-    case .updateUser(let id, let firstName, let lastName):
-      return "{\"id\": \(id), \"first_name\": \"\(firstName)\", \"last_name\": \"\(lastName)\"}".utf8Encoded
-    case .showAccounts:
-      return "{\"id\":\"123\"}".utf8Encoded
-    }
+    return "Half measures are as bad as nothing at all.".utf8Encoded
   }
   var task: Task {
     switch self {
-    case .zen, .showUser, .createUser, .updateUser, .showAccounts:
+    case .zen, .showUser, .createUser, .updateUser, .showChannels, .showGroups, .showIMs:
       return .request
     }
   }

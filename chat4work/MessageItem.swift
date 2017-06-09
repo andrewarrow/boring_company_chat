@@ -95,6 +95,28 @@ class MessageItem: NSView {
         
       }
     }
+    
+    provider.request(.showIMs(token: token!)) { result in
+      switch result {
+      case let .success(moyaResponse):
+        
+        do {
+          let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
+          let channels = json?["ims"] as? [[String: Any]]
+          for channel in channels! {
+            let name = channel["id"]
+            Swift.print("qqq1111 \(String(describing: name))")
+          }
+          
+        } catch {
+          Swift.print("Error deserializing JSON: \(error)")
+        }
+        
+      case let .failure(error):
+        Swift.print("err \(error)")
+        
+      }
+    }
 
   }
   

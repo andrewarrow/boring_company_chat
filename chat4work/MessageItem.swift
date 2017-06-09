@@ -48,13 +48,54 @@ class MessageItem: NSView {
     let tokens = value?.components(separatedBy: ",")
     let token = tokens?[4]
     
-    let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
+    /*
+    GitHubProvider.request(.userRepositories(username)) { result in
+      do {
+        let response = try result.dematerialize()
+        let value = try response.mapNSArray()
+        self.repos = value
+        self.tableView.reloadData()
+      } catch {
+        let printableError = error as? CustomStringConvertible
+        let errorMessage = printableError?.description ?? "Unable to fetch from GitHub"
+        self.showAlert("GitHub Fetch", message: errorMessage)
+      }
+     
+     let blogs = json["channels"] as? [[String: Any]] {
+     for blog in blogs {
+     if let name = blog["id"] as? String {
+     Swift.print("qqq1111 \(name)")
+     }
+     }
+     }
+
+     
+      */
+    
+    //let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
+    let provider = MoyaProvider<ChatService>()
     provider.request(.showAccounts(token: token!)) { result in
       switch result {
       case let .success(moyaResponse):
-        let data = moyaResponse.data
+
+        do {
+            let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
+          let channels = json?["channels"] as? [[String: Any]]
+          for channel in channels! {
+            let name = channel["name"]
+            Swift.print("qqq1111 \(name)")
+          }
+          
+        } catch {
+          Swift.print("Error deserializing JSON: \(error)")
+        }
+        
+        
+        //var data = moyaResponse.data
+        //data = JSONResponseDataFormatter(moyaResponse.data)
+        //data["channels"]//, id, num_members
         //let statusCode = moyaResponse.statusCode
-        Swift.print("qqq1111 \(moyaResponse)")
+        //Swift.print("qqq1111 \(data)")
 
 
       case let .failure(error):

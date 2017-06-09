@@ -80,6 +80,7 @@ extension ChatService: TargetType {
     }
   }
 }
+
 // MARK: - Helpers
 private extension String {
   var urlEscaped: String {

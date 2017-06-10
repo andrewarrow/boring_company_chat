@@ -81,6 +81,24 @@ class MessageList: NSScrollView {
           
       }).addDisposableTo(disposeBag)
     } else if b.flavor == "channel" {
+      channelApi.getHistoryChannel(token: token, id: id).subscribe(
+        onNext: { message in
+          
+          if let m = message.results {
+            
+            for (i,sv) in self.list.subviews.enumerated() {
+              let mi = sv as! MessageItem
+              if i < m.count-1 {
+                mi.msg.stringValue = m[i].text!
+              }
+            }
+            
+          }
+          
+      },
+        onError: { error in
+          
+      }).addDisposableTo(disposeBag)
       
     }
   }

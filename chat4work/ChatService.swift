@@ -12,7 +12,7 @@ import Moya
 enum ChatService {
   case zen
   case showUser(id: Int)
-  case createUser(firstName: String, lastName: String)
+  case postMessage(token: String, id: String, text: String)
   case updateUser(id:Int, firstName: String, lastName: String)
   case showChannels(token: String)
   case showGroups(token: String)
@@ -33,8 +33,8 @@ extension ChatService: TargetType {
       return "/zen"
     case .showUser(let id), .updateUser(let id, _, _):
       return "/users/\(id)"
-    case .createUser(_, _):
-      return "/users"
+    case .postMessage(_, _, _):
+      return "/api/chat.postMessage"
     case .showChannels:
       return "/api/channels.list"
     case .showGroups:
@@ -58,7 +58,7 @@ extension ChatService: TargetType {
     case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers,
          .showTeam, .historyIM, .historyGroup, .historyChannel:
       return .get
-    case .createUser, .updateUser:
+    case .postMessage, .updateUser:
       return .post
     }
   }
@@ -71,7 +71,9 @@ extension ChatService: TargetType {
     case .historyIM(let token, let id), .historyGroup(let token, let id),
          .historyChannel(let token, let id):
       return ["token": token, "channel": id]
-    case .createUser(let firstName, let lastName), .updateUser(_, let firstName, let lastName):
+    case .postMessage(let token, let id, let text):
+      return ["channel": id, "text": text, "token": token]
+    case .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
     }
   }
@@ -79,9 +81,10 @@ extension ChatService: TargetType {
   var parameterEncoding: ParameterEncoding {
     switch self {
     case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser, .showUsers, .showTeam, .historyIM, .historyGroup, .historyChannel:
-      return URLEncoding.default // Send parameters in URL
-    case .createUser:
-      return JSONEncoding.default // Send parameters as JSON in request body
+      return URLEncoding.default
+    case .postMessage:
+      return URLEncoding.default
+      //return JSONEncoding.default
     }
   }
   var sampleData: Data {

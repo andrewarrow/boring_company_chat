@@ -12,6 +12,13 @@ class ChannelApiImpl: ChannelApi {
     self.provider = provider
   }
   
+  func postMessage(token: String, id: String, text: String) -> Observable<Message> {
+    return provider.request(.postMessage(token: token, id: id, text: text))
+      .mapObject(Message.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  
   func getHistoryChannel(token: String, id: String) -> Observable<Messages> {
     return provider.request(.historyChannel(token: token, id: id))
       .mapObject(Messages.self)

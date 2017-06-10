@@ -15,6 +15,7 @@ class MessageList: NSScrollView {
   let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
   var disposeBag = DisposeBag()
   var token = ""
+  var channel = ""
   
   func companyDidChange(notification: NSNotification) {
     token = notification.object as! String
@@ -32,18 +33,31 @@ class MessageList: NSScrollView {
     }
     let item = list.subviews[0] as! MessageItem
     item.setStringValue(val: data)
+    
+    let provider = RxMoyaProvider<ChatService>()
+    let channelApi = ChannelApiImpl(provider: provider)
+    
+    channelApi.postMessage(token: token, id: channel, text: data).subscribe(
+      onNext: { message in
+        
+        NSLog("\(message.ts)")
+        
+    },
+      onError: { error in
+        
+    }).addDisposableTo(disposeBag)
   }
   
   func channelDidChange(notification: NSNotification) {
     let b = notification.object as! ButtonWithStringTag
     
-    let id = b.stringTag
+    channel = b.stringTag
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
     if b.flavor == "im" {
-      channelApi.getHistoryIM(token: token, id: id).subscribe(
+      channelApi.getHistoryIM(token: token, id: channel).subscribe(
         onNext: { message in
           
           if let m = message.results {
@@ -62,7 +76,7 @@ class MessageList: NSScrollView {
           
       }).addDisposableTo(disposeBag)
     } else if b.flavor == "group" {
-      channelApi.getHistoryGroup(token: token, id: id).subscribe(
+      channelApi.getHistoryGroup(token: token, id: channel).subscribe(
         onNext: { message in
           
           if let m = message.results {
@@ -81,7 +95,7 @@ class MessageList: NSScrollView {
           
       }).addDisposableTo(disposeBag)
     } else if b.flavor == "channel" {
-      channelApi.getHistoryChannel(token: token, id: id).subscribe(
+      channelApi.getHistoryChannel(token: token, id: channel).subscribe(
         onNext: { message in
           
           if let m = message.results {

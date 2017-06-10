@@ -18,6 +18,7 @@ enum ChatService {
   case showGroups(token: String)
   case showIMs(token: String)
   case showUsers(token: String)
+  case showTeam(token: String)
 }
 
 extension ChatService: TargetType {
@@ -39,11 +40,13 @@ extension ChatService: TargetType {
       return "/api/im.list"
     case .showUsers:
       return "/api/users.list"
+    case .showTeam:
+      return "/api/team.info"
     }
   }
   var method: Moya.Method {
     switch self {
-    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers:
+    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers, .showTeam:
       return .get
     case .createUser, .updateUser:
       return .post
@@ -53,7 +56,7 @@ extension ChatService: TargetType {
     switch self {
     case .zen, .showUser:
       return nil
-    case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token):
+    case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token), .showTeam(let token):
       return ["token": token]
     case .createUser(let firstName, let lastName), .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
@@ -62,7 +65,7 @@ extension ChatService: TargetType {
   
   var parameterEncoding: ParameterEncoding {
     switch self {
-    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser, .showUsers:
+    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser, .showUsers, .showTeam:
       return URLEncoding.default // Send parameters in URL
     case .createUser:
       return JSONEncoding.default // Send parameters as JSON in request body
@@ -74,7 +77,7 @@ extension ChatService: TargetType {
   var task: Task {
     switch self {
     case .zen, .showUser, .createUser, .updateUser, .showChannels, .showGroups,
-         .showIMs, .showUsers:
+         .showIMs, .showUsers, .showTeam:
       return .request
     }
   }

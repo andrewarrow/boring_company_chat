@@ -8,6 +8,7 @@
 
 import Cocoa
 import Moya
+import RxSwift
 
 private func JSONResponseDataFormatter(_ data: Data) -> Data {
   do {
@@ -27,7 +28,7 @@ class MessageItem: NSView {
   var sel1 = 0
   var sel2 = 0
   
-//var disposeBag = DisposeBag()
+  var disposeBag = DisposeBag()
   
   
   @IBAction func copy(_ sender:NSObject) {
@@ -68,7 +69,7 @@ class MessageItem: NSView {
     },
       onError: { error in
         
-    })//.addDisposableTo(disposeBag)
+    }).addDisposableTo(disposeBag)
     
     /*
     provider.request(.showChannels(token: token!)) { result in

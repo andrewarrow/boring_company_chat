@@ -31,7 +31,7 @@ class CurrentChannel: NSView {
     wantsLayer = true
     layer?.backgroundColor = NSColor.darkGray.cgColor
     
-    channelName.stringValue = "Channel Name Long"
+    channelName.stringValue = "Boring Channel"
     channelName.isEditable = false
     channelName.backgroundColor = NSColor.darkGray
     channelName.isBordered = false

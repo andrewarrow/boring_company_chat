@@ -24,9 +24,9 @@ class ChannelList: NSScrollView {
     
     wantsLayer = true
     
-    for i in 0...81 {
+    for i in 0...0 {
       let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
-      imageView.title = "test \(i)"
+      imageView.title = "Boring Channel"
       imageView.tag = i
       imageView.target = self
       imageView.action = #selector(changeChannel)
@@ -44,7 +44,7 @@ class ChannelList: NSScrollView {
 
     documentView = list
     hasVerticalScroller = false
-    documentView?.scroll(NSPoint(x: 0, y:2000))
+    //documentView?.scroll(NSPoint(x: 0, y:2000))
   }
   
   required init?(coder: NSCoder) {

@@ -42,7 +42,7 @@ class MessageList: NSScrollView {
   func makeMessages(name:String) {
     for i in 0...81 {
       let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*300)),680,250))
-      imageView.setStringValue(val: "\(name) test \(i)")
+      imageView.setStringValue(val: "\(name)")
       list.addSubview(imageView)
     }
   }
@@ -66,7 +66,7 @@ class MessageList: NSScrollView {
     
     wantsLayer = true
     
-    makeMessages(name: "initial")
+    makeMessages(name: "goto the upper left boring-company-chat menu and select Authorize Tokens")
     
     list.wantsLayer = true
     list.layer?.backgroundColor = NSColor.white.cgColor

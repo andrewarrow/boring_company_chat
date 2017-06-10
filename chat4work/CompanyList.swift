@@ -35,25 +35,15 @@ class CompanyList: NSScrollView {
     
     left.wantsLayer = true
     left.layer?.backgroundColor = NSColor.lightGray.cgColor
-    for i in 0...40 {
+    for i in 0...0 {
       let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*60)),50,50))
       imageView.image = image1
       imageView.tag = i
       imageView.target = self
       imageView.action = #selector(changeCompany)
       imageView.alphaValue = 1.0
-      if i % 2 == 0 {
-        imageView.image = image2
-      }
-      if i % 3 == 0 {
-        imageView.image = image3
-      }
-      if i % 4 == 0 {
-        imageView.image = image4
-      }
-      if i % 5 == 0 {
-        imageView.image = image5
-      }
+      imageView.image = image5
+      
 
       left.addSubview(imageView)
     }
@@ -66,7 +56,7 @@ class CompanyList: NSScrollView {
 
     documentView = left
     hasVerticalScroller = false
-    documentView?.scroll(NSPoint(x: 0, y:2000))
+    //documentView?.scroll(NSPoint(x: 0, y:200))
   }
   
   required init?(coder: NSCoder) {

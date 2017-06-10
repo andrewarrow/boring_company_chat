@@ -31,7 +31,7 @@ class CurrentCompany: NSView {
     wantsLayer = true
     layer?.backgroundColor = NSColor.lightGray.cgColor
     
-    companyName.stringValue = "Company Name Long"
+    companyName.stringValue = "Boring Company Chat"
     companyName.isEditable = false
     companyName.backgroundColor = NSColor.lightGray
     companyName.isBordered = false

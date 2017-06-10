@@ -19,5 +19,12 @@ class ChannelApiImpl: ChannelApi {
       .observeOn(MainScheduler.instance)
   }
   
+  func getTeamInfo(token: String) -> Observable<Team> {
+    return provider.request(.showTeam(token: token))
+      .mapObject(Team.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  
   
 }

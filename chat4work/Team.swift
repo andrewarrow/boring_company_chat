@@ -18,7 +18,7 @@ struct Team: Mappable {
     name <- map["team.name"]
     domain <- map["team.domain"]
     email_domain <- map["team.email_domain"]
-    icon <- map["team.icon.image_68"]
+    icon <- map["team.icon.image_44"]
   }
   
   func briefDescription() -> String {

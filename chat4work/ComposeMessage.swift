@@ -24,9 +24,12 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       onNext: { team in
         Swift.print("\(team)")
         
+        let defaults = UserDefaults.standard
+        defaults.set("\(team.icon ?? "none")", forKey: "bcc_\(token)")
+        
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "newTeamAdded"),
-          object: team)
+          object: team.icon)
     },
       onError: { error in
         
@@ -51,7 +54,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         } else {
           let to_save = [tokens[1]]
           let defaults = UserDefaults.standard
-          defaults.set(to_save, forKey: "bcc_tokens")
+          defaults.set(to_save, forKey: "bcc_tokens")          
         }
         
         addNewTeam(token: tokens[1])
@@ -59,6 +62,10 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
         Swift.print("www \(String(describing: existing))")
       } else if text.stringValue.hasPrefix("/logout") {
+        let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
+        for token in existing {
+          UserDefaults.standard.removeObject(forKey: "bcc_\(token)")
+        }
         UserDefaults.standard.removeObject(forKey: "bcc_tokens")
       }
 

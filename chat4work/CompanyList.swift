@@ -18,14 +18,24 @@ class CompanyList: NSScrollView {
   let image3 = NSImage(named: "hp.png")
   let image4 = NSImage(named: "insta.png")
   let image5 = NSImage(named: "mena.png")
+  
+  func addIcon(i: Int, image: NSImage) {
+    let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*60)),50,50))
+    imageView.image = image
+    imageView.tag = i
+    imageView.target = self
+    imageView.action = #selector(changeCompany)
+    imageView.alphaValue = 1.0
+    left.addSubview(imageView)
+  }
 
   func newTeamAdded(notification: NSNotification) {
-    let team = notification.object as! Team
+    let url = notification.object as! String
     
-    Alamofire.request(team.icon!).responseImage { response in
+    Alamofire.request(url).responseImage { response in
       
       if let image = response.result.value {
-        Swift.print("image downloaded: \(image)")
+        self.addIcon(i: self.left.subviews.count, image: image)
       }
     }
     
@@ -55,17 +65,16 @@ class CompanyList: NSScrollView {
     left.wantsLayer = true
     left.layer?.backgroundColor = NSColor.lightGray.cgColor
     for i in 0...0 {
-      let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*60)),50,50))
-      imageView.image = image1
-      imageView.tag = i
-      imageView.target = self
-      imageView.action = #selector(changeCompany)
-      imageView.alphaValue = 1.0
-      imageView.image = image5
-      
-
-      left.addSubview(imageView)
+      addIcon(i: i, image: image5!)
     }
+    
+    let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
+    for token in existing {
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "newTeamAdded"),
+        object: UserDefaults.standard.value(forKey: "bcc_\(token)"))
+    }
+
 
     translatesAutoresizingMaskIntoConstraints = true
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)

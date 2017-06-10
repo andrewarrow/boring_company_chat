@@ -6,7 +6,7 @@ The idea came from https://josephg.com/blog/electron-is-flash-for-the-desktop/
 
 ![](screenshot.png)
 
-# require reading
+# required reading
 
 * https://josephg.com/blog/electron-is-flash-for-the-desktop/
 * https://slack.com

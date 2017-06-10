@@ -63,7 +63,7 @@ extension ChatService: TargetType {
     case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token), .showTeam(let token):
       return ["token": token]
     case .historyIM(let token, let id):
-      return ["token": token, "id": id]
+      return ["token": token, "channel": id]
     case .createUser(let firstName, let lastName), .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
     }

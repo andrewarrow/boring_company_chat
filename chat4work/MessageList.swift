@@ -14,6 +14,11 @@ class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
   var disposeBag = DisposeBag()
+  var token = ""
+  
+  func companyDidChange(notification: NSNotification) {
+    token = notification.object as! String
+  }
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String
@@ -36,8 +41,8 @@ class MessageList: NSScrollView {
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
-    let token = "!3"
     
+    NSLog("\(token) \(id)")
     channelApi.getHistoryIM(token: token, id: id).subscribe(
       onNext: { message in
         
@@ -45,7 +50,7 @@ class MessageList: NSScrollView {
           
           m.forEach({
             (message) in
-
+Swift.print("\(message)")
           })
         }
         
@@ -86,6 +91,11 @@ class MessageList: NSScrollView {
     NotificationCenter.default.addObserver(self,
          selector: #selector(turnAllOff),
          name: NSNotification.Name(rawValue: "turnAllOff"),
+         object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+         selector: #selector(companyDidChange),
+         name: NSNotification.Name(rawValue: "companyDidChange"),
          object: nil)
     
     wantsLayer = true

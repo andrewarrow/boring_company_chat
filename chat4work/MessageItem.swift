@@ -27,6 +27,8 @@ class MessageItem: NSView {
   var sel1 = 0
   var sel2 = 0
   
+//var disposeBag = DisposeBag()
+  
   
   @IBAction func copy(_ sender:NSObject) {
     let pasteboard = NSPasteboard.general()
@@ -50,8 +52,25 @@ class MessageItem: NSView {
     
     //let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
     
-    let provider = MoyaProvider<ChatService>()
+    let provider = RxMoyaProvider<ChatService>()
     
+    let channelApi = ChannelApiImpl(provider: provider)
+    
+    channelApi.getChannels(token: token!).subscribe(
+      onNext: { channels in
+        if let c = channels.results {
+          
+          c.forEach({
+            (channel) in
+            Swift.print("\(channel)")
+          })
+        }
+    },
+      onError: { error in
+        
+    })//.addDisposableTo(disposeBag)
+    
+    /*
     provider.request(.showChannels(token: token!)) { result in
       switch result {
       case let .success(moyaResponse):
@@ -139,7 +158,7 @@ class MessageItem: NSView {
         Swift.print("err \(error)")
         
       }
-    }
+    } */
 
   }
   

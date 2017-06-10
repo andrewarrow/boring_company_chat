@@ -35,6 +35,10 @@
 		00B51FDC1EEB7B5500B7FA1D /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */; };
 		00B51FDD1EEB7B5500B7FA1D /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE01EEB81E900B7FA1D /* Channel.swift */; };
+		00B51FE41EEB88F100B7FA1D /* ChannelApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */; };
+		00B51FE51EEB88F100B7FA1D /* ChannelApiImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE31EEB88F100B7FA1D /* ChannelApiImpl.swift */; };
+		00B51FE71EEB89B600B7FA1D /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */; };
+		00B51FE81EEB89B600B7FA1D /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C8B81C1EE790070026590B /* CompanyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81B1EE790070026590B /* CompanyList.swift */; };
 		00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81D1EE792300026590B /* CurrentCompany.swift */; };
 		00C8B8221EE79B700026590B /* ibm_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 00C8B8201EE79B700026590B /* ibm_logo.png */; };
@@ -54,6 +58,7 @@
 			files = (
 				00AB4B6A1EE9BE9C002CB196 /* Moya.framework in Embed Frameworks */,
 				00AB4B701EE9BEB0002CB196 /* Alamofire.framework in Embed Frameworks */,
+				00B51FE81EEB89B600B7FA1D /* ObjectMapper.framework in Embed Frameworks */,
 				00B51FDD1EEB7B5500B7FA1D /* RxSwift.framework in Embed Frameworks */,
 				00B51FD91EEB7B5500B7FA1D /* RxCocoa.framework in Embed Frameworks */,
 				00B51FD51EEB7B5500B7FA1D /* ReactiveSwift.framework in Embed Frameworks */,
@@ -90,6 +95,9 @@
 		00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = "<group>"; };
 		00B51FD11EEB7B5500B7FA1D /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/Mac/RxTest.framework; sourceTree = "<group>"; };
 		00B51FE01EEB81E900B7FA1D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = chat4work/Channel.swift; sourceTree = "<group>"; };
+		00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelApi.swift; path = chat4work/ChannelApi.swift; sourceTree = "<group>"; };
+		00B51FE31EEB88F100B7FA1D /* ChannelApiImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelApiImpl.swift; path = chat4work/ChannelApiImpl.swift; sourceTree = "<group>"; };
+		00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/Mac/ObjectMapper.framework; sourceTree = "<group>"; };
 		00C8B81B1EE790070026590B /* CompanyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyList.swift; sourceTree = "<group>"; };
 		00C8B81D1EE792300026590B /* CurrentCompany.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentCompany.swift; sourceTree = "<group>"; };
 		00C8B8201EE79B700026590B /* ibm_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ibm_logo.png; path = images/ibm_logo.png; sourceTree = SOURCE_ROOT; };
@@ -107,6 +115,7 @@
 			files = (
 				00AB4B691EE9BE9C002CB196 /* Moya.framework in Frameworks */,
 				00AB4B6F1EE9BEB0002CB196 /* Alamofire.framework in Frameworks */,
+				00B51FE71EEB89B600B7FA1D /* ObjectMapper.framework in Frameworks */,
 				00B51FDC1EEB7B5500B7FA1D /* RxSwift.framework in Frameworks */,
 				00B51FD81EEB7B5500B7FA1D /* RxCocoa.framework in Frameworks */,
 				00B51FD41EEB7B5500B7FA1D /* ReactiveSwift.framework in Frameworks */,
@@ -123,6 +132,7 @@
 		005E79561EE6208700160158 = {
 			isa = PBXGroup;
 			children = (
+				00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */,
 				00B51FCB1EEB7B5500B7FA1D /* ReactiveMoya.framework */,
 				00B51FCC1EEB7B5500B7FA1D /* ReactiveSwift.framework */,
 				00B51FCD1EEB7B5500B7FA1D /* RxBlocking.framework */,
@@ -130,6 +140,8 @@
 				00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */,
 				00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */,
 				00B51FD11EEB7B5500B7FA1D /* RxTest.framework */,
+				00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */,
+				00B51FE31EEB88F100B7FA1D /* ChannelApiImpl.swift */,
 				00AB4B711EE9C00A002CB196 /* ChatService.swift */,
 				00B51FE01EEB81E900B7FA1D /* Channel.swift */,
 				00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */,
@@ -263,10 +275,12 @@
 				00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */,
 				00AB4B721EE9C00A002CB196 /* ChatService.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,
+				00B51FE41EEB88F100B7FA1D /* ChannelApi.swift in Sources */,
 				00C8B8271EE7A8FE0026590B /* CurrentChannel.swift in Sources */,
 				004640B21EE9191800C19858 /* MessageItem.swift in Sources */,
 				005E79631EE6208700160158 /* AppDelegate.swift in Sources */,
 				00C8B8291EE7AA450026590B /* MessageList.swift in Sources */,
+				00B51FE51EEB88F100B7FA1D /* ChannelApiImpl.swift in Sources */,
 				00C8B8251EE7A3200026590B /* ChannelList.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -12,6 +12,13 @@ class ChannelApiImpl: ChannelApi {
     self.provider = provider
   }
   
+  func getUsers(token: String) -> Observable<Users> {
+    return provider.request(.showUsers(token: token))
+      .mapObject(Users.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  
   func getIMs(token: String) -> Observable<Ims> {
     return provider.request(.showIMs(token: token))
       .mapObject(Ims.self)

@@ -13,7 +13,8 @@ class CurrentChannel: NSView {
   let channelName = NSTextField(frame: NSMakeRect(5, 5, 200, 30))
   
   func channelDidChange(notification: NSNotification) {
-    channelName.stringValue = notification.object as! String
+    let b = notification.object as! ButtonWithStringTag
+    channelName.stringValue = b.title
   }
   
   override init(frame frameRect: NSRect) {

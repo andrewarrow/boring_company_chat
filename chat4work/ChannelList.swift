@@ -12,6 +12,7 @@ import RxSwift
 
 class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
+  var flavor: String = ""
 }
 
 class ChannelList: NSScrollView {
@@ -48,21 +49,24 @@ class ChannelList: NSScrollView {
           
           c.forEach({
             (channel) in
-            self.addChannel(i: self.list.subviews.count, title: channel.name!, id: channel.id!)
+            self.addChannel(i: self.list.subviews.count, title: channel.name!,
+                            id: channel.id!, flavor: "channel")
           })
         }
         
         if let g = groups.results {
           g.forEach({
             (group) in
-            self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!)
+            self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
+                            flavor: "group")
           })
         }
         
         if let i = ims.results {
           i.forEach({
             (im) in
-            self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!)
+            self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!,
+                            flavor: "im")
           })
         }
       }
@@ -72,11 +76,12 @@ class ChannelList: NSScrollView {
       .addDisposableTo(disposeBag)
   }
   
-  func addChannel(i: Int, title: String, id: String) {
+  func addChannel(i: Int, title: String, id: String, flavor: String) {
     let imageView = ButtonWithStringTag(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     imageView.title = title
     imageView.tag = i
     imageView.stringTag = id
+    imageView.flavor = flavor
     imageView.target = self
     imageView.action = #selector(changeChannel)
     imageView.alphaValue = 1.0
@@ -86,7 +91,7 @@ class ChannelList: NSScrollView {
   func changeChannel(sender:ButtonWithStringTag) {
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "channelDidChange"),
-      object: sender.stringTag)
+      object: sender)
   }
   
   override init(frame frameRect: NSRect) {

@@ -35,31 +35,54 @@ class MessageList: NSScrollView {
   }
   
   func channelDidChange(notification: NSNotification) {
-    let id = notification.object as! String
-    //list.subviews = []
-    //makeMessages(name: name)
+    let b = notification.object as! ButtonWithStringTag
+    
+    let id = b.stringTag
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
-    NSLog("\(token) \(id)")
-    channelApi.getHistoryIM(token: token, id: id).subscribe(
-      onNext: { message in
-        
-        if let m = message.results {
+    if b.flavor == "im" {
+      channelApi.getHistoryIM(token: token, id: id).subscribe(
+        onNext: { message in
           
-          for (i,sv) in self.list.subviews.enumerated() {
-            let mi = sv as! MessageItem
-            mi.msg.stringValue = m[i].text!
+          if let m = message.results {
+            
+            for (i,sv) in self.list.subviews.enumerated() {
+              let mi = sv as! MessageItem
+              if i < m.count-1 {
+                mi.msg.stringValue = m[i].text!
+              }
+            }
+          
           }
-        
-        }
-        
-    },
-      onError: { error in
-        
-    }).addDisposableTo(disposeBag)
-    
+          
+      },
+        onError: { error in
+          
+      }).addDisposableTo(disposeBag)
+    } else if b.flavor == "group" {
+      channelApi.getHistoryGroup(token: token, id: id).subscribe(
+        onNext: { message in
+          
+          if let m = message.results {
+            
+            for (i,sv) in self.list.subviews.enumerated() {
+              let mi = sv as! MessageItem
+              if i < m.count-1 {
+                mi.msg.stringValue = m[i].text!
+              }
+            }
+            
+          }
+          
+      },
+        onError: { error in
+          
+      }).addDisposableTo(disposeBag)
+    } else if b.flavor == "channel" {
+      
+    }
   }
   
   func turnAllOff(notification: NSNotification) {

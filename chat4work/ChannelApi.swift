@@ -14,4 +14,5 @@ protocol ChannelApi {
   func getTeamInfo(token: String) -> Observable<Team>
 
   func getHistoryIM(token: String, id: String) -> Observable<Messages>
+  func getHistoryGroup(token: String, id: String) -> Observable<Messages>
 }

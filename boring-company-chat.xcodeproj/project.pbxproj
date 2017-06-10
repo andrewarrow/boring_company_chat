@@ -34,6 +34,7 @@
 		00B51FDB1EEB7B5500B7FA1D /* RxMoya.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00B51FDC1EEB7B5500B7FA1D /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */; };
 		00B51FDD1EEB7B5500B7FA1D /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE01EEB81E900B7FA1D /* Channel.swift */; };
 		00C8B81C1EE790070026590B /* CompanyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81B1EE790070026590B /* CompanyList.swift */; };
 		00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81D1EE792300026590B /* CurrentCompany.swift */; };
 		00C8B8221EE79B700026590B /* ibm_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 00C8B8201EE79B700026590B /* ibm_logo.png */; };
@@ -88,6 +89,7 @@
 		00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxMoya.framework; path = Carthage/Build/Mac/RxMoya.framework; sourceTree = "<group>"; };
 		00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = "<group>"; };
 		00B51FD11EEB7B5500B7FA1D /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/Mac/RxTest.framework; sourceTree = "<group>"; };
+		00B51FE01EEB81E900B7FA1D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = chat4work/Channel.swift; sourceTree = "<group>"; };
 		00C8B81B1EE790070026590B /* CompanyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyList.swift; sourceTree = "<group>"; };
 		00C8B81D1EE792300026590B /* CurrentCompany.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentCompany.swift; sourceTree = "<group>"; };
 		00C8B8201EE79B700026590B /* ibm_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ibm_logo.png; path = images/ibm_logo.png; sourceTree = SOURCE_ROOT; };
@@ -129,6 +131,7 @@
 				00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */,
 				00B51FD11EEB7B5500B7FA1D /* RxTest.framework */,
 				00AB4B711EE9C00A002CB196 /* ChatService.swift */,
+				00B51FE01EEB81E900B7FA1D /* Channel.swift */,
 				00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */,
 				00AB4B6B1EE9BEA6002CB196 /* Result.framework */,
 				00AB4B681EE9BE9C002CB196 /* Moya.framework */,
@@ -256,6 +259,7 @@
 			files = (
 				005E79651EE6208700160158 /* ViewController.swift in Sources */,
 				00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */,
+				00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */,
 				00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */,
 				00AB4B721EE9C00A002CB196 /* ChatService.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,

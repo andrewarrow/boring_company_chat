@@ -1,2 +1,3 @@
-github "Moya/Moya"
+git "https://github.com/cowboyrushforth/Moya.git" "error_fix"
+github "Hearst-DD/ObjectMapper"
 github "ivanbruel/Moya-ObjectMapper"

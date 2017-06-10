@@ -33,7 +33,7 @@ struct Channel: Mappable, Equatable {
   }
   
   func briefDescription() -> String {
-    return (name? "")
+    return name
   }
   
   static func ==(lhs: Card, rhs: Card) -> Bool {

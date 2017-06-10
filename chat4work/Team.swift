@@ -1,19 +1,7 @@
 import Foundation
 import ObjectMapper
 
-struct Teams: Mappable {
-  
-  var results: Array<Team>?
-  
-  init?(map: Map) {
-  }
-  
-  mutating func mapping(map: Map) {
-    results <- map["teams"]
-  }
-}
-
-struct Team: Mappable, Equatable {
+struct Team: Mappable {
   
   var id: String?
   var name: String?
@@ -25,19 +13,16 @@ struct Team: Mappable, Equatable {
   }
   
   mutating func mapping(map: Map) {
-    id <- map["id"]
-    name <- map["name"]
-    domain <- map["domain"]
-    email_domain <- map["email_domain"]
-    icon <- map["icon"]["image_44"]
+    
+    id <- map["team.id"]
+    name <- map["team.name"]
+    domain <- map["team.domain"]
+    email_domain <- map["team.email_domain"]
+    icon <- map["team.icon.image_68"]
   }
   
   func briefDescription() -> String {
     return name!
   }
-  
-  static func ==(lhs: Team, rhs: Team) -> Bool {
-    return lhs.id == rhs.id
-  }
-  
+
 }

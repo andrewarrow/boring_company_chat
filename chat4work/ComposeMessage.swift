@@ -7,10 +7,27 @@
 //
 
 import Cocoa
+import Moya
+import RxSwift
 
 class ComposeMessage: NSView, NSTextFieldDelegate {
   
   let text = NSTextField(frame: NSMakeRect(5, 5, 600, 50))
+  var disposeBag = DisposeBag()
+  
+  func addNewTeam(token: String) {
+    
+    let provider = RxMoyaProvider<ChatService>()
+    let channelApi = ChannelApiImpl(provider: provider)
+    
+    channelApi.getTeamInfo(token: token).subscribe(
+      onNext: { team in
+        Swift.print("\(team)")
+    },
+      onError: { error in
+        
+    }).addDisposableTo(disposeBag)
+  }
   
   func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
     
@@ -32,6 +49,8 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
           let defaults = UserDefaults.standard
           defaults.set(to_save, forKey: "bcc_tokens")
         }
+        
+        addNewTeam(token: tokens[1])
       } else if text.stringValue.hasPrefix("/tokens") {
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
         Swift.print("www \(String(describing: existing))")

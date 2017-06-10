@@ -19,6 +19,7 @@ enum ChatService {
   case showIMs(token: String)
   case showUsers(token: String)
   case showTeam(token: String)
+  case historyIM(token: String, id: String)
 }
 
 extension ChatService: TargetType {
@@ -38,6 +39,8 @@ extension ChatService: TargetType {
       return "/api/groups.list"
     case .showIMs:
       return "/api/im.list"
+    case .historyIM:
+      return "/api/im.history"
     case .showUsers:
       return "/api/users.list"
     case .showTeam:
@@ -46,7 +49,8 @@ extension ChatService: TargetType {
   }
   var method: Moya.Method {
     switch self {
-    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers, .showTeam:
+    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers,
+         .showTeam, .historyIM:
       return .get
     case .createUser, .updateUser:
       return .post
@@ -58,6 +62,8 @@ extension ChatService: TargetType {
       return nil
     case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token), .showTeam(let token):
       return ["token": token]
+    case .historyIM(let token, let id):
+      return ["token": token, "id": id]
     case .createUser(let firstName, let lastName), .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
     }
@@ -65,7 +71,7 @@ extension ChatService: TargetType {
   
   var parameterEncoding: ParameterEncoding {
     switch self {
-    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser, .showUsers, .showTeam:
+    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser, .showUsers, .showTeam, .historyIM:
       return URLEncoding.default // Send parameters in URL
     case .createUser:
       return JSONEncoding.default // Send parameters as JSON in request body
@@ -77,7 +83,7 @@ extension ChatService: TargetType {
   var task: Task {
     switch self {
     case .zen, .showUser, .createUser, .updateUser, .showChannels, .showGroups,
-         .showIMs, .showUsers, .showTeam:
+         .showIMs, .showUsers, .showTeam, .historyIM:
       return .request
     }
   }

@@ -7,10 +7,13 @@
 //
 
 import Cocoa
+import Moya
+import RxSwift
 
 class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
+  var disposeBag = DisposeBag()
   
   func sendMessage(notification: NSNotification) {
     let data = notification.object as! String
@@ -27,9 +30,30 @@ class MessageList: NSScrollView {
   }
   
   func channelDidChange(notification: NSNotification) {
-    let name = notification.object as! String
-    list.subviews = []
-    makeMessages(name: name)
+    let id = notification.object as! String
+    //list.subviews = []
+    //makeMessages(name: name)
+    
+    let provider = RxMoyaProvider<ChatService>()
+    let channelApi = ChannelApiImpl(provider: provider)
+    let token = "!3"
+    
+    channelApi.getHistoryIM(token: token, id: id).subscribe(
+      onNext: { message in
+        
+        if let m = message.results {
+          
+          m.forEach({
+            (message) in
+
+          })
+        }
+        
+    },
+      onError: { error in
+        
+    }).addDisposableTo(disposeBag)
+    
   }
   
   func turnAllOff(notification: NSNotification) {

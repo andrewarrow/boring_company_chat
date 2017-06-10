@@ -10,6 +10,10 @@ import Cocoa
 import Moya
 import RxSwift
 
+class ButtonWithStringTag: NSButton {
+  var stringTag: String = ""
+}
+
 class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
@@ -44,21 +48,21 @@ class ChannelList: NSScrollView {
           
           c.forEach({
             (channel) in
-            self.addChannel(i: self.list.subviews.count, title: channel.name!)
+            self.addChannel(i: self.list.subviews.count, title: channel.name!, id: channel.id!)
           })
         }
         
         if let g = groups.results {
           g.forEach({
             (group) in
-            self.addChannel(i: self.list.subviews.count, title: group.name!)
+            self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!)
           })
         }
         
         if let i = ims.results {
           i.forEach({
             (im) in
-            self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!)
+            self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!)
           })
         }
       }
@@ -68,21 +72,21 @@ class ChannelList: NSScrollView {
       .addDisposableTo(disposeBag)
   }
   
-  func addChannel(i: Int, title: String) {
-    let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
+  func addChannel(i: Int, title: String, id: String) {
+    let imageView = ButtonWithStringTag(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     imageView.title = title
     imageView.tag = i
+    imageView.stringTag = id
     imageView.target = self
     imageView.action = #selector(changeChannel)
     imageView.alphaValue = 1.0
     list.addSubview(imageView)
   }
   
-  func changeChannel(sender:NSButton) {
-    
+  func changeChannel(sender:ButtonWithStringTag) {
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "channelDidChange"),
-      object: "channel \(sender.tag)")
+      object: sender.stringTag)
   }
   
   override init(frame frameRect: NSRect) {

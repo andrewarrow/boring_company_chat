@@ -10,6 +10,9 @@ import Cocoa
 import Alamofire
 import AlamofireImage
 import Starscream
+import Moya
+import RxSwift
+
 
 class CompanyList: NSScrollView, WebSocketDelegate {
     
@@ -20,7 +23,8 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   let image4 = NSImage(named: "insta.png")
   let image5 = NSImage(named: "mena.png")
   var socket = WebSocket(url: URL(string: "ws://localhost:8080/")!)
-  
+  var disposeBag = DisposeBag()
+ 
   func websocketDidConnect(socket: WebSocket) {
     Swift.print("websocket is connected")
   }
@@ -66,15 +70,28 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     }
     
     let url = UserDefaults.standard.value(forKey: "bcc_icon_\(token ?? "123")") as! String
+
+    let provider = RxMoyaProvider<ChatService>()
+    let channelApi = ChannelApiImpl(provider: provider)
     
     Alamofire.request(url).responseImage { response in
       
       if let image = response.result.value {
         self.addIcon(i: index+1, image: image)
         
-        self.socket = WebSocket(url: URL(string: "ws://localhost:8080/")!)
-        self.socket.delegate = self
-        self.socket.connect()
+      
+        channelApi.rtmConnect(token: token!).subscribe(
+          onNext: { team in
+            Swift.print("\(team.url)")
+            self.socket = WebSocket(url: URL(string: team.url!)!)
+            self.socket.delegate = self
+            self.socket.connect()
+
+        },
+          onError: { error in
+            
+        }).addDisposableTo(self.disposeBag)
+        
         
       }
     }

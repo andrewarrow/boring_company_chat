@@ -6,9 +6,7 @@ enum ChannelApiError: Error {
 }
 
 protocol ChannelApi {
-  
-  func addChannel(name: String) -> Observable<Channel>
-  
+    
   func getChannels() -> Observable<Channels>
 
 }

@@ -4,20 +4,16 @@ import RxSwift
 import ObjectMapper
 import Moya_ObjectMapper
 
-class CardApiImpl: CardApi {
+class ChannelApiImpl: ChannelApi {
   
-  fileprivate let provider: RxMoyaProvider<Api>
+  fileprivate let provider: RxMoyaProvider<ChatService>
   
-  init(provider: RxMoyaProvider<Api>) {
+  init(provider: RxMoyaProvider<ChatService>) {
     self.provider = provider
   }
-  
-  func addCard( name: String) -> Observable<Card> {
     
-  }
-  
   func getChannels() -> Observable<Channels> {
-    return provider.request(.getChannels())
+    return provider.request(.showChannels(token: ""))
       .mapObject(Channels.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		003836B41EEBC89300A0D7A1 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003836B31EEBC89300A0D7A1 /* ChatService.swift */; };
 		004640B21EE9191800C19858 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004640B11EE9191800C19858 /* MessageItem.swift */; };
 		005E79631EE6208700160158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E79621EE6208700160158 /* AppDelegate.swift */; };
 		005E79651EE6208700160158 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E79641EE6208700160158 /* ViewController.swift */; };
@@ -15,30 +16,9 @@
 		0074870A1EE8F0EA00853F06 /* hp.png in Resources */ = {isa = PBXBuildFile; fileRef = 007487091EE8F0EA00853F06 /* hp.png */; };
 		0074870E1EE8F1C200853F06 /* insta.png in Resources */ = {isa = PBXBuildFile; fileRef = 0074870D1EE8F1C200853F06 /* insta.png */; };
 		007487101EE8F22200853F06 /* mena.png in Resources */ = {isa = PBXBuildFile; fileRef = 0074870F1EE8F22200853F06 /* mena.png */; };
-		00AB4B691EE9BE9C002CB196 /* Moya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B681EE9BE9C002CB196 /* Moya.framework */; };
-		00AB4B6A1EE9BE9C002CB196 /* Moya.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B681EE9BE9C002CB196 /* Moya.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00AB4B6C1EE9BEA6002CB196 /* Result.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6B1EE9BEA6002CB196 /* Result.framework */; };
-		00AB4B6D1EE9BEA6002CB196 /* Result.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6B1EE9BEA6002CB196 /* Result.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00AB4B6F1EE9BEB0002CB196 /* Alamofire.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */; };
-		00AB4B701EE9BEB0002CB196 /* Alamofire.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00AB4B721EE9C00A002CB196 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00AB4B711EE9C00A002CB196 /* ChatService.swift */; };
-		00B51FD21EEB7B5500B7FA1D /* ReactiveMoya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCB1EEB7B5500B7FA1D /* ReactiveMoya.framework */; };
-		00B51FD31EEB7B5500B7FA1D /* ReactiveMoya.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCB1EEB7B5500B7FA1D /* ReactiveMoya.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00B51FD41EEB7B5500B7FA1D /* ReactiveSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCC1EEB7B5500B7FA1D /* ReactiveSwift.framework */; };
-		00B51FD51EEB7B5500B7FA1D /* ReactiveSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCC1EEB7B5500B7FA1D /* ReactiveSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00B51FD61EEB7B5500B7FA1D /* RxBlocking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCD1EEB7B5500B7FA1D /* RxBlocking.framework */; };
-		00B51FD71EEB7B5500B7FA1D /* RxBlocking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCD1EEB7B5500B7FA1D /* RxBlocking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00B51FD81EEB7B5500B7FA1D /* RxCocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCE1EEB7B5500B7FA1D /* RxCocoa.framework */; };
-		00B51FD91EEB7B5500B7FA1D /* RxCocoa.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCE1EEB7B5500B7FA1D /* RxCocoa.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00B51FDA1EEB7B5500B7FA1D /* RxMoya.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */; };
-		00B51FDB1EEB7B5500B7FA1D /* RxMoya.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		00B51FDC1EEB7B5500B7FA1D /* RxSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */; };
-		00B51FDD1EEB7B5500B7FA1D /* RxSwift.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE01EEB81E900B7FA1D /* Channel.swift */; };
 		00B51FE41EEB88F100B7FA1D /* ChannelApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */; };
 		00B51FE51EEB88F100B7FA1D /* ChannelApiImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B51FE31EEB88F100B7FA1D /* ChannelApiImpl.swift */; };
-		00B51FE71EEB89B600B7FA1D /* ObjectMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */; };
-		00B51FE81EEB89B600B7FA1D /* ObjectMapper.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		00C8B81C1EE790070026590B /* CompanyList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81B1EE790070026590B /* CompanyList.swift */; };
 		00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B81D1EE792300026590B /* CurrentCompany.swift */; };
 		00C8B8221EE79B700026590B /* ibm_logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 00C8B8201EE79B700026590B /* ibm_logo.png */; };
@@ -47,6 +27,7 @@
 		00C8B8271EE7A8FE0026590B /* CurrentChannel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B8261EE7A8FE0026590B /* CurrentChannel.swift */; };
 		00C8B8291EE7AA450026590B /* MessageList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B8281EE7AA450026590B /* MessageList.swift */; };
 		00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C8B82A1EE7AFC80026590B /* ComposeMessage.swift */; };
+		422182145EE093312C0F054A /* Pods_boring_company_chat.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCD2966A36ED4B7EE9E1EEF /* Pods_boring_company_chat.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -56,16 +37,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				00AB4B6A1EE9BE9C002CB196 /* Moya.framework in Embed Frameworks */,
-				00AB4B701EE9BEB0002CB196 /* Alamofire.framework in Embed Frameworks */,
-				00B51FE81EEB89B600B7FA1D /* ObjectMapper.framework in Embed Frameworks */,
-				00B51FDD1EEB7B5500B7FA1D /* RxSwift.framework in Embed Frameworks */,
-				00B51FD91EEB7B5500B7FA1D /* RxCocoa.framework in Embed Frameworks */,
-				00B51FD51EEB7B5500B7FA1D /* ReactiveSwift.framework in Embed Frameworks */,
-				00B51FDB1EEB7B5500B7FA1D /* RxMoya.framework in Embed Frameworks */,
-				00AB4B6D1EE9BEA6002CB196 /* Result.framework in Embed Frameworks */,
-				00B51FD31EEB7B5500B7FA1D /* ReactiveMoya.framework in Embed Frameworks */,
-				00B51FD71EEB7B5500B7FA1D /* RxBlocking.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -73,6 +44,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		003836B31EEBC89300A0D7A1 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatService.swift; path = chat4work/ChatService.swift; sourceTree = "<group>"; };
 		004640B11EE9191800C19858 /* MessageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		005E795F1EE6208700160158 /* boring-company-chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "boring-company-chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		005E79621EE6208700160158 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -83,21 +55,9 @@
 		007487091EE8F0EA00853F06 /* hp.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = hp.png; path = images/hp.png; sourceTree = SOURCE_ROOT; };
 		0074870D1EE8F1C200853F06 /* insta.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = insta.png; path = images/insta.png; sourceTree = SOURCE_ROOT; };
 		0074870F1EE8F22200853F06 /* mena.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = mena.png; path = images/mena.png; sourceTree = SOURCE_ROOT; };
-		00AB4B681EE9BE9C002CB196 /* Moya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Moya.framework; path = Carthage/Build/Mac/Moya.framework; sourceTree = "<group>"; };
-		00AB4B6B1EE9BEA6002CB196 /* Result.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Result.framework; path = Carthage/Build/Mac/Result.framework; sourceTree = "<group>"; };
-		00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Build/Mac/Alamofire.framework; sourceTree = "<group>"; };
-		00AB4B711EE9C00A002CB196 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatService.swift; sourceTree = "<group>"; };
-		00B51FCB1EEB7B5500B7FA1D /* ReactiveMoya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveMoya.framework; path = Carthage/Build/Mac/ReactiveMoya.framework; sourceTree = "<group>"; };
-		00B51FCC1EEB7B5500B7FA1D /* ReactiveSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ReactiveSwift.framework; path = Carthage/Build/Mac/ReactiveSwift.framework; sourceTree = "<group>"; };
-		00B51FCD1EEB7B5500B7FA1D /* RxBlocking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxBlocking.framework; path = Carthage/Build/Mac/RxBlocking.framework; sourceTree = "<group>"; };
-		00B51FCE1EEB7B5500B7FA1D /* RxCocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxCocoa.framework; path = Carthage/Build/Mac/RxCocoa.framework; sourceTree = "<group>"; };
-		00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxMoya.framework; path = Carthage/Build/Mac/RxMoya.framework; sourceTree = "<group>"; };
-		00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxSwift.framework; path = Carthage/Build/Mac/RxSwift.framework; sourceTree = "<group>"; };
-		00B51FD11EEB7B5500B7FA1D /* RxTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RxTest.framework; path = Carthage/Build/Mac/RxTest.framework; sourceTree = "<group>"; };
 		00B51FE01EEB81E900B7FA1D /* Channel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Channel.swift; path = chat4work/Channel.swift; sourceTree = "<group>"; };
 		00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelApi.swift; path = chat4work/ChannelApi.swift; sourceTree = "<group>"; };
 		00B51FE31EEB88F100B7FA1D /* ChannelApiImpl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChannelApiImpl.swift; path = chat4work/ChannelApiImpl.swift; sourceTree = "<group>"; };
-		00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ObjectMapper.framework; path = Carthage/Build/Mac/ObjectMapper.framework; sourceTree = "<group>"; };
 		00C8B81B1EE790070026590B /* CompanyList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompanyList.swift; sourceTree = "<group>"; };
 		00C8B81D1EE792300026590B /* CurrentCompany.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentCompany.swift; sourceTree = "<group>"; };
 		00C8B8201EE79B700026590B /* ibm_logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ibm_logo.png; path = images/ibm_logo.png; sourceTree = SOURCE_ROOT; };
@@ -106,6 +66,9 @@
 		00C8B8261EE7A8FE0026590B /* CurrentChannel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentChannel.swift; sourceTree = "<group>"; };
 		00C8B8281EE7AA450026590B /* MessageList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageList.swift; sourceTree = "<group>"; };
 		00C8B82A1EE7AFC80026590B /* ComposeMessage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ComposeMessage.swift; sourceTree = "<group>"; };
+		3C30703BDFA2CF937269FFA1 /* Pods-boring-company-chat.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-boring-company-chat.release.xcconfig"; path = "Pods/Target Support Files/Pods-boring-company-chat/Pods-boring-company-chat.release.xcconfig"; sourceTree = "<group>"; };
+		C624F9D4C3FADB5C14AF894E /* Pods-boring-company-chat.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-boring-company-chat.debug.xcconfig"; path = "Pods/Target Support Files/Pods-boring-company-chat/Pods-boring-company-chat.debug.xcconfig"; sourceTree = "<group>"; };
+		EFCD2966A36ED4B7EE9E1EEF /* Pods_boring_company_chat.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_boring_company_chat.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -113,16 +76,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00AB4B691EE9BE9C002CB196 /* Moya.framework in Frameworks */,
-				00AB4B6F1EE9BEB0002CB196 /* Alamofire.framework in Frameworks */,
-				00B51FE71EEB89B600B7FA1D /* ObjectMapper.framework in Frameworks */,
-				00B51FDC1EEB7B5500B7FA1D /* RxSwift.framework in Frameworks */,
-				00B51FD81EEB7B5500B7FA1D /* RxCocoa.framework in Frameworks */,
-				00B51FD41EEB7B5500B7FA1D /* ReactiveSwift.framework in Frameworks */,
-				00B51FDA1EEB7B5500B7FA1D /* RxMoya.framework in Frameworks */,
-				00AB4B6C1EE9BEA6002CB196 /* Result.framework in Frameworks */,
-				00B51FD21EEB7B5500B7FA1D /* ReactiveMoya.framework in Frameworks */,
-				00B51FD61EEB7B5500B7FA1D /* RxBlocking.framework in Frameworks */,
+				422182145EE093312C0F054A /* Pods_boring_company_chat.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -132,23 +86,14 @@
 		005E79561EE6208700160158 = {
 			isa = PBXGroup;
 			children = (
-				00B51FE61EEB89B600B7FA1D /* ObjectMapper.framework */,
-				00B51FCB1EEB7B5500B7FA1D /* ReactiveMoya.framework */,
-				00B51FCC1EEB7B5500B7FA1D /* ReactiveSwift.framework */,
-				00B51FCD1EEB7B5500B7FA1D /* RxBlocking.framework */,
-				00B51FCE1EEB7B5500B7FA1D /* RxCocoa.framework */,
-				00B51FCF1EEB7B5500B7FA1D /* RxMoya.framework */,
-				00B51FD01EEB7B5500B7FA1D /* RxSwift.framework */,
-				00B51FD11EEB7B5500B7FA1D /* RxTest.framework */,
+				003836B31EEBC89300A0D7A1 /* ChatService.swift */,
 				00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */,
 				00B51FE31EEB88F100B7FA1D /* ChannelApiImpl.swift */,
-				00AB4B711EE9C00A002CB196 /* ChatService.swift */,
 				00B51FE01EEB81E900B7FA1D /* Channel.swift */,
-				00AB4B6E1EE9BEB0002CB196 /* Alamofire.framework */,
-				00AB4B6B1EE9BEA6002CB196 /* Result.framework */,
-				00AB4B681EE9BE9C002CB196 /* Moya.framework */,
 				005E79611EE6208700160158 /* chat4work */,
 				005E79601EE6208700160158 /* Products */,
+				3A47062D74F437AA2F92EB3A /* Pods */,
+				F60F2EC5CD7402C082DEEAF3 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -192,6 +137,23 @@
 			name = images;
 			sourceTree = "<group>";
 		};
+		3A47062D74F437AA2F92EB3A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				C624F9D4C3FADB5C14AF894E /* Pods-boring-company-chat.debug.xcconfig */,
+				3C30703BDFA2CF937269FFA1 /* Pods-boring-company-chat.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		F60F2EC5CD7402C082DEEAF3 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EFCD2966A36ED4B7EE9E1EEF /* Pods_boring_company_chat.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -199,10 +161,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 005E796E1EE6208700160158 /* Build configuration list for PBXNativeTarget "boring-company-chat" */;
 			buildPhases = (
+				5DD05B6DEA8303326670B128 /* [CP] Check Pods Manifest.lock */,
 				005E795B1EE6208700160158 /* Sources */,
 				005E795C1EE6208700160158 /* Frameworks */,
 				005E795D1EE6208700160158 /* Resources */,
 				00F71BE41EE99D4F00F7E169 /* Embed Frameworks */,
+				6E3EA71693969268846DD117 /* [CP] Embed Pods Frameworks */,
+				3566DB75FDA4DE2549397E40 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -264,6 +229,54 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		3566DB75FDA4DE2549397E40 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-boring-company-chat/Pods-boring-company-chat-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		5DD05B6DEA8303326670B128 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6E3EA71693969268846DD117 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-boring-company-chat/Pods-boring-company-chat-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		005E795B1EE6208700160158 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -273,7 +286,7 @@
 				00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */,
 				00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */,
 				00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */,
-				00AB4B721EE9C00A002CB196 /* ChatService.swift in Sources */,
+				003836B41EEBC89300A0D7A1 /* ChatService.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,
 				00B51FE41EEB88F100B7FA1D /* ChannelApi.swift in Sources */,
 				00C8B8271EE7A8FE0026590B /* CurrentChannel.swift in Sources */,
@@ -393,6 +406,7 @@
 		};
 		005E796F1EE6208700160158 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C624F9D4C3FADB5C14AF894E /* Pods-boring-company-chat.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -410,6 +424,7 @@
 		};
 		005E79701EE6208700160158 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3C30703BDFA2CF937269FFA1 /* Pods-boring-company-chat.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				COMBINE_HIDPI_IMAGES = YES;

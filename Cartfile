@@ -1,3 +1,0 @@
-github "ivanbruel/Moya-ObjectMapper" == 2.3.1
-git "https://github.com/cowboyrushforth/Moya.git" "error_fix"
-github "Hearst-DD/ObjectMapper"

@@ -3,7 +3,7 @@ import ObjectMapper
 
 struct Channels: Mappable {
   
-  var results: Array<Card>?
+  var results: Array<Channel>?
   
   init?(map: Map) {
   }
@@ -33,10 +33,10 @@ struct Channel: Mappable, Equatable {
   }
   
   func briefDescription() -> String {
-    return name
+    return name!
   }
   
-  static func ==(lhs: Card, rhs: Card) -> Bool {
+  static func ==(lhs: Channel, rhs: Channel) -> Bool {
     return lhs.id == rhs.id
   }
   

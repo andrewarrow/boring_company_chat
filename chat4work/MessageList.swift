@@ -48,10 +48,11 @@ class MessageList: NSScrollView {
         
         if let m = message.results {
           
-          m.forEach({
-            (message) in
-Swift.print("\(message)")
-          })
+          for (i,sv) in self.list.subviews.enumerated() {
+            let mi = sv as! MessageItem
+            mi.msg.stringValue = m[i].text!
+          }
+        
         }
         
     },

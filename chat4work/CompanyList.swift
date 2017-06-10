@@ -32,12 +32,23 @@ class CompanyList: NSScrollView {
   func newTeamAdded(notification: NSNotification) {
     let team = notification.object as! Team
     let token = team.token
+
+    let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
+    
+    var index = 0
+    for (i,t) in existing.enumerated() {
+      if t == token {
+        index = i
+        break
+      }
+    }
+    
     let url = UserDefaults.standard.value(forKey: "bcc_icon_\(token ?? "123")") as! String
     
     Alamofire.request(url).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: self.left.subviews.count, image: image)
+        self.addIcon(i: index+1, image: image)
       }
     }
     
@@ -79,7 +90,7 @@ class CompanyList: NSScrollView {
     let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
     
     if (existing != nil) {
-      //TODO any order not ok
+      
       let existingTokens = existing as! Array<String>
       for token in existingTokens {
         let team = Team(withToken: token)

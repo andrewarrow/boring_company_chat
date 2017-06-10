@@ -30,7 +30,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "newTeamAdded"),
-          object: team.icon)
+          object: Team(withToken: token))
     },
       onError: { error in
         

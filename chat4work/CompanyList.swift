@@ -30,7 +30,9 @@ class CompanyList: NSScrollView {
   }
 
   func newTeamAdded(notification: NSNotification) {
-    let url = notification.object as! String
+    let team = notification.object as! Team
+    let token = team.token
+    let url = UserDefaults.standard.value(forKey: "bcc_icon_\(token ?? "123")") as! String
     
     Alamofire.request(url).responseImage { response in
       
@@ -77,11 +79,14 @@ class CompanyList: NSScrollView {
     let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
     
     if (existing != nil) {
+      //TODO any order not ok
       let existingTokens = existing as! Array<String>
       for token in existingTokens {
+        let team = Team(withToken: token)
+        
         NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "newTeamAdded"),
-        object: UserDefaults.standard.value(forKey: "bcc_icon_\(token)"))
+        object: team)
       }
     }
 

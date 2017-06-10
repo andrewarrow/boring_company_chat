@@ -8,10 +8,15 @@ struct Team: Mappable {
   var domain: String?
   var email_domain: String?
   var icon: String?
+  var token: String?
   
   init?(map: Map) {
   }
-  
+
+  init?(withToken: String) {
+    token = withToken
+  }
+
   mutating func mapping(map: Map) {
     
     id <- map["team.id"]

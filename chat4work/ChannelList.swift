@@ -26,8 +26,8 @@ class ChannelList: NSScrollView {
     
     Observable.zip(
       channelApi.getChannels(token: token),
-      channelApi.getChannels(token: token),
-      channelApi.getChannels(token: token)) { (channels, groups, ims) in
+      channelApi.getGroups(token: token),
+      channelApi.getIMs(token: token)) { (channels, groups, ims) in
         if let c = channels.results {
           
           c.forEach({
@@ -40,6 +40,13 @@ class ChannelList: NSScrollView {
           g.forEach({
             (group) in
             self.addChannel(i: self.list.subviews.count, title: group.name!)
+          })
+        }
+        
+        if let i = ims.results {
+          i.forEach({
+            (im) in
+            self.addChannel(i: self.list.subviews.count, title: im.user!)
           })
         }
       }

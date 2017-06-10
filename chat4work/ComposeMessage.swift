@@ -23,6 +23,10 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
     channelApi.getTeamInfo(token: token).subscribe(
       onNext: { team in
         Swift.print("\(team)")
+        
+        NotificationCenter.default.post(
+          name:NSNotification.Name(rawValue: "newTeamAdded"),
+          object: team)
     },
       onError: { error in
         

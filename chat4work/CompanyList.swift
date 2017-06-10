@@ -7,6 +7,8 @@
 //
 
 import Cocoa
+import Alamofire
+import AlamofireImage
 
 class CompanyList: NSScrollView {
     
@@ -17,6 +19,18 @@ class CompanyList: NSScrollView {
   let image4 = NSImage(named: "insta.png")
   let image5 = NSImage(named: "mena.png")
 
+  func newTeamAdded(notification: NSNotification) {
+    let team = notification.object as! Team
+    
+    Alamofire.request(team.icon!).responseImage { response in
+      
+      if let image = response.result.value {
+        Swift.print("image downloaded: \(image)")
+      }
+    }
+    
+  }
+    
   func changeCompany(sender:NSButton) {
     
     NotificationCenter.default.post(
@@ -30,6 +44,11 @@ class CompanyList: NSScrollView {
   
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(newTeamAdded),
+                                           name: NSNotification.Name(rawValue: "newTeamAdded"),
+                                           object: nil)
     
     wantsLayer = true
     

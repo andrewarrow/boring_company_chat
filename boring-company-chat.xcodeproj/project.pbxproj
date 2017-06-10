@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		001657981EEBD31500FB4EEC /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001657971EEBD31500FB4EEC /* Team.swift */; };
+		0016579B1EEC4C5A00FB4EEC /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001657991EEC4C5A00FB4EEC /* Group.swift */; };
+		0016579C1EEC4C5A00FB4EEC /* Im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016579A1EEC4C5A00FB4EEC /* Im.swift */; };
 		003836B41EEBC89300A0D7A1 /* ChatService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 003836B31EEBC89300A0D7A1 /* ChatService.swift */; };
 		004640B21EE9191800C19858 /* MessageItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004640B11EE9191800C19858 /* MessageItem.swift */; };
 		005E79631EE6208700160158 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E79621EE6208700160158 /* AppDelegate.swift */; };
@@ -46,6 +48,8 @@
 
 /* Begin PBXFileReference section */
 		001657971EEBD31500FB4EEC /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Team.swift; path = chat4work/Team.swift; sourceTree = "<group>"; };
+		001657991EEC4C5A00FB4EEC /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = chat4work/Group.swift; sourceTree = "<group>"; };
+		0016579A1EEC4C5A00FB4EEC /* Im.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Im.swift; path = chat4work/Im.swift; sourceTree = "<group>"; };
 		003836B31EEBC89300A0D7A1 /* ChatService.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChatService.swift; path = chat4work/ChatService.swift; sourceTree = "<group>"; };
 		004640B11EE9191800C19858 /* MessageItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageItem.swift; sourceTree = "<group>"; };
 		005E795F1EE6208700160158 /* boring-company-chat.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "boring-company-chat.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -88,6 +92,8 @@
 		005E79561EE6208700160158 = {
 			isa = PBXGroup;
 			children = (
+				001657991EEC4C5A00FB4EEC /* Group.swift */,
+				0016579A1EEC4C5A00FB4EEC /* Im.swift */,
 				001657971EEBD31500FB4EEC /* Team.swift */,
 				003836B31EEBC89300A0D7A1 /* ChatService.swift */,
 				00B51FE21EEB88F100B7FA1D /* ChannelApi.swift */,
@@ -288,11 +294,13 @@
 				005E79651EE6208700160158 /* ViewController.swift in Sources */,
 				00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */,
 				001657981EEBD31500FB4EEC /* Team.swift in Sources */,
+				0016579B1EEC4C5A00FB4EEC /* Group.swift in Sources */,
 				00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */,
 				00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */,
 				003836B41EEBC89300A0D7A1 /* ChatService.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,
 				00B51FE41EEB88F100B7FA1D /* ChannelApi.swift in Sources */,
+				0016579C1EEC4C5A00FB4EEC /* Im.swift in Sources */,
 				00C8B8271EE7A8FE0026590B /* CurrentChannel.swift in Sources */,
 				004640B21EE9191800C19858 /* MessageItem.swift in Sources */,
 				005E79631EE6208700160158 /* AppDelegate.swift in Sources */,

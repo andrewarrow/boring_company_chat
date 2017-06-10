@@ -22,16 +22,24 @@ class ChannelList: NSScrollView {
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
+    self.list.subviews = []
+    
     Observable.zip(
       channelApi.getChannels(token: token),
       channelApi.getChannels(token: token),
       channelApi.getChannels(token: token)) { (channels, groups, ims) in
         if let c = channels.results {
-          self.list.subviews = []
+          
           c.forEach({
             (channel) in
-            Swift.print("\(channel)")
             self.addChannel(i: self.list.subviews.count, title: channel.name!)
+          })
+        }
+        
+        if let g = groups.results {
+          g.forEach({
+            (group) in
+            self.addChannel(i: self.list.subviews.count, title: group.name!)
           })
         }
       }

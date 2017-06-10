@@ -22,11 +22,12 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   let image3 = NSImage(named: "hp.png")
   let image4 = NSImage(named: "insta.png")
   let image5 = NSImage(named: "mena.png")
-  var socket = WebSocket(url: URL(string: "ws://localhost:8080/")!)
+  var sockets = [WebSocket]()
   var disposeBag = DisposeBag()
  
   func websocketDidConnect(socket: WebSocket) {
     Swift.print("websocket is connected")
+    //socket.write(string: "hello there!")
   }
   
   func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
@@ -38,11 +39,11 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   }
   
   func websocketDidReceiveMessage(socket: WebSocket, text: String) {
-    Swift.print("Received text: \(text)")
+    Swift.print("RT: \(text)")
   }
   
   func websocketDidReceiveData(socket: WebSocket, data: Data) {
-    Swift.print("Received data: \(data.count)")
+    Swift.print("RD: \(data.count)")
   }
   
   func addIcon(i: Int, image: NSImage) {
@@ -82,10 +83,10 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
-            Swift.print("\(team.url)")
-            self.socket = WebSocket(url: URL(string: team.url!)!)
-            self.socket.delegate = self
-            self.socket.connect()
+            let ws = WebSocket(url: URL(string: team.url!)!)
+            ws.delegate = self
+            ws.connect()
+            self.sockets.append(ws)
 
         },
           onError: { error in

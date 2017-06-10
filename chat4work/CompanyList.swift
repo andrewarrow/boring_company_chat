@@ -40,6 +40,26 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   
   func websocketDidReceiveMessage(socket: WebSocket, text: String) {
     Swift.print("RT: \(text)")
+    
+    do {
+      let data = text.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+      let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+      let type = json?["type"] as? String
+      NSLog("t: \(type)")
+    } catch {
+      Swift.print("Error deserializing JSON: \(error)")
+    }
+
+    
+    //{"type":"message",
+    //"channel":"D18T96VJM",
+    //"user":"U025M33EJ",
+    //"text":"wefwefwe",
+    //"ts":"1497128451.247014",
+    //"source_team":"T025K4ALN",
+    //"team":"T025K4ALN"}
+    
+    /*RT: {"type":"im_marked","channel":"D18T96VJM","ts":"1497128451.247014","dm_count":0,"unread_count_display":0,"num_mentions_display":0,"mention_count_display":0,"event_ts":"1497128452.824439"} */
   }
   
   func websocketDidReceiveData(socket: WebSocket, data: Data) {

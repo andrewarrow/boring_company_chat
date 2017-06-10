@@ -53,22 +53,6 @@ class MessageItem: NSView {
     
     //let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
     
-    let provider = RxMoyaProvider<ChatService>()
-    let channelApi = ChannelApiImpl(provider: provider)
-    
-    channelApi.getChannels(token: token!).subscribe(
-      onNext: { channels in
-        if let c = channels.results {
-          
-          c.forEach({
-            (channel) in
-            Swift.print("\(channel)")
-          })
-        }
-    },
-      onError: { error in
-        
-    }).addDisposableTo(disposeBag)
     
     /*
     provider.request(.showChannels(token: token!)) { result in

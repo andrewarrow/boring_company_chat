@@ -81,7 +81,7 @@ class CompanyList: NSScrollView {
       for token in existingTokens {
         NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "newTeamAdded"),
-        object: UserDefaults.standard.value(forKey: "bcc_\(token)"))
+        object: UserDefaults.standard.value(forKey: "bcc_icon_\(token)"))
       }
     }
 

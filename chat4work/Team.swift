@@ -9,6 +9,7 @@ struct Team: Mappable {
   var email_domain: String?
   var icon: String?
   var token: String?
+  var url: String?
   
   init?(map: Map) {
   }
@@ -24,6 +25,7 @@ struct Team: Mappable {
     domain <- map["team.domain"]
     email_domain <- map["team.email_domain"]
     icon <- map["team.icon.image_44"]
+    url <- map["url"]
   }
   
   func briefDescription() -> String {

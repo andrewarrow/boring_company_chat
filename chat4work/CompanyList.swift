@@ -9,8 +9,9 @@
 import Cocoa
 import Alamofire
 import AlamofireImage
+import Starscream
 
-class CompanyList: NSScrollView {
+class CompanyList: NSScrollView, WebSocketDelegate {
     
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
   let image1 = NSImage(named: "logo1.png")
@@ -18,6 +19,27 @@ class CompanyList: NSScrollView {
   let image3 = NSImage(named: "hp.png")
   let image4 = NSImage(named: "insta.png")
   let image5 = NSImage(named: "mena.png")
+  var socket = WebSocket(url: URL(string: "ws://localhost:8080/")!)
+  
+  func websocketDidConnect(socket: WebSocket) {
+    Swift.print("websocket is connected")
+  }
+  
+  func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+    if let e = error {
+      Swift.print("websocket is disconnected: \(e.localizedDescription)")
+    } else {
+      Swift.print("websocket disconnected")
+    }
+  }
+  
+  func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+    Swift.print("Received text: \(text)")
+  }
+  
+  func websocketDidReceiveData(socket: WebSocket, data: Data) {
+    Swift.print("Received data: \(data.count)")
+  }
   
   func addIcon(i: Int, image: NSImage) {
     let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*60)),50,50))
@@ -49,6 +71,11 @@ class CompanyList: NSScrollView {
       
       if let image = response.result.value {
         self.addIcon(i: index+1, image: image)
+        
+        self.socket = WebSocket(url: URL(string: "ws://localhost:8080/")!)
+        self.socket.delegate = self
+        self.socket.connect()
+        
       }
     }
     

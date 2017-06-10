@@ -22,6 +22,7 @@ PODS:
   - ObjectMapper (2.2.7)
   - Result (3.2.3)
   - RxSwift (3.5.0)
+  - Starscream (2.0.4)
 
 DEPENDENCIES:
   - AlamofireImage (~> 3.1)
@@ -31,6 +32,7 @@ DEPENDENCIES:
   - Moya/RxSwift (from `https://github.com/cowboyrushforth/Moya.git`, branch `error_fix`)
   - ObjectMapper (~> 2.2.5)
   - RxSwift (~> 3.0)
+  - Starscream (~> 2.0.4)
 
 EXTERNAL SOURCES:
   Moya:
@@ -50,7 +52,8 @@ SPEC CHECKSUMS:
   ObjectMapper: 65abcfd9a61cf7396cbd14a4fb22fddfcc46577e
   Result: 128640a6347e8d2ae48b142556739a2d13f90ce6
   RxSwift: 18ee9d78b45edb3b0b7e79916b47a116e6dbc842
+  Starscream: df5974ee928b157c8eda8af8de7c620276b7dfcc
 
-PODFILE CHECKSUM: 2700c73607b2acfc768bb919a3f823e2b5345940
+PODFILE CHECKSUM: a389ef183cd8f6ff2f6aab844480616b2f74d1d6
 
 COCOAPODS: 1.1.1

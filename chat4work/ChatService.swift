@@ -22,6 +22,7 @@ enum ChatService {
   case historyIM(token: String, id: String)
   case historyGroup(token: String, id: String)
   case historyChannel(token: String, id: String)
+  case rtmConnect(token: String)
 }
 
 extension ChatService: TargetType {
@@ -51,6 +52,8 @@ extension ChatService: TargetType {
       return "/api/users.list"
     case .showTeam:
       return "/api/team.info"
+    case .rtmConnect:
+      return "/api/rtm.connect"
     }
   }
   var method: Moya.Method {
@@ -58,7 +61,7 @@ extension ChatService: TargetType {
     case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers,
          .showTeam, .historyIM, .historyGroup, .historyChannel:
       return .get
-    case .postMessage, .updateUser:
+    case .postMessage, .updateUser, .rtmConnect:
       return .post
     }
   }
@@ -66,7 +69,7 @@ extension ChatService: TargetType {
     switch self {
     case .zen, .showUser:
       return nil
-    case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token), .showTeam(let token):
+    case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token), .showTeam(let token), .rtmConnect(let token):
       return ["token": token]
     case .historyIM(let token, let id), .historyGroup(let token, let id),
          .historyChannel(let token, let id):
@@ -79,16 +82,10 @@ extension ChatService: TargetType {
   }
   
   var parameterEncoding: ParameterEncoding {
-    switch self {
-    case .zen, .showUser, .showChannels, .showGroups, .showIMs, .updateUser, .showUsers, .showTeam, .historyIM, .historyGroup, .historyChannel:
-      return URLEncoding.default
-    case .postMessage:
-      return URLEncoding.default
-      //return JSONEncoding.default
-    }
+    return URLEncoding.default
   }
   var sampleData: Data {
-    return "Half measures are as bad as nothing at all.".utf8Encoded
+    return "If you aren't in over your head, how do you know how tall you are?".utf8Encoded
   }
   var task: Task {
     return .request

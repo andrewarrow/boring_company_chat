@@ -18,4 +18,5 @@ protocol ChannelApi {
   func getHistoryChannel(token: String, id: String) -> Observable<Messages>
   
   func postMessage(token: String, id: String, text: String) -> Observable<Message>
+  func rtmConnect(token: String) -> Observable<Team>
 }

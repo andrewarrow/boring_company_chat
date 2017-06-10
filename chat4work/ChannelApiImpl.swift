@@ -12,6 +12,13 @@ class ChannelApiImpl: ChannelApi {
     self.provider = provider
   }
   
+  func rtmConnect(token: String) -> Observable<Team> {
+    return provider.request(.rtmConnect(token: token))
+      .mapObject(Team.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  
   func postMessage(token: String, id: String, text: String) -> Observable<Message> {
     return provider.request(.postMessage(token: token, id: id, text: text))
       .mapObject(Message.self)

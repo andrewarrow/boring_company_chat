@@ -11,6 +11,7 @@ target 'boring-company-chat' do
 		pod 'RxSwift',      '~> 3.0'
 		pod 'ObjectMapper', '~> 2.2.5'
     pod 'AlamofireImage', '~> 3.1'
+    pod 'Starscream', '~> 2.0.4'
 end
 
 post_install do |installer|

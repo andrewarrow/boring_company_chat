@@ -67,14 +67,16 @@ class CompanyList: NSScrollView {
     for i in 0...0 {
       addIcon(i: i, image: image5!)
     }
+    let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
     
-    let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
-    for token in existing {
-      NotificationCenter.default.post(
+    if (existing != nil) {
+      let existingTokens = existing as! Array<String>
+      for token in existingTokens {
+        NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "newTeamAdded"),
         object: UserDefaults.standard.value(forKey: "bcc_\(token)"))
+      }
     }
-
 
     translatesAutoresizingMaskIntoConstraints = true
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)

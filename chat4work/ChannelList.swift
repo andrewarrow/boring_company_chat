@@ -22,9 +22,10 @@ class ChannelList: NSScrollView {
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
-    channelApi.getChannels(token: token).subscribe(
-      onNext: { channels in
-        
+    Observable.zip(
+      channelApi.getChannels(token: token),
+      channelApi.getChannels(token: token),
+      channelApi.getChannels(token: token)) { (channels, groups, ims) in
         if let c = channels.results {
           self.list.subviews = []
           c.forEach({
@@ -33,11 +34,11 @@ class ChannelList: NSScrollView {
             self.addChannel(i: self.list.subviews.count, title: channel.name!)
           })
         }
-    },
-      onError: { error in
-        
-    }).addDisposableTo(disposeBag)
-
+      }
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+      .subscribe()
+      .addDisposableTo(disposeBag)
   }
   
   func addChannel(i: Int, title: String) {

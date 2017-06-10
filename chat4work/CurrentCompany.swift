@@ -13,7 +13,9 @@ class CurrentCompany: NSView {
   let companyName = NSTextField(frame: NSMakeRect(0, 5, 200, 30))
   
   func companyDidChange(notification: NSNotification) {
-    companyName.stringValue = notification.object as! String
+    let token = notification.object as! String
+    let name = UserDefaults.standard.value(forKey: "bcc_name_\(token)")
+    companyName.stringValue = name as! String
   }
   
   override init(frame frameRect: NSRect) {

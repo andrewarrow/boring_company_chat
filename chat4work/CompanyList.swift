@@ -43,13 +43,20 @@ class CompanyList: NSScrollView {
     
   func changeCompany(sender:NSButton) {
     
-    NotificationCenter.default.post(
-      name:NSNotification.Name(rawValue: "companyDidChange"),
-      object: "A very different name \(sender.tag)")
+    if sender.tag > 0 {
+      let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
+      let token = existing[sender.tag-1]
+      
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "companyDidChange"),
+        object: token)
+    }
     
+
+    /*
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "channelDidChange"),
-      object: "channel \(sender.tag)")
+      object: "channel \(sender.tag)") */
   }
   
   override init(frame frameRect: NSRect) {

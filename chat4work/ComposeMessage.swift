@@ -25,7 +25,8 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         Swift.print("\(team)")
         
         let defaults = UserDefaults.standard
-        defaults.set("\(team.icon ?? "none")", forKey: "bcc_\(token)")
+        defaults.set("\(team.icon ?? "none")", forKey: "bcc_icon_\(token)")
+        defaults.set("\(team.name ?? "none")", forKey: "bcc_name_\(token)")
         
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "newTeamAdded"),
@@ -64,7 +65,8 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       } else if text.stringValue.hasPrefix("/logout") {
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
         for token in existing {
-          UserDefaults.standard.removeObject(forKey: "bcc_\(token)")
+          UserDefaults.standard.removeObject(forKey: "bcc_name_\(token)")
+          UserDefaults.standard.removeObject(forKey: "bcc_icon_\(token)")
         }
         UserDefaults.standard.removeObject(forKey: "bcc_tokens")
       }

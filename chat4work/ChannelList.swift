@@ -24,11 +24,13 @@ class ChannelList: NSScrollView {
     
     channelApi.getChannels(token: token).subscribe(
       onNext: { channels in
+        
         if let c = channels.results {
-          
+          self.list.subviews = []
           c.forEach({
             (channel) in
             Swift.print("\(channel)")
+            self.addChannel(i: self.list.subviews.count, title: channel.name!)
           })
         }
     },
@@ -36,6 +38,16 @@ class ChannelList: NSScrollView {
         
     }).addDisposableTo(disposeBag)
 
+  }
+  
+  func addChannel(i: Int, title: String) {
+    let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
+    imageView.title = title
+    imageView.tag = i
+    imageView.target = self
+    imageView.action = #selector(changeChannel)
+    imageView.alphaValue = 1.0
+    list.addSubview(imageView)
   }
   
   func changeChannel(sender:NSButton) {
@@ -54,16 +66,6 @@ class ChannelList: NSScrollView {
                                            object: nil)
     
     wantsLayer = true
-    
-    for i in 0...0 {
-      let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
-      imageView.title = "Boring Channel"
-      imageView.tag = i
-      imageView.target = self
-      imageView.action = #selector(changeChannel)
-      imageView.alphaValue = 1.0
-      list.addSubview(imageView)
-    }
     
     list.wantsLayer = true
     list.layer?.backgroundColor = NSColor.lightGray.cgColor

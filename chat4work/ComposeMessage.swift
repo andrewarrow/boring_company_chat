@@ -59,9 +59,10 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         }
         
         addNewTeam(token: tokens[1])
+        return true
       } else if text.stringValue.hasPrefix("/tokens") {
-        let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
-        Swift.print("www \(String(describing: existing))")
+        //let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
+        //Swift.print("www \(String(describing: existing))")
       } else if text.stringValue.hasPrefix("/logout") {
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
         for token in existing {
@@ -69,8 +70,8 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
           UserDefaults.standard.removeObject(forKey: "bcc_icon_\(token)")
         }
         UserDefaults.standard.removeObject(forKey: "bcc_tokens")
+        return true
       }
-
       
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "sendMessage"),

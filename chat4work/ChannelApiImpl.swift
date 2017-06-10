@@ -11,7 +11,15 @@ class ChannelApiImpl: ChannelApi {
   init(provider: RxMoyaProvider<ChatService>) {
     self.provider = provider
   }
-    
+  
+  func getGroups(token: String) -> Observable<Channels> {
+    return provider.request(.showGroups(token: token))
+      .mapObject(Channels.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+
+  
   func getChannels(token: String) -> Observable<Channels> {
     return provider.request(.showChannels(token: token))
       .mapObject(Channels.self)

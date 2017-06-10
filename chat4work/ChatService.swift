@@ -72,7 +72,7 @@ extension ChatService: TargetType {
          .historyChannel(let token, let id):
       return ["token": token, "channel": id]
     case .postMessage(let token, let id, let text):
-      return ["channel": id, "text": text, "token": token]
+      return ["channel": id, "text": text, "token": token, "as_user": "true"]
     case .updateUser(_, let firstName, let lastName):
       return ["first_name": firstName, "last_name": lastName]
     }

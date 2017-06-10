@@ -37,6 +37,9 @@ So I want to build an "open source slack replacement" with the following goals:
 * Offers peer-to-peer no server solution for small teams that can handle that
 * Offers slack style company owns the data no peer to peer needed
 
-# env var
+# building
 
-xcuserdata in .gitignore
+* pod install
+* then open `boring-company-chat.xcworkspace` not the project
+* run from xcode
+

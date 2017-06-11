@@ -16,6 +16,7 @@ protocol ChannelApi {
   func getHistoryIM(token: String, id: String) -> Observable<Messages>
   func getHistoryGroup(token: String, id: String) -> Observable<Messages>
   func getHistoryChannel(token: String, id: String) -> Observable<Messages>
+  func getHistoryByFlavor(token: String, id: String, flavor: String) -> Observable<Messages>
   
   func postMessage(token: String, id: String, text: String) -> Observable<Message>
   func rtmConnect(token: String) -> Observable<Team>

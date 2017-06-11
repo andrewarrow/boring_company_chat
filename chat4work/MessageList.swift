@@ -56,68 +56,37 @@ class MessageList: NSScrollView {
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
-    if b.flavor == "im" {
-      channelApi.getHistoryIM(token: token, id: channel).subscribe(
-        onNext: { message in
+    Observable.zip(
+      channelApi.getUsers(token: token),
+      channelApi.getHistoryByFlavor(token: token, id: channel, flavor: b.flavor)) { (users, messages) in
+        var UserHash = ["1":"2"]
+        if let u = users.results {
           
-          if let m = message.results {
-            
-            for (i,sv) in self.list.subviews.enumerated() {
-              let mi = sv as! MessageItem
-              if i < m.count-1 {
-                mi.msg.stringValue = m[i].text!
-                mi.user.stringValue = m[i].user!
-              }
+          u.forEach({
+            (user) in
+            UserHash[user.id!] = user.name
+          })
+        }
+        
+        
+        if let m = messages.results {
+          
+          for (i,sv) in self.list.subviews.enumerated() {
+            let mi = sv as! MessageItem
+            if i < m.count-1 {
+              mi.msg.stringValue = m[i].text!
+              mi.user.stringValue = UserHash[m[i].user!]!
             }
-          
           }
           
-      },
-        onError: { error in
-          
-      }).addDisposableTo(disposeBag)
-    } else if b.flavor == "group" {
-      channelApi.getHistoryGroup(token: token, id: channel).subscribe(
-        onNext: { message in
-          
-          if let m = message.results {
-            
-            for (i,sv) in self.list.subviews.enumerated() {
-              let mi = sv as! MessageItem
-              if i < m.count-1 {
-                mi.msg.stringValue = m[i].text!
-                mi.user.stringValue = m[i].user!
-              }
-            }
-            
-          }
-          
-      },
-        onError: { error in
-          
-      }).addDisposableTo(disposeBag)
-    } else if b.flavor == "channel" {
-      channelApi.getHistoryChannel(token: token, id: channel).subscribe(
-        onNext: { message in
-          
-          if let m = message.results {
-            
-            for (i,sv) in self.list.subviews.enumerated() {
-              let mi = sv as! MessageItem
-              if i < m.count-1 {
-                mi.msg.stringValue = m[i].text!
-                mi.user.stringValue = m[i].user!
-              }
-            }
-            
-          }
-          
-      },
-        onError: { error in
-          
-      }).addDisposableTo(disposeBag)
-      
-    }
+        }
+        
+      }
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+      .subscribe()
+      .addDisposableTo(disposeBag)
+    
   }
   
   func turnAllOff(notification: NSNotification) {

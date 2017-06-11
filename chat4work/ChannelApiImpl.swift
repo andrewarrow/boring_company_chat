@@ -26,6 +26,17 @@ class ChannelApiImpl: ChannelApi {
       .observeOn(MainScheduler.instance)
   }
   
+  func getHistoryByFlavor(token: String, id: String, flavor: String) -> Observable<Messages> {
+    if flavor == "im" {
+      return getHistoryIM(token: token, id: id)
+    } else if flavor == "group" {
+      return getHistoryGroup(token: token, id: id)
+    } else if flavor == "channel" {
+      return getHistoryChannel(token: token, id: id)
+    }
+    return getHistoryChannel(token: token, id: id)
+  }
+  
   func getHistoryChannel(token: String, id: String) -> Observable<Messages> {
     return provider.request(.historyChannel(token: token, id: id))
       .mapObject(Messages.self)

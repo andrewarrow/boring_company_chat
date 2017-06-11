@@ -37,11 +37,34 @@ class MessageList: NSScrollView {
     NSLog("\(json)")
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
-    let c = json["channel"] as! String
+      let c = json["channel"] as! String
+
+    /*
     let t = json["text"] as! String
     let user = json["user"] as! String
     if c == self.channel {
-        everyOneMoveUp(data: t, user: user)
+      everyOneMoveUp(data: t, user: user)
+    } */
+    
+    if c == self.channel {
+      
+      let bwst = ButtonWithStringTag(frame: NSMakeRect(10,(CGFloat(30)),200,25))
+      bwst.stringTag = c
+      if c[c.startIndex] == "D" {
+        bwst.flavor = "im"
+      }
+      if c[c.startIndex] == "C" {
+        bwst.flavor = "channel"
+      }
+      if c[c.startIndex] == "G" {
+        bwst.flavor = "group"
+      }
+    
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "channelDidChange"),
+        object: bwst)
+      
+      
     }
   }
   

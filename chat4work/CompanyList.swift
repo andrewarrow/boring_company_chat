@@ -17,10 +17,7 @@ import RxSwift
 class CompanyList: NSScrollView, WebSocketDelegate {
     
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
-  let image1 = NSImage(named: "logo1.png")
-  let image2 = NSImage(named: "ibm_logo.png")
-  let image3 = NSImage(named: "hp.png")
-  let image4 = NSImage(named: "insta.png")
+  let reddot = NSImage(named: "reddot.png")
   let image5 = NSImage(named: "mena.png")
   var sockets = [WebSocket]()
   var disposeBag = DisposeBag()
@@ -71,13 +68,20 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   }
   
   func addIcon(i: Int, image: NSImage) {
-    let imageView = NSButton(frame: NSMakeRect(10,(CGFloat(i*60)),50,50))
+    let holder = NSView(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
+    let imageView = NSButton(frame: NSMakeRect(0,0,50,50))
     imageView.image = image
     imageView.tag = i
     imageView.target = self
     imageView.action = #selector(changeCompany)
     imageView.alphaValue = 1.0
-    left.addSubview(imageView)
+    //reddot
+    holder.addSubview(imageView)
+    let red = NSImageView(frame: NSMakeRect(42,38,12,12))
+    red.image = reddot
+    holder.addSubview(red)
+    
+    left.addSubview(holder)
   }
 
   func newTeamAdded(notification: NSNotification) {

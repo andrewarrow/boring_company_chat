@@ -70,6 +70,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         for token in existing {
           UserDefaults.standard.removeObject(forKey: "bcc_name_\(token)")
           UserDefaults.standard.removeObject(forKey: "bcc_icon_\(token)")
+          UserDefaults.standard.removeObject(forKey: "bcc_id_\(token)")
         }
         UserDefaults.standard.removeObject(forKey: "bcc_tokens")
         return true

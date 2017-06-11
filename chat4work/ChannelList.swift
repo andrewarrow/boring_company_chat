@@ -15,6 +15,41 @@ class ButtonWithStringTag: NSButton {
   var flavor: String = ""
 }
 
+class ChannelWithRed: NSView {
+  let reddot = NSImage(named: "reddot.png")
+  let button = ButtonWithStringTag(frame: NSMakeRect(0,0,200,25))
+  let red = NSImageView(frame: NSMakeRect(180,12,12,12))
+  var team_id = ""
+  
+  func checkRedDotStatus(notification: NSNotification) {
+    
+    let json = notification.object as! [String: Any]
+    if let team = json["team"] {
+      if (team as! String) == self.team_id {
+        red.isHidden = false
+      }
+    }
+  }
+  
+  override init(frame frameRect: NSRect) {
+    super.init(frame:frameRect);
+    red.image = reddot
+    red.isHidden = false
+    
+    addSubview(button)
+    addSubview(red)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(checkRedDotStatus),
+                                           name: NSNotification.Name(rawValue: "rtmMessage"),
+                                           object: nil)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
+
 class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
@@ -77,15 +112,14 @@ class ChannelList: NSScrollView {
   }
   
   func addChannel(i: Int, title: String, id: String, flavor: String) {
-    let imageView = ButtonWithStringTag(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
-    imageView.title = title
-    imageView.tag = i
-    imageView.stringTag = id
-    imageView.flavor = flavor
-    imageView.target = self
-    imageView.action = #selector(changeChannel)
-    imageView.alphaValue = 1.0
-    list.addSubview(imageView)
+    let cwr = ChannelWithRed(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
+    cwr.button.title = title
+    cwr.button.tag = i
+    cwr.button.stringTag = id
+    cwr.button.flavor = flavor
+    cwr.button.target = self
+    cwr.button.action = #selector(changeChannel)
+    list.addSubview(cwr)
   }
   
   func changeChannel(sender:ButtonWithStringTag) {

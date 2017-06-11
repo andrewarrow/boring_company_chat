@@ -15,8 +15,7 @@ extension Double {
     let date = Date(timeIntervalSince1970: self)
     
     let dateFormatter = DateFormatter()
-    dateFormatter.locale = Locale(identifier: "en_US")
-    dateFormatter.dateStyle = .medium
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
     
     return dateFormatter.string(from: date)
   }

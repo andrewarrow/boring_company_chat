@@ -43,7 +43,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       
       if text.stringValue.hasPrefix("/token ") {
         let tokens = text.stringValue.components(separatedBy: " ")
-        
+        text.stringValue = ""
         
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
         
@@ -64,6 +64,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         //let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
         //Swift.print("www \(String(describing: existing))")
       } else if text.stringValue.hasPrefix("/logout") {
+        text.stringValue = ""
         let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
         for token in existing {
           UserDefaults.standard.removeObject(forKey: "bcc_name_\(token)")

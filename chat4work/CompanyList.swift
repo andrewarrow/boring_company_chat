@@ -13,11 +13,27 @@ import Starscream
 import Moya
 import RxSwift
 
+class CompanyWithRed: NSView {
+  let reddot = NSImage(named: "reddot.png")
+  let button = NSButton(frame: NSMakeRect(0,0,50,50))
+  let red = NSImageView(frame: NSMakeRect(42,38,12,12))
+
+  override init(frame frameRect: NSRect) {
+    super.init(frame:frameRect);
+    red.image = reddot
+    
+    addSubview(button)
+    addSubview(red)
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+}
 
 class CompanyList: NSScrollView, WebSocketDelegate {
     
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
-  let reddot = NSImage(named: "reddot.png")
   let image5 = NSImage(named: "mena.png")
   var sockets = [WebSocket]()
   var disposeBag = DisposeBag()
@@ -68,20 +84,12 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   }
   
   func addIcon(i: Int, image: NSImage) {
-    let holder = NSView(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
-    let imageView = NSButton(frame: NSMakeRect(0,0,50,50))
-    imageView.image = image
-    imageView.tag = i
-    imageView.target = self
-    imageView.action = #selector(changeCompany)
-    imageView.alphaValue = 1.0
-    //reddot
-    holder.addSubview(imageView)
-    let red = NSImageView(frame: NSMakeRect(42,38,12,12))
-    red.image = reddot
-    holder.addSubview(red)
-    
-    left.addSubview(holder)
+    let cwr = CompanyWithRed(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
+    cwr.button.image = image
+    cwr.button.tag = i
+    cwr.button.target = self
+    cwr.button.action = #selector(changeCompany)
+    left.addSubview(cwr)
   }
 
   func newTeamAdded(notification: NSNotification) {

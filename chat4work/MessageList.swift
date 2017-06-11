@@ -10,6 +10,18 @@ import Cocoa
 import Moya
 import RxSwift
 
+extension Double {
+  func getDateStringFromUTC() -> String {
+    let date = Date(timeIntervalSince1970: self)
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.locale = Locale(identifier: "en_US")
+    dateFormatter.dateStyle = .medium
+    
+    return dateFormatter.string(from: date)
+  }
+}
+
 class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
@@ -76,6 +88,7 @@ class MessageList: NSScrollView {
             if i < m.count-1 {
               mi.msg.stringValue = m[i].text!
               mi.user.stringValue = UserHash[m[i].user!]!
+              mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
             }
           }
           

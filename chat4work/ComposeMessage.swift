@@ -27,10 +27,11 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         let defaults = UserDefaults.standard
         defaults.set("\(team.icon ?? "none")", forKey: "bcc_icon_\(token)")
         defaults.set("\(team.name ?? "none")", forKey: "bcc_name_\(token)")
+        defaults.set("\(team.id ?? "none")", forKey: "bcc_id_\(token)")
         
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "newTeamAdded"),
-          object: Team(withToken: token))
+          object: Team(withToken: token, id: team.id!))
     },
       onError: { error in
         

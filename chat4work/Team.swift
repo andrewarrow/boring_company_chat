@@ -14,8 +14,9 @@ struct Team: Mappable {
   init?(map: Map) {
   }
 
-  init?(withToken: String) {
+  init?(withToken: String, id: String) {
     token = withToken
+    self.id = id
   }
 
   mutating func mapping(map: Map) {

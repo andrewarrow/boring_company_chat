@@ -17,13 +17,24 @@ class CompanyWithRed: NSView {
   let reddot = NSImage(named: "reddot.png")
   let button = NSButton(frame: NSMakeRect(0,0,50,50))
   let red = NSImageView(frame: NSMakeRect(42,38,12,12))
+  var team_id = ""
+  
+  func checkRedDotStatus(notification: NSNotification) {
+    
+  }
 
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
     red.image = reddot
+    red.isHidden = true
     
     addSubview(button)
     addSubview(red)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(checkRedDotStatus),
+                                           name: NSNotification.Name(rawValue: "rtmMessage"),
+                                           object: nil)
   }
   
   required init?(coder: NSCoder) {
@@ -83,12 +94,13 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     Swift.print("RD: \(data.count)")
   }
   
-  func addIcon(i: Int, image: NSImage) {
+  func addIcon(i: Int, image: NSImage, team_id: String) {
     let cwr = CompanyWithRed(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
     cwr.button.image = image
     cwr.button.tag = i
     cwr.button.target = self
     cwr.button.action = #selector(changeCompany)
+    cwr.team_id = team_id
     left.addSubview(cwr)
   }
 
@@ -107,14 +119,14 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     }
     
     let url = UserDefaults.standard.value(forKey: "bcc_icon_\(token ?? "123")") as! String
-
+    
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
     Alamofire.request(url).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: index+1, image: image)
+        self.addIcon(i: index+1, image: image, team_id: team.id!)
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
@@ -165,7 +177,7 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     left.wantsLayer = true
     left.layer?.backgroundColor = NSColor.lightGray.cgColor
     for i in 0...0 {
-      addIcon(i: i, image: image5!)
+      addIcon(i: i, image: image5!, team_id: "")
     }
     let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
     
@@ -173,7 +185,8 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       
       let existingTokens = existing as! Array<String>
       for token in existingTokens {
-        let team = Team(withToken: token)
+        let team_id = UserDefaults.standard.value(forKey: "bcc_id_\(token)") as! String
+        let team = Team(withToken: token, id: team_id)
         
         NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "newTeamAdded"),

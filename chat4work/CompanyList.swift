@@ -46,7 +46,9 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
       let etype = json?["type"] as? String
       if etype == "message" {
-        
+        NotificationCenter.default.post(
+          name:NSNotification.Name(rawValue: "rtmMessage"),
+          object: json)
       }
     } catch {
       Swift.print("Error deserializing JSON: \(error)")

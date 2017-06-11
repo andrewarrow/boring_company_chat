@@ -32,9 +32,20 @@ class MessageList: NSScrollView {
     token = notification.object as! String
   }
   
-  func sendMessage(notification: NSNotification) {
-    let data = notification.object as! String
-
+  func rtmMessage(notification: NSNotification) {
+    let json = notification.object as! [String: Any]
+    NSLog("\(json)")
+    //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
+    
+    let c = json["channel"] as! String
+    let t = json["text"] as! String
+    let user = json["user"] as! String
+    if c == self.channel {
+        everyOneMoveUp(data: t, user: user)
+    }
+  }
+  
+  func everyOneMoveUp(data: String, user: String) {
     var i = 81
     while i > 0 {
       let prev = list.subviews[i] as! MessageItem
@@ -44,6 +55,13 @@ class MessageList: NSScrollView {
     }
     let item = list.subviews[0] as! MessageItem
     item.setStringValue(val: data)
+    item.user.stringValue = user
+  }
+  
+  func sendMessage(notification: NSNotification) {
+    let data = notification.object as! String
+
+    everyOneMoveUp(data: data, user: "me")
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
@@ -137,6 +155,12 @@ class MessageList: NSScrollView {
          selector: #selector(companyDidChange),
          name: NSNotification.Name(rawValue: "companyDidChange"),
          object: nil)
+
+    NotificationCenter.default.addObserver(self,
+         selector: #selector(rtmMessage),
+         name: NSNotification.Name(rawValue: "rtmMessage"),
+         object: nil)
+
     
     wantsLayer = true
     

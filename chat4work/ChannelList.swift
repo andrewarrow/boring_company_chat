@@ -18,14 +18,16 @@ class ButtonWithStringTag: NSButton {
 class ChannelWithRed: NSView {
   let reddot = NSImage(named: "reddot.png")
   let button = ButtonWithStringTag(frame: NSMakeRect(0,0,200,25))
-  let red = NSImageView(frame: NSMakeRect(180,12,12,12))
+  let red = NSImageView(frame: NSMakeRect(180,8,12,12))
   var team_id = ""
+  var channel_id = ""
   
   func checkRedDotStatus(notification: NSNotification) {
     
     let json = notification.object as! [String: Any]
-    if let team = json["team"] {
-      if (team as! String) == self.team_id {
+    if let c = json["channel"] {
+      //NSLog("\(c) | \(self.channel_id)")
+      if (c as! String) == self.channel_id {
         red.isHidden = false
       }
     }
@@ -34,7 +36,7 @@ class ChannelWithRed: NSView {
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
     red.image = reddot
-    red.isHidden = false
+    red.isHidden = true
     
     addSubview(button)
     addSubview(red)
@@ -116,6 +118,7 @@ class ChannelList: NSScrollView {
     cwr.button.title = title
     cwr.button.tag = i
     cwr.button.stringTag = id
+    cwr.channel_id = id
     cwr.button.flavor = flavor
     cwr.button.target = self
     cwr.button.action = #selector(changeChannel)

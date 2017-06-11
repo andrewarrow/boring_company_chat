@@ -40,7 +40,7 @@ class MessageList: NSScrollView {
     channelApi.postMessage(token: token, id: channel, text: data).subscribe(
       onNext: { message in
         
-        NSLog("\(message.ts)")
+        NSLog("\(String(describing: message.ts))")
         
     },
       onError: { error in
@@ -66,6 +66,7 @@ class MessageList: NSScrollView {
               let mi = sv as! MessageItem
               if i < m.count-1 {
                 mi.msg.stringValue = m[i].text!
+                mi.user.stringValue = m[i].user!
               }
             }
           
@@ -85,6 +86,7 @@ class MessageList: NSScrollView {
               let mi = sv as! MessageItem
               if i < m.count-1 {
                 mi.msg.stringValue = m[i].text!
+                mi.user.stringValue = m[i].user!
               }
             }
             
@@ -104,6 +106,7 @@ class MessageList: NSScrollView {
               let mi = sv as! MessageItem
               if i < m.count-1 {
                 mi.msg.stringValue = m[i].text!
+                mi.user.stringValue = m[i].user!
               }
             }
             

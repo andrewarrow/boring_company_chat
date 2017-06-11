@@ -44,8 +44,10 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     do {
       let data = text.data(using: String.Encoding.utf8, allowLossyConversion: false)!
       let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-      let type = json?["type"] as? String
-      NSLog("t: \(type)")
+      let etype = json?["type"] as? String
+      if etype == "message" {
+        
+      }
     } catch {
       Swift.print("Error deserializing JSON: \(error)")
     }
@@ -99,7 +101,6 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       
       if let image = response.result.value {
         self.addIcon(i: index+1, image: image)
-        
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in

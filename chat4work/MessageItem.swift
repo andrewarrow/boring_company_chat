@@ -47,9 +47,9 @@ class MessageItem: NSView {
     msg.backgroundColor = NSColor.darkGray
     sel1 = 1
     
-    let value = ProcessInfo.processInfo.environment["SLACK_TOKENS"]
-    let tokens = value?.components(separatedBy: ",")
-    let token = tokens?[0]
+    //let value = ProcessInfo.processInfo.environment["SLACK_TOKENS"]
+    //let tokens = value?.components(separatedBy: ",")
+    //let token = tokens?[0]
     
     //let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
     

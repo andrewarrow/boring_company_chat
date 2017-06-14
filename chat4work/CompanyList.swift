@@ -131,10 +131,10 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
-    Alamofire.request(team.icon).responseImage { response in
+    Alamofire.request(team.icon!).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: teams.count+1, image: image, team_id: team.id!)
+        self.addIcon(i: teams.count, image: image, team_id: team.id!)
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
@@ -196,9 +196,9 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       for team_id in existingTeams {
         let team = Team(withToken: "token", id: team_id)
         
-        NotificationCenter.default.post(
-        name:NSNotification.Name(rawValue: "newTeamAdded"),
-        object: team)
+        //NotificationCenter.default.post(
+        //name:NSNotification.Name(rawValue: "newTeamAdded"),
+        //object: team)
       }
     }
 

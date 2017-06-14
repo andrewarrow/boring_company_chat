@@ -27,7 +27,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
      } else {
        let to_save = [id]
        let defaults = UserDefaults.standard
-       defaults.set(to_save, forKey: "bcc_team")
+       defaults.set(to_save, forKey: "bcc_teams")
      }
   }
   
@@ -39,6 +39,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
     channelApi.getTeamInfo(token: token).subscribe(
       onNext: { team in
         
+        Swift.print("\(team)")
         var jsonTeam = Team(withToken: token, id: team.id!)!
         jsonTeam.icon = team.icon
         jsonTeam.name = team.name

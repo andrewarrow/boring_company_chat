@@ -194,11 +194,12 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       
       let existingTeams = existing as! Array<String>
       for team_id in existingTeams {
-        let team = Team(withToken: "token", id: team_id)
+        let json = UserDefaults.standard.value(forKey: "bcc_\(team_id)") as! String
+        let team = Team(JSONString: json)
         
-        //NotificationCenter.default.post(
-        //name:NSNotification.Name(rawValue: "newTeamAdded"),
-        //object: team)
+        NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "newTeamAdded"),
+        object: team)
       }
     }
 

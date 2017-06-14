@@ -19,6 +19,15 @@ class CompanyWithRed: NSView {
   let red = NSImageView(frame: NSMakeRect(42,38,12,12))
   var team_id = ""
   
+  func toggleOff() {
+    self.red.isHidden = true
+    self.needsDisplay = true
+  }
+  func toggleOn() {
+    self.red.isHidden = false
+    self.needsDisplay = true
+  }
+  
   func checkRedDotStatus(notification: NSNotification) {
     
     let json = notification.object as! [String: Any]
@@ -27,7 +36,7 @@ class CompanyWithRed: NSView {
     
     if let team = json["team"] {
       if (team as! String) == self.team_id {
-        red.isHidden = false
+        self.toggleOn()
       }
     }
   }
@@ -117,25 +126,15 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     let team = notification.object as! Team
     let token = team.token
 
-    let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
-    
-    var index = 0
-    for (i,t) in existing.enumerated() {
-      if t == token {
-        index = i
-        break
-      }
-    }
-    
-    let url = UserDefaults.standard.value(forKey: "bcc_icon_\(token ?? "123")") as! String
+    let teams = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
-    Alamofire.request(url).responseImage { response in
+    Alamofire.request(team.icon).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: index+1, image: image, team_id: team.id!)
+        self.addIcon(i: teams.count+1, image: image, team_id: team.id!)
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
@@ -149,7 +148,6 @@ class CompanyList: NSScrollView, WebSocketDelegate {
             
         }).addDisposableTo(self.disposeBag)
         
-        
       }
     }
     
@@ -158,8 +156,10 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   func changeCompany(sender:NSButton) {
     
     if sender.tag > 0 {
-      let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
+      let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
       let token = existing[sender.tag-1]
+      let cwr = left.subviews[sender.tag] as! CompanyWithRed
+      cwr.toggleOff()
       
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "companyDidChange"),
@@ -188,14 +188,13 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     for i in 0...0 {
       addIcon(i: i, image: image5!, team_id: "")
     }
-    let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
+    let existing = UserDefaults.standard.value(forKey: "bcc_teams")
     
     if (existing != nil) {
       
-      let existingTokens = existing as! Array<String>
-      for token in existingTokens {
-        let team_id = UserDefaults.standard.value(forKey: "bcc_id_\(token)") as! String
-        let team = Team(withToken: token, id: team_id)
+      let existingTeams = existing as! Array<String>
+      for team_id in existingTeams {
+        let team = Team(withToken: "token", id: team_id)
         
         NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "newTeamAdded"),

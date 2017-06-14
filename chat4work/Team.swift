@@ -9,7 +9,7 @@ struct Team: Mappable {
   var email_domain: String?
   var icon: String?
   var token: String?
-  var url: String?
+  var url: String?  // used in rtm
   
   init?(map: Map) {
   }

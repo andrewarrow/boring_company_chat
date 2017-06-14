@@ -15,6 +15,22 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
   let text = NSTextField(frame: NSMakeRect(5, 5, 600, 50))
   var disposeBag = DisposeBag()
   
+  func addToArrayOfTeams(id: String) {
+    
+     let existing = UserDefaults.standard.value(forKey: "bcc_teams")
+     
+     if (existing != nil) {
+       let defaults = UserDefaults.standard
+       var to_save = defaults.value(forKey: "bcc_teams") as! Array<String>
+       to_save.append(id)
+       defaults.set(to_save, forKey: "bcc_teams")
+     } else {
+       let to_save = [id]
+       let defaults = UserDefaults.standard
+       defaults.set(to_save, forKey: "bcc_team")
+     }
+  }
+  
   func addNewTeam(token: String) {
     
     let provider = RxMoyaProvider<ChatService>()
@@ -22,16 +38,22 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
     
     channelApi.getTeamInfo(token: token).subscribe(
       onNext: { team in
-        Swift.print("\(team)")
+        
+        var jsonTeam = Team(withToken: token, id: team.id!)!
+        jsonTeam.icon = team.icon
+        jsonTeam.name = team.name
+        jsonTeam.url = team.url
+        let JSONString = jsonTeam.toJSONString(prettyPrint: false)
+        
+        Swift.print("\(String(describing: JSONString))")
         
         let defaults = UserDefaults.standard
-        defaults.set("\(team.icon ?? "none")", forKey: "bcc_icon_\(token)")
-        defaults.set("\(team.name ?? "none")", forKey: "bcc_name_\(token)")
-        defaults.set("\(team.id ?? "none")", forKey: "bcc_id_\(token)")
+        defaults.set(JSONString, forKey: "bcc_\(team.id!)")
+        self.addToArrayOfTeams(id: team.id!)
         
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "newTeamAdded"),
-          object: Team(withToken: token, id: team.id!))
+          object: jsonTeam)
     },
       onError: { error in
         
@@ -45,34 +67,16 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       if text.stringValue.hasPrefix("/token ") {
         let tokens = text.stringValue.components(separatedBy: " ")
         text.stringValue = ""
-        
-        let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
-        
-        if (existing != nil) {
-          let defaults = UserDefaults.standard
-          var to_save = defaults.value(forKey: "bcc_tokens") as! Array<String>
-          to_save.append(tokens[1])
-          defaults.set(to_save, forKey: "bcc_tokens")
-        } else {
-          let to_save = [tokens[1]]
-          let defaults = UserDefaults.standard
-          defaults.set(to_save, forKey: "bcc_tokens")          
-        }
-        
         addNewTeam(token: tokens[1])
         return true
       } else if text.stringValue.hasPrefix("/tokens") {
-        //let existing = UserDefaults.standard.value(forKey: "bcc_tokens")
-        //Swift.print("www \(String(describing: existing))")
       } else if text.stringValue.hasPrefix("/logout") {
         text.stringValue = ""
-        let existing = UserDefaults.standard.value(forKey: "bcc_tokens") as! Array<String>
-        for token in existing {
-          UserDefaults.standard.removeObject(forKey: "bcc_name_\(token)")
-          UserDefaults.standard.removeObject(forKey: "bcc_icon_\(token)")
-          UserDefaults.standard.removeObject(forKey: "bcc_id_\(token)")
+        let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
+        for team in existing {
+          UserDefaults.standard.removeObject(forKey: "bcc_\(team)")
         }
-        UserDefaults.standard.removeObject(forKey: "bcc_tokens")
+        UserDefaults.standard.removeObject(forKey: "bcc_teams")
         return true
       }
       

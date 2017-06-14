@@ -129,6 +129,9 @@ class ChannelList: NSScrollView {
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "channelDidChange"),
       object: sender)
+    
+    let cwr = list.subviews[sender.tag] as! ChannelWithRed
+    cwr.red.isHidden = true
   }
   
   override init(frame frameRect: NSRect) {

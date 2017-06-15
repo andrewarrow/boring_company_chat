@@ -1,5 +1,5 @@
 //
-//  CompanyList.swift
+//  MessageList.swift
 //  chat4work
 //
 //  Created by A Arrow on 6/7/17.
@@ -25,19 +25,20 @@ class MessageList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
   var disposeBag = DisposeBag()
-  var token = ""
+  var team:Team?
   var channel = ""
   
   func companyDidChange(notification: NSNotification) {
-    token = notification.object as! String
+    team = notification.object as? Team
   }
-  
+
+
   func rtmMessage(notification: NSNotification) {
     let json = notification.object as! [String: Any]
     NSLog("\(json)")
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
-      let c = json["channel"] as! String
+    let c = json["channel"] as! String
 
     /*
     let t = json["text"] as! String
@@ -82,6 +83,13 @@ class MessageList: NSScrollView {
   }
   
   func sendMessage(notification: NSNotification) {
+    guard let team = team else {
+      
+      // alert('no team set yet');
+      return
+    }
+    
+    
     let data = notification.object as! String
 
     everyOneMoveUp(data: data, user: "me")
@@ -89,7 +97,7 @@ class MessageList: NSScrollView {
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
-    channelApi.postMessage(token: token, id: channel, text: data).subscribe(
+    channelApi.postMessage(token: team.token!, id: channel, text: data).subscribe(
       onNext: { message in
         
         NSLog("\(String(describing: message.ts))")
@@ -101,6 +109,8 @@ class MessageList: NSScrollView {
   }
   
   func channelDidChange(notification: NSNotification) {
+    guard let team = team else { return }
+    
     let b = notification.object as! ButtonWithStringTag
     
     channel = b.stringTag
@@ -109,8 +119,8 @@ class MessageList: NSScrollView {
     let channelApi = ChannelApiImpl(provider: provider)
     
     Observable.zip(
-      channelApi.getUsers(token: token),
-      channelApi.getHistoryByFlavor(token: token, id: channel, flavor: b.flavor)) { (users, messages) in
+      channelApi.getUsers(token: team.token!),
+      channelApi.getHistoryByFlavor(token: team.token!, id: channel, flavor: b.flavor)) { (users, messages) in
         var UserHash = ["1":"2"]
         if let u = users.results {
           

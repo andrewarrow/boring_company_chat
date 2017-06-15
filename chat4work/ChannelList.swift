@@ -58,8 +58,8 @@ class ChannelList: NSScrollView {
   var disposeBag = DisposeBag()
   
   func companyDidChange(notification: NSNotification) {
-    let token = notification.object as! String
-   // let name = UserDefaults.standard.value(forKey: "bcc_name_\(token)")
+    let team = notification.object as! Team
+
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
@@ -67,10 +67,10 @@ class ChannelList: NSScrollView {
     self.list.subviews = []
     
     Observable.zip(
-      channelApi.getUsers(token: token),
-      channelApi.getChannels(token: token),
-      channelApi.getGroups(token: token),
-      channelApi.getIMs(token: token)) { (users, channels, groups, ims) in
+      channelApi.getUsers(token: team.token!),
+      channelApi.getChannels(token: team.token!),
+      channelApi.getGroups(token: team.token!),
+      channelApi.getIMs(token: team.token!)) { (users, channels, groups, ims) in
         var UserHash = ["1":"2"]
         
         if let u = users.results {

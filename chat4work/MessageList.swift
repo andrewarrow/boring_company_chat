@@ -130,22 +130,34 @@ class MessageList: NSScrollView {
           })
         }
         
-        if let m = messages.results {
-          
-          for (i,sv) in self.list.subviews.enumerated() {
-            let mi = sv as! MessageItem
-            if i < m.count-1 {
-              mi.msg.stringValue = m[i].text!
-              mi.frame = NSRect(x: 10, y: (CGFloat(i*110)), width: 680, height: 100)
-              mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: 100)
-              
-              mi.user.stringValue = UserHash[m[i].user!]!
-              mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
-            }
-          }
-          
-        }
+        var lastUser = ""
+        var MsgList = Array<String>()
+        var buffer = ""
         
+        for (_,m) in (messages.results?.enumerated())! {
+          if m.user != lastUser {
+            MsgList.append(buffer)
+            buffer = ""
+          }
+          buffer += m.text!
+          
+          lastUser = m.user!
+        }
+        MsgList.append(buffer)
+        
+        for (i,sv) in self.list.subviews.enumerated() {
+          let mi = sv as! MessageItem
+          if i < MsgList.count-1 {
+            mi.msg.stringValue = MsgList[i]
+            mi.frame = NSRect(x: 10, y: (CGFloat(i*110)), width: 680, height: 100)
+            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: 100)
+            
+            //mi.user.stringValue = UserHash[m[i].user!]!
+            //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
+          }
+        }
+          
+
       }
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)

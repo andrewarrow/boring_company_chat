@@ -139,7 +139,7 @@ class MessageList: NSScrollView {
             MsgList.append(buffer)
             buffer = ""
           }
-          buffer += m.text!
+          buffer += m.text! + "\n"
           
           lastUser = m.user!
         }

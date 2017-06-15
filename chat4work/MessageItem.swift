@@ -10,21 +10,11 @@ import Cocoa
 import Moya
 import RxSwift
 
-private func JSONResponseDataFormatter(_ data: Data) -> Data {
-  do {
-    let dataAsJSON = try JSONSerialization.jsonObject(with: data)
-    let prettyData =  try JSONSerialization.data(withJSONObject: dataAsJSON, options: .prettyPrinted)
-    return prettyData
-  } catch {
-    return data // fallback to original data if it can't be serialized.
-  }
-}
-
 class MessageItem: NSView {
   
-  let user = NSTextField(frame: NSMakeRect(5, 220, 200, 25))
-  let time = NSTextField(frame: NSMakeRect(150, 220, 200, 25))
-  let msg = NSTextField(frame: NSMakeRect(5, 0, 680, 200))
+  let user = NSTextField(frame: NSMakeRect(5, 20, 200, 25))
+  let time = NSTextField(frame: NSMakeRect(150, 20, 200, 25))
+  let msg = NSTextField(frame: NSMakeRect(5, 0, 680, 100))
   var sel1 = 0
   var sel2 = 0
   
@@ -46,104 +36,6 @@ class MessageItem: NSView {
     
     msg.backgroundColor = NSColor.darkGray
     sel1 = 1
-    
-    //let value = ProcessInfo.processInfo.environment["SLACK_TOKENS"]
-    //let tokens = value?.components(separatedBy: ",")
-    //let token = tokens?[0]
-    
-    //let provider = MoyaProvider<ChatService>(plugins: [NetworkLoggerPlugin(verbose: true, responseDataFormatter: JSONResponseDataFormatter)])
-    
-    
-    /*
-    provider.request(.showChannels(token: token!)) { result in
-      switch result {
-      case let .success(moyaResponse):
-
-        do {
-            let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
-          let channels = json?["channels"] as? [[String: Any]]
-          for channel in channels! {
-            let name = channel["name"]
-            Swift.print("qqq1111 \(String(describing: name))")
-          }
-          
-        } catch {
-          Swift.print("Error deserializing JSON: \(error)")
-        }
-        
-      case let .failure(error):
-        Swift.print("err \(error)")
-      
-      }
-    }
-    
-    provider.request(.showGroups(token: token!)) { result in
-      switch result {
-      case let .success(moyaResponse):
-        
-        do {
-          let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
-          let channels = json?["groups"] as? [[String: Any]]
-          for channel in channels! {
-            let name = channel["name"]
-            Swift.print("qqq1111 \(String(describing: name))")
-          }
-          
-        } catch {
-          Swift.print("Error deserializing JSON: \(error)")
-        }
-        
-      case let .failure(error):
-        Swift.print("err \(error)")
-        
-      }
-    }
-    
-    provider.request(.showIMs(token: token!)) { result in
-      switch result {
-      case let .success(moyaResponse):
-        
-        do {
-          let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
-          let channels = json?["ims"] as? [[String: Any]]
-          for channel in channels! {
-            let name = channel["id"]
-            Swift.print("qqq1111 \(String(describing: name))")
-          }
-          
-        } catch {
-          Swift.print("Error deserializing JSON: \(error)")
-        }
-        
-      case let .failure(error):
-        Swift.print("err \(error)")
-        
-      }
-    }
-    
-    
-    provider.request(.showUsers(token: token!)) { result in
-      switch result {
-      case let .success(moyaResponse):
-        
-        do {
-          let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
-          let channels = json?["members"] as? [[String: Any]]
-          for channel in channels! {
-            let name = channel["name"]
-            Swift.print("qqq1111 \(String(describing: name))")
-          }
-          
-        } catch {
-          Swift.print("Error deserializing JSON: \(error)")
-        }
-        
-      case let .failure(error):
-        Swift.print("err \(error)")
-        
-      }
-    } */
-
   }
   
   func turnOff() {

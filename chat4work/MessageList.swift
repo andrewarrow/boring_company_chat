@@ -130,13 +130,15 @@ class MessageList: NSScrollView {
           })
         }
         
-        
         if let m = messages.results {
           
           for (i,sv) in self.list.subviews.enumerated() {
             let mi = sv as! MessageItem
             if i < m.count-1 {
               mi.msg.stringValue = m[i].text!
+              mi.frame = NSRect(x: 10, y: (CGFloat(i*110)), width: 680, height: 100)
+              mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: 100)
+              
               mi.user.stringValue = UserHash[m[i].user!]!
               mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
             }
@@ -161,7 +163,7 @@ class MessageList: NSScrollView {
   
   func makeMessages(name:String) {
     for i in 0...81 {
-      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*300)),680,250))
+      let imageView = MessageItem(frame: NSMakeRect(10,(CGFloat(i*110)),680,100))
       imageView.setStringValue(val: "\(name)")
       list.addSubview(imageView)
     }

@@ -13,9 +13,22 @@ import Starscream
 import Moya
 import RxSwift
 
+class ButtonWithTeam: NSButton {
+  var team = Team(JSONString: "{}")
+  
+  override init(frame frameRect: NSRect) {
+    super.init(frame:frameRect);
+  }
+  
+  required init?(coder: NSCoder) {
+    fatalError("init(coder:) has not been implemented")
+  }
+  
+}
+
 class CompanyWithRed: NSView {
   let reddot = NSImage(named: "reddot.png")
-  let button = NSButton(frame: NSMakeRect(0,0,50,50))
+  let button = ButtonWithTeam(frame: NSMakeRect(0,0,50,50))
   let red = NSImageView(frame: NSMakeRect(42,38,12,12))
   var team_id = ""
   
@@ -112,13 +125,12 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     Swift.print("RD: \(data.count)")
   }
   
-  func addIcon(i: Int, image: NSImage, team_id: String) {
+  func addIcon(i: Int, image: NSImage, team: Team) {
     let cwr = CompanyWithRed(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
     cwr.button.image = image
-    cwr.button.tag = i
     cwr.button.target = self
     cwr.button.action = #selector(changeCompany)
-    cwr.team_id = team_id
+    cwr.button.team = team
     left.addSubview(cwr)
   }
 
@@ -134,7 +146,7 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     Alamofire.request(team.icon!).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: teams.count, image: image, team_id: team.id!)
+        self.addIcon(i: teams.count, image: image, team: team)
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
@@ -153,24 +165,17 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     
   }
     
-  func changeCompany(sender:NSButton) {
+  func changeCompany(sender:ButtonWithTeam) {
     
-    if sender.tag > 0 {
-      let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
-      let token = existing[sender.tag-1]
-      let cwr = left.subviews[sender.tag] as! CompanyWithRed
-      cwr.toggleOff()
+     // let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
+     // let token = existing[sender.tag-1]
+     // let cwr = left.subviews[sender.tag] as! CompanyWithRed
+     // cwr.toggleOff()
       
-      NotificationCenter.default.post(
-        name:NSNotification.Name(rawValue: "companyDidChange"),
-        object: token)
-    }
-    
-
-    /*
     NotificationCenter.default.post(
-      name:NSNotification.Name(rawValue: "channelDidChange"),
-      object: "channel \(sender.tag)") */
+      name:NSNotification.Name(rawValue: "companyDidChange"),
+      object: sender.team)
+    
   }
   
   override init(frame frameRect: NSRect) {
@@ -186,7 +191,8 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     left.wantsLayer = true
     left.layer?.backgroundColor = NSColor.lightGray.cgColor
     for i in 0...0 {
-      addIcon(i: i, image: image5!, team_id: "")
+      let team = Team(JSONString: "{}")!
+      addIcon(i: i, image: image5!, team: team)
     }
     let existing = UserDefaults.standard.value(forKey: "bcc_teams")
     

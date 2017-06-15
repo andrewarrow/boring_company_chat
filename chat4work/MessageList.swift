@@ -133,12 +133,20 @@ class MessageList: NSScrollView {
         var lastUser = ""
         var MsgList = Array<String>()
         var NameList = Array<String>()
+        var HeightList = Array<CGFloat>()
         var buffer = ""
         
         for (_,m) in (messages.results?.enumerated())! {
           if m.user != lastUser {
             MsgList.append(buffer)
             NameList.append(m.user!)
+            
+            let constraintRect = CGSize(width: 680, height: 3000)
+            
+            let boundingBox =  buffer.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)], context: nil)
+            
+            HeightList.append(boundingBox.height + 50)
+            
             buffer = ""
           }
           buffer += m.text! + "\n"
@@ -147,13 +155,15 @@ class MessageList: NSScrollView {
         }
         MsgList.append(buffer)
         NameList.append(lastUser)
+        HeightList.append(45.0)
         
         for (i,sv) in self.list.subviews.enumerated() {
           let mi = sv as! MessageItem
           if i < MsgList.count-1 {
             mi.msg.stringValue = MsgList[i]
-            mi.frame = NSRect(x: 10, y: (CGFloat(i*110)), width: 680, height: 100)
-            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: 100)
+            let hli = Int(HeightList[i])
+            mi.frame = NSRect(x: 10, y: (CGFloat(i*(hli+10))), width: 680, height: HeightList[i])
+            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[i])
             
             mi.user.stringValue = UserHash[NameList[i]]!
             //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!

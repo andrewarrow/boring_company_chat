@@ -132,11 +132,13 @@ class MessageList: NSScrollView {
         
         var lastUser = ""
         var MsgList = Array<String>()
+        var NameList = Array<String>()
         var buffer = ""
         
         for (_,m) in (messages.results?.enumerated())! {
           if m.user != lastUser {
             MsgList.append(buffer)
+            NameList.append(m.user!)
             buffer = ""
           }
           buffer += m.text! + "\n"
@@ -144,6 +146,7 @@ class MessageList: NSScrollView {
           lastUser = m.user!
         }
         MsgList.append(buffer)
+        NameList.append(lastUser)
         
         for (i,sv) in self.list.subviews.enumerated() {
           let mi = sv as! MessageItem
@@ -152,7 +155,7 @@ class MessageList: NSScrollView {
             mi.frame = NSRect(x: 10, y: (CGFloat(i*110)), width: 680, height: 100)
             mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: 100)
             
-            //mi.user.stringValue = UserHash[m[i].user!]!
+            mi.user.stringValue = UserHash[NameList[i]]!
             //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
           }
         }

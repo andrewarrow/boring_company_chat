@@ -44,6 +44,7 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         jsonTeam.icon = team.icon
         jsonTeam.name = team.name
         jsonTeam.url = team.url
+        jsonTeam.index = 1
         let JSONString = jsonTeam.toJSONString(prettyPrint: false)
         
         Swift.print("\(String(describing: JSONString))")
@@ -52,6 +53,14 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         defaults.set(JSONString, forKey: "bcc_\(team.id!)")
         self.addToArrayOfTeams(id: team.id!)
         
+        let existing = UserDefaults.standard.value(forKey: "bcc_teams")
+        
+        if (existing != nil) {
+          
+          let defaults = UserDefaults.standard
+          let to_save = defaults.value(forKey: "bcc_teams") as! Array<String>
+          jsonTeam.index = to_save.count-1
+        }
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "newTeamAdded"),
           object: jsonTeam)

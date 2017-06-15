@@ -31,6 +31,26 @@ class ViewController: NSViewController {
     
   override func viewDidAppear() {
     
+    let existing = UserDefaults.standard.value(forKey: "bcc_teams")
+      
+    if (existing != nil) {
+
+      let existingTeams = existing as! Array<String>
+
+      for (i,team_id) in existingTeams.enumerated() {
+        let json = UserDefaults.standard.value(forKey: "bcc_\(team_id)") as! String
+        var team = Team(JSONString: json)!
+        team.index = i
+
+
+        NotificationCenter.default.post(
+         name:NSNotification.Name(rawValue: "newTeamAdded"),
+        object: team)
+
+
+      }
+
+    }
   }
 
   override var representedObject: Any? {

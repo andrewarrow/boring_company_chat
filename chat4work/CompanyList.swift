@@ -137,8 +137,6 @@ class CompanyList: NSScrollView, WebSocketDelegate {
   func newTeamAdded(notification: NSNotification) {
     let team = notification.object as! Team
     let token = team.token
-
-    let teams = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
@@ -146,7 +144,7 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     Alamofire.request(team.icon!).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: teams.count, image: image, team: team)
+        self.addIcon(i: team.index!+1, image: image, team: team)
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
@@ -194,20 +192,6 @@ class CompanyList: NSScrollView, WebSocketDelegate {
       let team = Team(JSONString: "{}")!
       addIcon(i: i, image: image5!, team: team)
     }
-    let existing = UserDefaults.standard.value(forKey: "bcc_teams")
-    
-    if (existing != nil) {
-      
-      let existingTeams = existing as! Array<String>
-      for team_id in existingTeams {
-        let json = UserDefaults.standard.value(forKey: "bcc_\(team_id)") as! String
-        let team = Team(JSONString: json)
-        
-        NotificationCenter.default.post(
-        name:NSNotification.Name(rawValue: "newTeamAdded"),
-        object: team)
-      }
-    }
 
     translatesAutoresizingMaskIntoConstraints = true
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
@@ -219,6 +203,7 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     hasVerticalScroller = false
     //documentView?.scroll(NSPoint(x: 0, y:200))
   }
+
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")

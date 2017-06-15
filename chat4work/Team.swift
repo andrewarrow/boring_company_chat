@@ -10,6 +10,7 @@ struct Team: Mappable {
   var icon: String?
   var token: String?
   var url: String?  // used in rtm
+  var index: Int? // used in view
   
   init?(map: Map) {
   }

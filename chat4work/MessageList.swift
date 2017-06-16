@@ -131,13 +131,15 @@ class MessageList: NSScrollView {
         }
         
         var lastUser = ""
+        var firstUser = ""
         var MsgList = Array<String>()
         var NameList = Array<String>()
         var HeightList = Array<CGFloat>()
         var buffer = ""
         
+        
         for (_,m) in (messages.results?.enumerated())! {
-          if m.user != lastUser {
+          if m.user != lastUser && lastUser != "" {
             MsgList.append(buffer)
             NameList.append(m.user!)
             
@@ -152,27 +154,45 @@ class MessageList: NSScrollView {
           buffer += m.text! + "\n"
           
           lastUser = m.user!
+          
+          if firstUser == "" {
+            firstUser = m.user!
+          }
         }
         MsgList.append(buffer)
         NameList.append(lastUser)
         HeightList.append(45.0)
         
+        let offset = self.list.subviews.count - MsgList.count
+        
+        // 74
+        
+        // 0,1,2,3,4,5...81
+        
+        // 0,1,2,3,4,5,6,7
+        
         for (i,sv) in self.list.subviews.enumerated() {
           let mi = sv as! MessageItem
-          if i < MsgList.count-1 {
-            mi.msg.stringValue = MsgList[i]
-            var hli = Int(HeightList[i])
-            if i < HeightList.count-1 {
-              hli = Int(HeightList[i+1])
-            }
-          
-            mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[i]+25)
-            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[i])
+          if i < MsgList.count {
             
-            mi.user.stringValue = UserHash[NameList[i]]!
+            var myi = i
+            
+            mi.msg.stringValue = MsgList[myi]
+            //let hli = Int(HeightList[i])+35
+            //let hli = 200
+            
+            //mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[i]+25)
+            //mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[i])
+            
+            myi = (self.list.subviews.count - offset) - 1 - i
+            
+            mi.user.stringValue = UserHash[NameList[myi]]!
             //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
           }
         }
+        
+        let mi = self.list.subviews[0] as! MessageItem
+        mi.user.stringValue = UserHash[firstUser]!
           
 
       }

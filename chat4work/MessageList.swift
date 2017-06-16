@@ -138,6 +138,15 @@ class MessageList: NSScrollView {
         var buffer = ""
         
         
+        if ((messages.results?.count)! == 0) {
+          for i in 0...81 {
+            let mi = self.list.subviews[i] as! MessageItem
+            mi.user.stringValue = ""
+            mi.msg.stringValue = ""
+
+          }
+        } else {
+        
         for (_,m) in (messages.results?.enumerated())! {
           if m.user != lastUser && lastUser != "" {
             MsgList.append(buffer)
@@ -178,13 +187,16 @@ class MessageList: NSScrollView {
             var myi = i
             
             mi.msg.stringValue = MsgList[myi]
-            //let hli = Int(HeightList[i])+35
-            //let hli = 200
-            
-            //mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[i]+25)
-            //mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[i])
             
             myi = (self.list.subviews.count - offset) - 1 - i
+            
+            let hli = Int(HeightList[myi])
+            //let hli = 200
+            
+            //mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[myi]+25)
+            //mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
+            
+            
             
             mi.user.stringValue = UserHash[NameList[myi]]!
             //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
@@ -193,7 +205,8 @@ class MessageList: NSScrollView {
         
         let mi = self.list.subviews[0] as! MessageItem
         mi.user.stringValue = UserHash[firstUser]!
-          
+        }
+        
 
       }
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))

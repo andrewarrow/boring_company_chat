@@ -68,13 +68,15 @@ class MessageItem: NSView {
     user.stringValue = "andrew"
     user.isEditable = false
     user.backgroundColor = NSColor.white
+    user.textColor = NSColor.darkGray
     user.isBordered = false
-    user.font = NSFont.systemFont(ofSize: 14.0)
+    user.font = NSFont.boldSystemFont(ofSize: 14.0)
     addSubview(user)
     
     time.stringValue = "13:01"
     time.isEditable = false
     time.backgroundColor = NSColor.white
+    time.textColor = NSColor.lightGray
     time.isBordered = false
     time.font = NSFont.systemFont(ofSize: 14.0)
     addSubview(time)

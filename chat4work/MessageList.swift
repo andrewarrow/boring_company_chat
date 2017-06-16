@@ -118,6 +118,13 @@ class MessageList: NSScrollView {
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
+    for i in 0...81 {
+      let mi = self.list.subviews[i] as! MessageItem
+      mi.user.stringValue = ""
+      mi.msg.stringValue = ""
+      mi.time.stringValue = ""
+    }
+    
     Observable.zip(
       channelApi.getUsers(token: team.token!),
       channelApi.getHistoryByFlavor(token: team.token!, id: channel, flavor: b.flavor)) { (users, messages) in
@@ -138,12 +145,7 @@ class MessageList: NSScrollView {
         var HeightList = Array<CGFloat>()
         var buffer = ""
         
-        for i in 0...81 {
-          let mi = self.list.subviews[i] as! MessageItem
-          mi.user.stringValue = ""
-          mi.msg.stringValue = ""
-          mi.time.stringValue = ""
-        }
+ 
         
         if ((messages.results?.count)! > 0) {
           
@@ -207,7 +209,11 @@ class MessageList: NSScrollView {
       }
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
-      .subscribe()
+      .subscribe(
+        onError: { error in
+          NSLog("1111 \(error)")
+        }
+      )
       .addDisposableTo(disposeBag)
     
   }

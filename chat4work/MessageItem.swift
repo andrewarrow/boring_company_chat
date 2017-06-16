@@ -12,9 +12,9 @@ import RxSwift
 
 class MessageItem: NSView {
   
-  let user = NSTextField(frame: NSMakeRect(5, 20, 200, 25))
-  let time = NSTextField(frame: NSMakeRect(150, 20, 200, 25))
-  let msg = NSTextField(frame: NSMakeRect(5, 0, 680, 100))
+  let user = NSTextField(frame: NSMakeRect(5, 70, 200, 25))
+  let time = NSTextField(frame: NSMakeRect(150, 70, 200, 25))
+  let msg = NSTextField(frame: NSMakeRect(5, 10, 680, 60))
   var sel1 = 0
   var sel2 = 0
   
@@ -55,20 +55,20 @@ class MessageItem: NSView {
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
     
-    //wantsLayer = true
-    //layer?.backgroundColor = NSColor.darkGray.cgColor
+    wantsLayer = true
+    layer?.backgroundColor = NSColor.yellow.cgColor
     
     msg.stringValue = ""
     msg.isEditable = false
     msg.backgroundColor = NSColor.white
-    msg.isBordered = false
+    msg.isBordered = true
     msg.font = NSFont.systemFont(ofSize: 14.0)
     addSubview(msg)
 
     user.stringValue = "andrew"
     user.isEditable = false
     user.backgroundColor = NSColor.white
-    user.isBordered = false
+    user.isBordered = true
     user.font = NSFont.systemFont(ofSize: 14.0)
     addSubview(user)
     

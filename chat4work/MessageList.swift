@@ -145,7 +145,7 @@ class MessageList: NSScrollView {
             
             let boundingBox =  buffer.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)], context: nil)
             
-            HeightList.append(boundingBox.height + 50)
+            HeightList.append(boundingBox.height)
             
             buffer = ""
           }
@@ -161,8 +161,12 @@ class MessageList: NSScrollView {
           let mi = sv as! MessageItem
           if i < MsgList.count-1 {
             mi.msg.stringValue = MsgList[i]
-            let hli = Int(HeightList[i])
-            mi.frame = NSRect(x: 10, y: (CGFloat(i*(hli+10))), width: 680, height: HeightList[i])
+            var hli = Int(HeightList[i])
+            if i < HeightList.count-1 {
+              hli = Int(HeightList[i+1])
+            }
+          
+            mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[i]+25)
             mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[i])
             
             mi.user.stringValue = UserHash[NameList[i]]!

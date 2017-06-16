@@ -30,7 +30,6 @@ class CompanyWithRed: NSView {
   let reddot = NSImage(named: "reddot.png")
   let button = ButtonWithTeam(frame: NSMakeRect(0,0,50,50))
   let red = NSImageView(frame: NSMakeRect(42,38,12,12))
-  var team_id = ""
   
   func toggleOff() {
     self.red.isHidden = true
@@ -48,8 +47,13 @@ class CompanyWithRed: NSView {
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
     if let team = json["team"] {
-      if (team as! String) == self.team_id {
-        self.toggleOn()
+      if (team as! String) == self.button.team?.id {
+        let channel = json["channel"] as! String
+        if channel == "off" {
+          self.toggleOff()
+        } else {
+          self.toggleOn()
+        }
       }
     }
   }
@@ -174,7 +178,11 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     if sender.team?.id == "BCC" {
       return
     }
-      
+    
+    NotificationCenter.default.post(
+      name:NSNotification.Name(rawValue: "rtmMessage"),
+      object: ["team": sender.team?.id, "channel": "off"])
+    
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "companyDidChange"),
       object: sender.team)

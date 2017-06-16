@@ -131,26 +131,27 @@ class MessageList: NSScrollView {
         }
         
         var lastUser = ""
-        var firstUser = ""
+        var lastTime = ""
         var MsgList = Array<String>()
         var NameList = Array<String>()
+        var TimeList = Array<String>()
         var HeightList = Array<CGFloat>()
         var buffer = ""
-        
         
         if ((messages.results?.count)! == 0) {
           for i in 0...81 {
             let mi = self.list.subviews[i] as! MessageItem
             mi.user.stringValue = ""
             mi.msg.stringValue = ""
-
+            mi.time.stringValue = ""
           }
         } else {
         
         for (_,m) in (messages.results?.enumerated())! {
           if m.user != lastUser && lastUser != "" {
             MsgList.append(buffer)
-            NameList.append(m.user!)
+            NameList.append(lastUser)
+            TimeList.append(lastTime)
             
             let constraintRect = CGSize(width: 680, height: 3000)
             
@@ -163,22 +164,13 @@ class MessageList: NSScrollView {
           buffer = m.text! + "\n" + buffer
           
           lastUser = m.user!
-          
-          if firstUser == "" {
-            firstUser = m.user!
-          }
+          lastTime = m.ts!
         }
         MsgList.append(buffer)
         NameList.append(lastUser)
         HeightList.append(45.0)
+        TimeList.append("123123123.123")
         
-        let offset = self.list.subviews.count - MsgList.count
-        
-        // 74
-        
-        // 0,1,2,3,4,5...81
-        
-        // 0,1,2,3,4,5,6,7
         var curY = CGFloat(0.0)
         
         for (i,sv) in self.list.subviews.enumerated() {
@@ -186,11 +178,9 @@ class MessageList: NSScrollView {
           
           mi.frame = NSRect(x: 10, y: curY, width: 680, height: 100+25)
           
-          
-          //if i < MsgList.count {
           if i < MsgList.count {
             
-            var myi = i
+            let myi = i
             
             mi.msg.stringValue = MsgList[myi]
             mi.time.stringValue = String(describing: HeightList[myi])
@@ -201,21 +191,11 @@ class MessageList: NSScrollView {
 
             curY += HeightList[myi]+35
             
-            myi = (self.list.subviews.count - offset) - 1 - i
-            
-            //let hli = 200
-            
-            
-            
-            
-            
             mi.user.stringValue = UserHash[NameList[myi]]!
-            //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
+            mi.time.stringValue = (Double(TimeList[myi])?.getDateStringFromUTC())!
           }
         }
         
-        let mi = self.list.subviews[0] as! MessageItem
-        mi.user.stringValue = UserHash[firstUser]!
         }
         
 

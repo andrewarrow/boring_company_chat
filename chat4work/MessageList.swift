@@ -128,7 +128,7 @@ class MessageList: NSScrollView {
     Observable.zip(
       channelApi.getUsers(token: team.token!),
       channelApi.getHistoryByFlavor(token: team.token!, id: channel, flavor: b.flavor)) { (users, messages) in
-        var UserHash = ["1":"2"]
+        var UserHash = ["default":"system"]
         if let u = users.results {
           
           u.forEach({
@@ -150,6 +150,7 @@ class MessageList: NSScrollView {
         if ((messages.results?.count)! > 0) {
           
           for (_,m) in (messages.results?.enumerated())! {
+            
             if m.user != lastUser && lastUser != "" {
               MsgList.append(buffer)
               NameList.append(lastUser)
@@ -165,7 +166,10 @@ class MessageList: NSScrollView {
             }
             buffer = m.text! + "\n" + buffer
             
-            lastUser = m.user!
+            lastUser = "default"
+            if m.user != nil {
+              lastUser = m.user!
+            }
             lastTime = m.ts!
           }
           MsgList.append(buffer)

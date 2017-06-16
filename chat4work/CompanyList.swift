@@ -169,6 +169,11 @@ class CompanyList: NSScrollView, WebSocketDelegate {
      // let token = existing[sender.tag-1]
      // let cwr = left.subviews[sender.tag] as! CompanyWithRed
      // cwr.toggleOff()
+    
+    
+    if sender.team?.id == "BCC" {
+      return
+    }
       
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "companyDidChange"),
@@ -189,7 +194,7 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     left.wantsLayer = true
     left.layer?.backgroundColor = NSColor.lightGray.cgColor
     for i in 0...0 {
-      let team = Team(JSONString: "{}")!
+      let team = Team(withToken: "", id: "BCC")!
       addIcon(i: i, image: image5!, team: team)
     }
 

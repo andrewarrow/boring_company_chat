@@ -188,7 +188,7 @@ class MessageList: NSScrollView {
           
           
           //if i < MsgList.count {
-          if i < 2 {
+          if i < MsgList.count {
             
             var myi = i
             

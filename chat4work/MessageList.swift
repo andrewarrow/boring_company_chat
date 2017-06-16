@@ -138,66 +138,71 @@ class MessageList: NSScrollView {
         var HeightList = Array<CGFloat>()
         var buffer = ""
         
-        if ((messages.results?.count)! == 0) {
-          for i in 0...81 {
-            let mi = self.list.subviews[i] as! MessageItem
-            mi.user.stringValue = ""
-            mi.msg.stringValue = ""
-            mi.time.stringValue = ""
-          }
-        } else {
-        
-        for (_,m) in (messages.results?.enumerated())! {
-          if m.user != lastUser && lastUser != "" {
-            MsgList.append(buffer)
-            NameList.append(lastUser)
-            TimeList.append(lastTime)
-            
-            let constraintRect = CGSize(width: 680, height: 3000)
-            
-            let boundingBox =  buffer.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)], context: nil)
-            
-            HeightList.append(boundingBox.height)
-            
-            buffer = ""
-          }
-          buffer = m.text! + "\n" + buffer
-          
-          lastUser = m.user!
-          lastTime = m.ts!
-        }
-        MsgList.append(buffer)
-        NameList.append(lastUser)
-        HeightList.append(45.0)
-        TimeList.append("123123123.123")
-        
-        var curY = CGFloat(0.0)
-        
-        for (i,sv) in self.list.subviews.enumerated() {
-          let mi = sv as! MessageItem
-          
-          mi.frame = NSRect(x: 10, y: curY, width: 680, height: 100+25)
-          
-          if i < MsgList.count {
-            
-            let myi = i
-            
-            mi.msg.stringValue = MsgList[myi]
-            mi.time.stringValue = String(describing: HeightList[myi])
-            mi.frame = NSRect(x: 10, y: curY, width: 680, height: HeightList[myi]+25)
-            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
-            mi.user.frame = NSRect(x: 5, y: HeightList[myi], width: 680, height: 25)
-            mi.time.frame = NSRect(x: 150, y: HeightList[myi], width: 680, height: 25)
-
-            curY += HeightList[myi]+35
-            
-            mi.user.stringValue = UserHash[NameList[myi]]!
-            mi.time.stringValue = (Double(TimeList[myi])?.getDateStringFromUTC())!
-          }
+        for i in 0...81 {
+          let mi = self.list.subviews[i] as! MessageItem
+          mi.user.stringValue = ""
+          mi.msg.stringValue = ""
+          mi.time.stringValue = ""
         }
         
+        if ((messages.results?.count)! > 0) {
+          
+          for (_,m) in (messages.results?.enumerated())! {
+            if m.user != lastUser && lastUser != "" {
+              MsgList.append(buffer)
+              NameList.append(lastUser)
+              TimeList.append(lastTime)
+              
+              let constraintRect = CGSize(width: 680, height: 3000)
+              
+              let boundingBox =  buffer.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)], context: nil)
+              
+              HeightList.append(boundingBox.height)
+              
+              buffer = ""
+            }
+            buffer = m.text! + "\n" + buffer
+            
+            lastUser = m.user!
+            lastTime = m.ts!
+          }
+          MsgList.append(buffer)
+          
+          let constraintRect = CGSize(width: 680, height: 3000)
+          
+          let boundingBox =  buffer.boundingRect(with: constraintRect, options: NSStringDrawingOptions.usesLineFragmentOrigin, attributes: [NSFontAttributeName: NSFont.systemFont(ofSize: 14.0)], context: nil)
+          
+          NameList.append(lastUser)
+          HeightList.append(boundingBox.height)
+          TimeList.append(lastTime)
+          
+          var curY = CGFloat(0.0)
+          
+          for (i,sv) in self.list.subviews.enumerated() {
+            let mi = sv as! MessageItem
+            
+            mi.frame = NSRect(x: 10, y: curY, width: 680, height: 100+25)
+            
+            if i < MsgList.count {
+              
+              let myi = i
+              
+              mi.msg.stringValue = MsgList[myi]
+              mi.time.stringValue = String(describing: HeightList[myi])
+              mi.frame = NSRect(x: 10, y: curY, width: 680, height: HeightList[myi]+25)
+              mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
+              mi.user.frame = NSRect(x: 5, y: HeightList[myi], width: 680, height: 25)
+              mi.time.frame = NSRect(x: 150, y: HeightList[myi], width: 680, height: 25)
+              
+              curY += HeightList[myi]+35
+              
+              mi.user.stringValue = UserHash[NameList[myi]]!
+              mi.time.stringValue = (Double(TimeList[myi])?.getDateStringFromUTC())!
+            }
+          }
+          
+          
         }
-        
 
       }
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))

@@ -179,27 +179,38 @@ class MessageList: NSScrollView {
         // 0,1,2,3,4,5...81
         
         // 0,1,2,3,4,5,6,7
+          
+        var lastBigH = CGFloat(0.0)
         
         for (i,sv) in self.list.subviews.enumerated() {
           let mi = sv as! MessageItem
+          
+          //mi.frame = NSRect(x: 10, y: (CGFloat(curY)), width: 680, height: 100)
+          
+
+          
           if i < MsgList.count {
             
             var myi = i
             
             mi.msg.stringValue = MsgList[myi]
+            mi.time.stringValue = String(describing: HeightList[myi])
+            mi.frame = NSRect(x: 10, y: CGFloat(lastBigH), width: 680, height: HeightList[myi]+25)
+            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
+            lastBigH += HeightList[myi]
+            
             
             myi = (self.list.subviews.count - offset) - 1 - i
             
-            let hli = Int(HeightList[myi])
             //let hli = 200
             
-            //mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[myi]+25)
             //mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
             
             
             
             mi.user.stringValue = UserHash[NameList[myi]]!
             //mi.time.stringValue = (Double(m[i].ts!)?.getDateStringFromUTC())!
+            
           }
         }
         

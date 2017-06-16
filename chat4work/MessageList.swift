@@ -160,7 +160,7 @@ class MessageList: NSScrollView {
             
             buffer = ""
           }
-          buffer += m.text! + "\n"
+          buffer = m.text! + "\n" + buffer
           
           lastUser = m.user!
           
@@ -187,10 +187,10 @@ class MessageList: NSScrollView {
             var myi = i
             
             mi.msg.stringValue = MsgList[myi]
+            mi.time.stringValue = String(describing: HeightList[myi])
             
             myi = (self.list.subviews.count - offset) - 1 - i
             
-            let hli = Int(HeightList[myi])
             //let hli = 200
             
             //mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[myi]+25)

@@ -212,6 +212,14 @@ class MessageList: NSScrollView {
       .subscribe(
         onError: { error in
           NSLog("1111 \(error)")
+          
+          for i in 0...81 {
+            let mi = self.list.subviews[i] as! MessageItem
+            mi.user.stringValue = ""
+            mi.msg.stringValue = "there was an http api error, try again"
+            mi.time.stringValue = ""
+          }
+          
         }
       )
       .addDisposableTo(disposeBag)

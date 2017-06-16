@@ -179,22 +179,33 @@ class MessageList: NSScrollView {
         // 0,1,2,3,4,5...81
         
         // 0,1,2,3,4,5,6,7
+        var curY = CGFloat(0.0)
         
         for (i,sv) in self.list.subviews.enumerated() {
           let mi = sv as! MessageItem
-          if i < MsgList.count {
+          
+          mi.frame = NSRect(x: 10, y: curY, width: 680, height: 100+25)
+          
+          
+          //if i < MsgList.count {
+          if i < 2 {
             
             var myi = i
             
             mi.msg.stringValue = MsgList[myi]
             mi.time.stringValue = String(describing: HeightList[myi])
+            mi.frame = NSRect(x: 10, y: curY, width: 680, height: HeightList[myi]+25)
+            mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
+            mi.user.frame = NSRect(x: 5, y: HeightList[myi], width: 680, height: 25)
+            mi.time.frame = NSRect(x: 150, y: HeightList[myi], width: 680, height: 25)
+
+            curY += HeightList[myi]+35
             
             myi = (self.list.subviews.count - offset) - 1 - i
             
             //let hli = 200
             
-            //mi.frame = NSRect(x: 10, y: (CGFloat(i*hli)), width: 680, height: HeightList[myi]+25)
-            //mi.msg.frame = NSRect(x: 5, y: 0, width: 680, height: HeightList[myi])
+            
             
             
             

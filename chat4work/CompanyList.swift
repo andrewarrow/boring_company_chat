@@ -13,8 +13,63 @@ import Starscream
 import Moya
 import RxSwift
 
-class ButtonWithTeam: NSButton {
+class ButtonWithTeam: NSButton, WebSocketDelegate {
   var team = Team(JSONString: "{}")
+  
+  func websocketDidConnect(socket: WebSocket) {
+    Swift.print("websocket is connected")
+    //socket.write(string: "hello there!")
+  }
+  
+  func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+    if let e = error {
+      Swift.print("websocket is disconnected: \(e.localizedDescription)")
+    } else {
+      Swift.print("websocket disconnected")
+    }
+  }
+  
+  func websocketDidReceiveMessage(socket: WebSocket, text: String) {
+    Swift.print("RT: \(text)")
+    
+    //RT: {"reply_to":53,"type":"message",
+    //"channel":"D1KD59XH9",
+    //"user":"U035LF6C1","text":"1","ts":"1497722672.03237"}
+    
+    do {
+      let data = text.data(using: String.Encoding.utf8, allowLossyConversion: false)!
+      let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+      let etype = json?["type"] as? String
+      if etype == "message" {
+        //let team = json?["team"] as? String
+        //let channel = json?["channel"] as? String
+        
+        //newMessages[team!] = ["c1": 1]
+        //newMessages[team!]?[channel!] = 1
+        
+        NotificationCenter.default.post(
+          name:NSNotification.Name(rawValue: "rtmMessage"),
+          object: json)
+      }
+    } catch {
+      Swift.print("Error deserializing JSON: \(error)")
+    }
+    
+    
+    //{"type":"message",
+    //"channel":"D18T96VJM",
+    //"user":"U025M33EJ",
+    //"text":"wefwefwe",
+    //"ts":"1497128451.247014",
+    //"source_team":"T025K4ALN",
+    //"team":"T025K4ALN"}
+    
+    /*RT: {"type":"im_marked","channel":"D18T96VJM","ts":"1497128451.247014","dm_count":0,"unread_count_display":0,"num_mentions_display":0,"mention_count_display":0,"event_ts":"1497128452.824439"} */
+  }
+  
+  func websocketDidReceiveData(socket: WebSocket, data: Data) {
+    Swift.print("RD: \(data.count)")
+  }
   
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
@@ -35,6 +90,7 @@ class CompanyWithRed: NSView {
     self.red.isHidden = true
     self.needsDisplay = true
   }
+  
   func toggleOn() {
     self.red.isHidden = false
     self.needsDisplay = true
@@ -77,65 +133,22 @@ class CompanyWithRed: NSView {
   }
 }
 
-class CompanyList: NSScrollView, WebSocketDelegate {
+class CompanyList: NSScrollView {
     
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
   let image5 = NSImage(named: "mena.png")
   var sockets = [WebSocket]()
   var disposeBag = DisposeBag()
- 
-  func websocketDidConnect(socket: WebSocket) {
-    Swift.print("websocket is connected")
-    //socket.write(string: "hello there!")
-  }
+  //var newMessages = ["team1": ["c1": 1], "team2": ["c2": 1]]
   
-  func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
-    if let e = error {
-      Swift.print("websocket is disconnected: \(e.localizedDescription)")
-    } else {
-      Swift.print("websocket disconnected")
-    }
-  }
-  
-  func websocketDidReceiveMessage(socket: WebSocket, text: String) {
-    Swift.print("RT: \(text)")
-    
-    do {
-      let data = text.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-      let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
-      let etype = json?["type"] as? String
-      if etype == "message" {
-        NotificationCenter.default.post(
-          name:NSNotification.Name(rawValue: "rtmMessage"),
-          object: json)
-      }
-    } catch {
-      Swift.print("Error deserializing JSON: \(error)")
-    }
-
-    
-    //{"type":"message",
-    //"channel":"D18T96VJM",
-    //"user":"U025M33EJ",
-    //"text":"wefwefwe",
-    //"ts":"1497128451.247014",
-    //"source_team":"T025K4ALN",
-    //"team":"T025K4ALN"}
-    
-    /*RT: {"type":"im_marked","channel":"D18T96VJM","ts":"1497128451.247014","dm_count":0,"unread_count_display":0,"num_mentions_display":0,"mention_count_display":0,"event_ts":"1497128452.824439"} */
-  }
-  
-  func websocketDidReceiveData(socket: WebSocket, data: Data) {
-    Swift.print("RD: \(data.count)")
-  }
-  
-  func addIcon(i: Int, image: NSImage, team: Team) {
+  func addIcon(i: Int, image: NSImage, team: Team) -> ButtonWithTeam {
     let cwr = CompanyWithRed(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
     cwr.button.image = image
     cwr.button.target = self
     cwr.button.action = #selector(changeCompany)
     cwr.button.team = team
     left.addSubview(cwr)
+    return cwr.button
   }
 
   func newTeamAdded(notification: NSNotification) {
@@ -148,12 +161,12 @@ class CompanyList: NSScrollView, WebSocketDelegate {
     Alamofire.request(team.icon!).responseImage { response in
       
       if let image = response.result.value {
-        self.addIcon(i: team.index!+1, image: image, team: team)
+        let bwt = self.addIcon(i: team.index!+1, image: image, team: team)
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
             let ws = WebSocket(url: URL(string: team.url!)!)
-            ws.delegate = self
+            ws.delegate = bwt
             ws.connect()
             self.sockets.append(ws)
 

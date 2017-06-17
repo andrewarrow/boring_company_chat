@@ -146,7 +146,19 @@ class CompanyList: NSScrollView {
     left.addSubview(cwr)
     return cwr.button
   }
-
+  
+  func channelDidChange(notification: NSNotification) {
+    let b = notification.object as! ButtonWithStringTag
+    var newM = newMessages[b.team]
+    if (newM != nil) {
+      let c = newM?[b.stringTag]
+      if (c != nil) {
+        self.newMessages[b.team]?[b.stringTag] = 0
+      }
+    }
+    
+  }
+  
   func newTeamAdded(notification: NSNotification) {
     let team = notification.object as! Team
     let token = team.token
@@ -232,6 +244,11 @@ class CompanyList: NSScrollView {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(listenRTM),
                                            name: NSNotification.Name(rawValue: "rtmMessage"),
+                                           object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(channelDidChange),
+                                           name: NSNotification.Name(rawValue: "channelDidChange"),
                                            object: nil)
     
     wantsLayer = true

@@ -13,6 +13,7 @@ import RxSwift
 class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
   var flavor: String = ""
+  var team: String = ""
 }
 
 class ChannelWithRed: NSView {
@@ -93,7 +94,8 @@ class ChannelList: NSScrollView {
             
             self.addChannel(i: self.list.subviews.count, title: channel.name!,
                             id: channel.id!, flavor: "channel",
-                            red: red)
+                            red: red,
+                            team: team.id!)
           })
         }
         
@@ -107,7 +109,8 @@ class ChannelList: NSScrollView {
 
             self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
                             flavor: "group",
-                            red: red)
+                            red: red,
+                            team: team.id!)
           })
         }
         
@@ -121,7 +124,8 @@ class ChannelList: NSScrollView {
 
             self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!,
                             flavor: "im",
-                            red: red)
+                            red: red,
+                            team: team.id!)
           })
         }
       }
@@ -131,13 +135,15 @@ class ChannelList: NSScrollView {
       .addDisposableTo(disposeBag)
   }
   
-  func addChannel(i: Int, title: String, id: String, flavor: String, red: Int) {
+  func addChannel(i: Int, title: String, id: String, flavor: String,
+                  red: Int, team: String) {
     let cwr = ChannelWithRed(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     cwr.button.title = title
     cwr.button.tag = i
     cwr.button.stringTag = id
     cwr.channel_id = id
     cwr.button.flavor = flavor
+    cwr.button.team = team
     cwr.button.target = self
     cwr.button.action = #selector(changeChannel)
     

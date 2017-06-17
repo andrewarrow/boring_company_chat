@@ -38,14 +38,10 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
     
     do {
       let data = text.data(using: String.Encoding.utf8, allowLossyConversion: false)!
-      let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+      var json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+      json?["team"] = self.team?.id
       let etype = json?["type"] as? String
       if etype == "message" {
-        //let team = json?["team"] as? String
-        //let channel = json?["channel"] as? String
-        
-        //newMessages[team!] = ["c1": 1]
-        //newMessages[team!]?[channel!] = 1
         
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "rtmMessage"),
@@ -139,7 +135,7 @@ class CompanyList: NSScrollView {
   let image5 = NSImage(named: "mena.png")
   var sockets = [WebSocket]()
   var disposeBag = DisposeBag()
-  //var newMessages = ["team1": ["c1": 1], "team2": ["c2": 1]]
+  var newMessages = ["team1": ["c1": 1], "team2": ["c2": 1]]
   
   func addIcon(i: Int, image: NSImage, team: Team) -> ButtonWithTeam {
     let cwr = CompanyWithRed(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
@@ -192,14 +188,39 @@ class CompanyList: NSScrollView {
       return
     }
     
+    /*
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "rtmMessage"),
       object: ["team": sender.team?.id, "channel": "off"])
+    */
     
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "companyDidChange"),
       object: sender.team)
     
+  }
+  
+  func listenRTM(notification: NSNotification) {
+    
+    let json = notification.object as! [String: Any]
+    NSLog("\(json)")
+    //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
+    
+    //let channel = json?["channel"] as? String
+    
+    //newMessages[team!] = ["c1": 1]
+    //newMessages[team!]?[channel!] = 1
+    
+    
+    let team = json["team"] as? String
+    let channel = json["channel"] as! String
+    if newMessages[team!] == nil {
+      newMessages[team!] = [channel: 1]
+    } else {
+      newMessages[team!]?[channel] = 1
+    }
+    
+    NSLog("\(newMessages)")
   }
   
   override init(frame frameRect: NSRect) {
@@ -210,13 +231,18 @@ class CompanyList: NSScrollView {
                                            name: NSNotification.Name(rawValue: "newTeamAdded"),
                                            object: nil)
     
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(listenRTM),
+                                           name: NSNotification.Name(rawValue: "rtmMessage"),
+                                           object: nil)
+    
     wantsLayer = true
     
     left.wantsLayer = true
     left.layer?.backgroundColor = NSColor.lightGray.cgColor
     for i in 0...0 {
       let team = Team(withToken: "", id: "BCC")!
-      addIcon(i: i, image: image5!, team: team)
+      _ = addIcon(i: i, image: image5!, team: team)
     }
 
     translatesAutoresizingMaskIntoConstraints = true

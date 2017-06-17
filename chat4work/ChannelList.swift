@@ -86,24 +86,42 @@ class ChannelList: NSScrollView {
           
           c.forEach({
             (channel) in
+            var red = 0
+            if ((team.listOfNew?[channel.id!]) != nil) {
+              red = 1
+            }
+            
             self.addChannel(i: self.list.subviews.count, title: channel.name!,
-                            id: channel.id!, flavor: "channel")
+                            id: channel.id!, flavor: "channel",
+                            red: red)
           })
         }
         
         if let g = groups.results {
           g.forEach({
             (group) in
+            var red = 0
+            if ((team.listOfNew?[group.id!]) != nil) {
+              red = 1
+            }
+
             self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
-                            flavor: "group")
+                            flavor: "group",
+                            red: red)
           })
         }
         
         if let i = ims.results {
           i.forEach({
             (im) in
+            var red = 0
+            if ((team.listOfNew?[im.id!]) != nil) {
+              red = 1
+            }
+
             self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!,
-                            flavor: "im")
+                            flavor: "im",
+                            red: red)
           })
         }
       }
@@ -113,7 +131,7 @@ class ChannelList: NSScrollView {
       .addDisposableTo(disposeBag)
   }
   
-  func addChannel(i: Int, title: String, id: String, flavor: String) {
+  func addChannel(i: Int, title: String, id: String, flavor: String, red: Int) {
     let cwr = ChannelWithRed(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     cwr.button.title = title
     cwr.button.tag = i
@@ -122,6 +140,11 @@ class ChannelList: NSScrollView {
     cwr.button.flavor = flavor
     cwr.button.target = self
     cwr.button.action = #selector(changeChannel)
+    
+    if red == 1 {
+      cwr.red.isHidden = false
+    }
+    
     list.addSubview(cwr)
   }
   

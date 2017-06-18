@@ -80,11 +80,11 @@ class ChannelList: NSScrollView {
       
       let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
       
-      Swift.print("Request: \(url)")
+      //Swift.print("Request: \(url)")
       group.enter()
       
       Alamofire.request(url).responseJSON { response in
-      Swift.print("response: \(response)")
+      //Swift.print("response: \(response)")
         if let json = response.result.value as? [String: Any] {
           
           let messages = json["messages"]
@@ -94,7 +94,7 @@ class ChannelList: NSScrollView {
               let message = list[0] as? [String: Any]
               let ts = message?["ts"] as! String
               let tsd = Double(ts)
-              var d = NSMutableDictionary()
+              let d = NSMutableDictionary()
               d["ts"] = tsd
               d["id"] = id
               d["flavor"] = flavor

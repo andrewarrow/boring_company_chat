@@ -9,6 +9,7 @@
 import Cocoa
 import Moya
 import RxSwift
+import Alamofire
 
 class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
@@ -60,9 +61,9 @@ class ChannelList: NSScrollView {
   
   func sortByLastMsgDate(notification: NSNotification) {
     
-    let provider = RxMoyaProvider<ChatService>()
-    let channelApi = ChannelApiImpl(provider: provider)
-    var obsList: [Observable<Messages>] = []
+    //let provider = RxMoyaProvider<ChatService>()
+    //let channelApi = ChannelApiImpl(provider: provider)
+    //var obsList: [Observable<Messages>] = []
     
     for sv in list.subviews {
       let cwr = sv as! ChannelWithRed
@@ -73,19 +74,28 @@ class ChannelList: NSScrollView {
       let token = team?.token!
       let id = cwr.button.stringTag
       
-      obsList.append(channelApi.getHistoryByFlavor(token: token!, id:id, flavor: flavor, count: 1))
+      //let ob = channelApi.getHistoryByFlavor(token: token!, id:id, flavor: flavor, count: 1)
+      let url = "https://slack.com/api/im.history?token=\(token ?? "")&channel=\(id)&count=1"
+      Swift.print("Request: \(url)")
+      Alamofire.request(url).responseJSON { response in
+        if let json = response.result.value as? [String: Any] {
+          
+          let messages = json["messages"]
+          if messages != nil {
+            let list = json["messages"] as! NSArray
+            if list.count > 0 {
+              let message = list[0] as? [String: Any]
+              let ts = message?["ts"] as! String
+              let tsd = Double(ts)
+              Swift.print("JSON: \(tsd)")
+            }
+          }
+        }
+      }
+      
     }
     
-    Observable.zip(obsList) { (messages) in
-          NSLog("hey \(messages)")
-      }.subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-      .observeOn(MainScheduler.instance)
-      .subscribe(
-        onError: { error in
-          NSLog("1111 \(error)")
-      }
-      )
-      .addDisposableTo(disposeBag)
+
 
     
     //let alert = notification.object as! NSAlert

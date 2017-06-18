@@ -39,6 +39,7 @@ So I want to build an "open source slack replacement" with the following goals:
 
 # building
 
+* sudo gem install cocoapods
 * pod install
 * then open `boring-company-chat.xcworkspace` not the project
 * run from xcode

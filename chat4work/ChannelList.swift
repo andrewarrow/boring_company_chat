@@ -9,11 +9,12 @@
 import Cocoa
 import Moya
 import RxSwift
+import Alamofire
 
 class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
   var flavor: String = ""
-  var team: String = ""
+  var team: Team?
 }
 
 class ChannelWithRed: NSView {
@@ -57,10 +58,93 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
+  var team: Team?
   
+  func sortByLastMsgDate(notification: NSNotification) {
+    
+    //let provider = RxMoyaProvider<ChatService>()
+    //let channelApi = ChannelApiImpl(provider: provider)
+    var sortList: [NSDictionary] = []
+    let group = DispatchGroup()
+    
+    for sv in list.subviews {
+      let cwr = sv as! ChannelWithRed
+
+      let team = cwr.button.team
+
+      let flavor = cwr.button.flavor
+      let token = team?.token!
+      let id = cwr.button.stringTag
+      
+      //let ob = channelApi.getHistoryByFlavor(token: token!, id:id, flavor: flavor, count: 1)
+      
+      let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
+      
+      //Swift.print("Request: \(url)")
+      group.enter()
+      
+      Alamofire.request(url).responseJSON { response in
+      //Swift.print("response: \(response)")
+        if let json = response.result.value as? [String: Any] {
+          
+          let messages = json["messages"]
+          if messages != nil {
+            let list = json["messages"] as! NSArray
+            if list.count > 0 {
+              let message = list[0] as? [String: Any]
+              let ts = message?["ts"] as! String
+              let tsd = Double(ts)
+              let d = NSMutableDictionary()
+              d["ts"] = tsd
+              d["id"] = id
+              d["flavor"] = flavor
+              d["name"] = cwr.button.title
+                sortList.append(d)
+              //Swift.print("JSON: \(tsd)")
+            }
+          }
+        }
+        //
+        group.leave()
+      }
+    }
+    
+    
+    
+    group.notify(queue: DispatchQueue.main, execute: {
+      
+      sortList = sortList.sorted (by: {
+        let ts0 = $0["ts"] as! Double
+        let ts1 = $1["ts"] as! Double
+        return ts0 > ts1
+      })
+      
+      self.list.subviews = []
+      
+      for d in sortList {
+        let title = d["name"] as! String
+        let flavor = d["flavor"] as! String
+        let id = d["id"] as! String
+        self.addChannel(i: self.list.subviews.count, title: title,
+                      id: id, flavor: flavor,
+                      red: 0,
+                      team: self.team!)
+      }
+      
+      //Swift.print("\(sortList)")
+      let alert = notification.object as! NSAlert
+      alert.buttons[0].performClick(self)
+
+    })
+    
+    
+    
+    
+  }
+    
   func companyDidChange(notification: NSNotification) {
     let team = notification.object as! Team
-
+    self.team = team
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
@@ -93,9 +177,9 @@ class ChannelList: NSScrollView {
             }
             
             self.addChannel(i: self.list.subviews.count, title: channel.name!,
-                            id: channel.id!, flavor: "channel",
+                            id: channel.id!, flavor: "channels",
                             red: red,
-                            team: team.id!)
+                            team: team)
           })
         }
         
@@ -108,9 +192,9 @@ class ChannelList: NSScrollView {
             }
 
             self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
-                            flavor: "group",
+                            flavor: "groups",
                             red: red,
-                            team: team.id!)
+                            team: team)
           })
         }
         
@@ -125,7 +209,7 @@ class ChannelList: NSScrollView {
             self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!,
                             flavor: "im",
                             red: red,
-                            team: team.id!)
+                            team: team)
           })
         }
       }
@@ -136,7 +220,7 @@ class ChannelList: NSScrollView {
   }
   
   func addChannel(i: Int, title: String, id: String, flavor: String,
-                  red: Int, team: String) {
+                  red: Int, team: Team) {
     let cwr = ChannelWithRed(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     cwr.button.title = title
     cwr.button.tag = i
@@ -169,6 +253,11 @@ class ChannelList: NSScrollView {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(companyDidChange),
                                            name: NSNotification.Name(rawValue: "companyDidChange"),
+                                           object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(sortByLastMsgDate),
+                                           name: NSNotification.Name(rawValue: "sortByLastMsgDate"),
                                            object: nil)
     
     wantsLayer = true

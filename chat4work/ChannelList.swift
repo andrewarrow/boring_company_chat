@@ -145,10 +145,32 @@ class ChannelList: NSScrollView {
     
     
   }
+  
+  func makeListFromCol(col: ChannelObjectList) {
+    let sortList = col.list.sorted (by: { $0.ts > $1.ts })
     
+    self.list.subviews = []
+    
+    for d in sortList {
+      self.addChannel(i: self.list.subviews.count, title: d.name,
+                      id: d.id, flavor: d.flavor,
+                      red: 0,
+                      team: self.team!)
+    }
+
+  }
+  
   func companyDidChange(notification: NSNotification) {
     let team = notification.object as! Team
     self.team = team
+    
+    let realm = try! Realm()
+    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
+    if (col != nil) {
+      makeListFromCol(col: col!)
+      return
+    }
+    
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)

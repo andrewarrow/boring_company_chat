@@ -1,5 +1,19 @@
 import Foundation
 import ObjectMapper
+import RealmSwift
+
+class ChannelList: Object {
+  dynamic var team = ""
+  let list = List<ChannelObject>()
+}
+
+class ChannelObject: Object {
+  dynamic var name = ""
+  dynamic var id = ""
+  dynamic var flavor = ""
+  dynamic var ts = Double(0.0)
+}
+
 
 struct Channels: Mappable {
   

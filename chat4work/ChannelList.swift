@@ -57,7 +57,16 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
-  
+
+  func sortByLastMsgDate(notification: NSNotification) {
+    
+    for sv in list.subviews {
+      let cwr = sv as! ChannelWithRed
+        NSLog("\(cwr)")
+        NSLog("\(cwr.button.flavor)")
+    }
+  }
+    
   func companyDidChange(notification: NSNotification) {
     let team = notification.object as! Team
 
@@ -169,6 +178,11 @@ class ChannelList: NSScrollView {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(companyDidChange),
                                            name: NSNotification.Name(rawValue: "companyDidChange"),
+                                           object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(sortByLastMsgDate),
+                                           name: NSNotification.Name(rawValue: "sortByLastMsgDate"),
                                            object: nil)
     
     wantsLayer = true

@@ -12,6 +12,7 @@ import Cocoa
 class AppDelegate: NSObject, NSApplicationDelegate {
     
   var win: NSWindow?
+  var alert: NSAlert?
     
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     // Insert code here to initialize your application
@@ -38,12 +39,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         }
     })*/
     
-    let alert = NSAlert()
-    alert.messageText = "S O R T I N G"
-    alert.addButton(withTitle: "Cancel")
-    alert.informativeText = "Sorting... 1% done."
+    self.alert = NSAlert()
+    alert?.messageText = "S O R T I N G"
+    alert?.addButton(withTitle: "Cancel")
+    alert?.informativeText = "Sorting... 1% done."
     
-    alert.beginSheetModal(for: (NSApplication.shared().keyWindow)!, completionHandler: { [unowned self] (returnCode) -> Void in
+    alert?.beginSheetModal(for: (NSApplication.shared().keyWindow)!, completionHandler: { [unowned self] (returnCode) -> Void in
         if returnCode == NSAlertFirstButtonReturn {
             //self.dataModel.removeAll()
         }
@@ -52,7 +53,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "sortByLastMsgDate"),
-        object: sender)
+        object: alert)
   }
     
   @IBAction func pref(_ sender:NSObject) {

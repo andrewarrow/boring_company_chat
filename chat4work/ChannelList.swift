@@ -65,6 +65,10 @@ class ChannelList: NSScrollView {
         NSLog("\(cwr)")
         NSLog("\(cwr.button.flavor)")
     }
+    
+    let alert = notification.object as! NSAlert
+    alert.buttons[0].performClick(self)
+    
   }
     
   func companyDidChange(notification: NSNotification) {

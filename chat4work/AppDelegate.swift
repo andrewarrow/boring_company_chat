@@ -18,10 +18,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ aNotification: Notification) {
     // Insert code here to tear down your application
   }
-  // UserDefaults.standard.removeObject(forKey: "token")
-  // UserDefaults.standard.setValue(customer.value(forKey: "username"), forKey: "username")
-  // let username = UserDefaults.standard.value(forKey: "username")
-  
+
+  @IBAction func sortByLastMsgDate(_ sender:NSObject) {
+    NSLog("h1")
+  }
+    
   @IBAction func pref(_ sender:NSObject) {
  
     //  "https://slack.com/oauth/authorize?client_id=3192071428.96285304358&scope=client&redirect_uri=https://higher.team/wxslak"

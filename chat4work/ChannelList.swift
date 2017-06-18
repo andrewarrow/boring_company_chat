@@ -10,6 +10,7 @@ import Cocoa
 import Moya
 import RxSwift
 import Alamofire
+import RealmSwift
 
 class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
@@ -64,7 +65,10 @@ class ChannelList: NSScrollView {
     
     //let provider = RxMoyaProvider<ChatService>()
     //let channelApi = ChannelApiImpl(provider: provider)
-    var sortList: [NSDictionary] = []
+    //var sortList: [ChannelObject] = []
+    let col: ChannelObjectList = ChannelObjectList()
+    col.team = (self.team?.id)!
+    
     let group = DispatchGroup()
     
     for sv in list.subviews {
@@ -94,12 +98,13 @@ class ChannelList: NSScrollView {
               let message = list[0] as? [String: Any]
               let ts = message?["ts"] as! String
               let tsd = Double(ts)
-              let d = NSMutableDictionary()
-              d["ts"] = tsd
-              d["id"] = id
-              d["flavor"] = flavor
-              d["name"] = cwr.button.title
-                sortList.append(d)
+              let d = ChannelObject()
+              d.ts = tsd!
+              d.id = id
+              d.flavor = flavor
+              d.name = cwr.button.title
+              col.list.append(d)
+              //sortList.append(d)
               //Swift.print("JSON: \(tsd)")
             }
           }
@@ -113,22 +118,21 @@ class ChannelList: NSScrollView {
     
     group.notify(queue: DispatchQueue.main, execute: {
       
-      sortList = sortList.sorted (by: {
-        let ts0 = $0["ts"] as! Double
-        let ts1 = $1["ts"] as! Double
-        return ts0 > ts1
-      })
+      let sortList = col.list.sorted (by: { $0.ts > $1.ts })
       
       self.list.subviews = []
       
-      for d in sortList {
-        let title = d["name"] as! String
-        let flavor = d["flavor"] as! String
-        let id = d["id"] as! String
-        self.addChannel(i: self.list.subviews.count, title: title,
-                      id: id, flavor: flavor,
+      for d in sortList {              
+        self.addChannel(i: self.list.subviews.count, title: d.name,
+                      id: d.id, flavor: d.flavor,
                       red: 0,
                       team: self.team!)
+      }
+      
+      let realm = try! Realm()
+      
+      try! realm.write {
+        realm.add(col)
       }
       
       //Swift.print("\(sortList)")

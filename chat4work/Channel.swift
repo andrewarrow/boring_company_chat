@@ -2,7 +2,7 @@ import Foundation
 import ObjectMapper
 import RealmSwift
 
-class ChannelList: Object {
+class ChannelObjectList: Object {
   dynamic var team = ""
   let list = List<ChannelObject>()
 }

@@ -64,7 +64,7 @@ class ChannelList: NSScrollView {
     
     //let provider = RxMoyaProvider<ChatService>()
     //let channelApi = ChannelApiImpl(provider: provider)
-    var sortList: [Double] = []
+    var sortList: [NSDictionary] = []
     let group = DispatchGroup()
     
     for sv in list.subviews {
@@ -96,7 +96,10 @@ class ChannelList: NSScrollView {
                 let message = list[0] as? [String: Any]
                 let ts = message?["ts"] as! String
                 let tsd = Double(ts)
-                sortList.append(tsd!)
+                var d = NSMutableDictionary()
+                d["ts"] = tsd
+                d["id"] = id
+                sortList.append(d)
                 //Swift.print("JSON: \(tsd)")
               }
             }
@@ -110,13 +113,20 @@ class ChannelList: NSScrollView {
     
     group.notify(queue: DispatchQueue.main, execute: {
       
+      sortList = sortList.sorted (by: {
+        let ts0 = $0["ts"] as! Double
+        let ts1 = $1["ts"] as! Double
+        return ts0 < ts1
+      })
+      
       Swift.print("\(sortList)")
+      let alert = notification.object as! NSAlert
+      alert.buttons[0].performClick(self)
+
     })
     
     
     
-    //let alert = notification.object as! NSAlert
-    //alert.buttons[0].performClick(self)
     
   }
     

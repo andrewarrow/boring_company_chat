@@ -58,12 +58,14 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
-  var sortList: [Double] = []
+  
   
   func sortByLastMsgDate(notification: NSNotification) {
     
     //let provider = RxMoyaProvider<ChatService>()
     //let channelApi = ChannelApiImpl(provider: provider)
+    var sortList: [Double] = []
+    let group = DispatchGroup()
     
     for sv in list.subviews {
       let cwr = sv as! ChannelWithRed
@@ -82,6 +84,8 @@ class ChannelList: NSScrollView {
         let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
         
         //Swift.print("Request: \(url)")
+        group.enter()
+        
         Alamofire.request(url).responseJSON { response in
           if let json = response.result.value as? [String: Any] {
             
@@ -92,17 +96,24 @@ class ChannelList: NSScrollView {
                 let message = list[0] as? [String: Any]
                 let ts = message?["ts"] as! String
                 let tsd = Double(ts)
-                self.sortList.append(tsd!)
+                sortList.append(tsd!)
                 //Swift.print("JSON: \(tsd)")
               }
             }
           }
+          //
+          group.leave()
         }
       }
       
     }
     
-    //Swift.print("\(sortList)")
+    group.notify(queue: DispatchQueue.main, execute: {
+      
+      Swift.print("\(sortList)")
+    })
+    
+    
     
     //let alert = notification.object as! NSAlert
     //alert.buttons[0].performClick(self)

@@ -23,14 +23,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @IBAction func sortByLastMsgDate(_ sender:NSObject) {
     
+    /*
     win = NSWindow(contentRect: NSMakeRect(100, 100, 600, 200),
                        styleMask: NSResizableWindowMask,
                        backing: NSBackingStoreType.buffered, defer: true)
+    win.addButton(withTitle: "Yes")
     
     let nswc = NSWindowController(window: win)
     //win?.makeKeyAndOrderFront(self)
     
     NSApplication.shared().keyWindow?.beginSheet(nswc.window!, completionHandler: { [unowned self] (returnCode) -> Void in
+        if returnCode == NSAlertFirstButtonReturn {
+            //self.dataModel.removeAll()
+        }
+    })*/
+    
+    let alert = NSAlert()
+    alert.messageText = "S O R T I N G"
+    alert.addButton(withTitle: "Cancel")
+    alert.informativeText = "Sorting... 1% done."
+    
+    alert.beginSheetModal(for: (NSApplication.shared().keyWindow)!, completionHandler: { [unowned self] (returnCode) -> Void in
         if returnCode == NSAlertFirstButtonReturn {
             //self.dataModel.removeAll()
         }

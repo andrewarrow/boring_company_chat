@@ -149,11 +149,11 @@ class CompanyList: NSScrollView {
   
   func channelDidChange(notification: NSNotification) {
     let b = notification.object as! ButtonWithStringTag
-    var newM = newMessages[b.team]
+    var newM = newMessages[(b.team?.id)!]
     if (newM != nil) {
       let c = newM?[b.stringTag]
       if (c != nil) {
-        self.newMessages[b.team]?[b.stringTag] = 0
+        self.newMessages[(b.team?.id)!]?[b.stringTag] = 0
       }
     }
     

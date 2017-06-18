@@ -13,7 +13,7 @@ import RxSwift
 class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
   var flavor: String = ""
-  var team: String = ""
+  var team: Team?
 }
 
 class ChannelWithRed: NSView {
@@ -57,17 +57,59 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
-
+  var oms = Array<Any>()
+  
   func sortByLastMsgDate(notification: NSNotification) {
     
     for sv in list.subviews {
       let cwr = sv as! ChannelWithRed
-        NSLog("\(cwr)")
-        NSLog("\(cwr.button.flavor)")
+
+      
+      let team = cwr.button.team
+      let provider = RxMoyaProvider<ChatService>()
+      let channelApi = ChannelApiImpl(provider: provider)
+      
+      // Observable<Messages>
+      
+      let om = channelApi.getHistoryByFlavor(token: (team?.token!)!, id:cwr.button.stringTag, flavor: cwr.button.flavor)
+      oms.append(om.subscribe(
+        onNext: { messages in
+          
+          NSLog("\(cwr.button.stringTag)")
+          NSLog("\(cwr.button.flavor)")
+          
+          if (messages.results != nil && (messages.results?.count)! > 0) {
+            
+            NSLog("\(messages.results?.count)")
+            for (_,m) in (messages.results?.enumerated())! {
+            }
+          }
+      },
+        onError: { error in
+          NSLog("\(error)")
+      }))
+      
+      /*
+      channelApi.getHistoryByFlavor(token: (team?.token!)!, id:cwr.button.stringTag, flavor: cwr.button.flavor).subscribe(
+        onNext: { messages in
+
+          NSLog("\(cwr.button.stringTag)")
+          NSLog("\(cwr.button.flavor)")
+          
+          if (messages.results != nil && (messages.results?.count)! > 0) {
+            
+            NSLog("\(messages.results?.count)")
+            for (_,m) in (messages.results?.enumerated())! {
+            }
+          }
+      },
+        onError: { error in
+          NSLog("\(error)")
+      }).addDisposableTo(disposeBag)*/
     }
     
-    let alert = notification.object as! NSAlert
-    alert.buttons[0].performClick(self)
+    //let alert = notification.object as! NSAlert
+    //alert.buttons[0].performClick(self)
     
   }
     
@@ -108,7 +150,7 @@ class ChannelList: NSScrollView {
             self.addChannel(i: self.list.subviews.count, title: channel.name!,
                             id: channel.id!, flavor: "channel",
                             red: red,
-                            team: team.id!)
+                            team: team)
           })
         }
         
@@ -123,7 +165,7 @@ class ChannelList: NSScrollView {
             self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
                             flavor: "group",
                             red: red,
-                            team: team.id!)
+                            team: team)
           })
         }
         
@@ -138,7 +180,7 @@ class ChannelList: NSScrollView {
             self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!,
                             flavor: "im",
                             red: red,
-                            team: team.id!)
+                            team: team)
           })
         }
       }
@@ -149,7 +191,7 @@ class ChannelList: NSScrollView {
   }
   
   func addChannel(i: Int, title: String, id: String, flavor: String,
-                  red: Int, team: String) {
+                  red: Int, team: Team) {
     let cwr = ChannelWithRed(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     cwr.button.title = title
     cwr.button.tag = i

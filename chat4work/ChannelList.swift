@@ -58,12 +58,12 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
+  var sortList: [Double] = []
   
   func sortByLastMsgDate(notification: NSNotification) {
     
     //let provider = RxMoyaProvider<ChatService>()
     //let channelApi = ChannelApiImpl(provider: provider)
-    //var obsList: [Observable<Messages>] = []
     
     for sv in list.subviews {
       let cwr = sv as! ChannelWithRed
@@ -75,19 +75,26 @@ class ChannelList: NSScrollView {
       let id = cwr.button.stringTag
       
       //let ob = channelApi.getHistoryByFlavor(token: token!, id:id, flavor: flavor, count: 1)
-      let url = "https://slack.com/api/im.history?token=\(token ?? "")&channel=\(id)&count=1"
-      Swift.print("Request: \(url)")
-      Alamofire.request(url).responseJSON { response in
-        if let json = response.result.value as? [String: Any] {
-          
-          let messages = json["messages"]
-          if messages != nil {
-            let list = json["messages"] as! NSArray
-            if list.count > 0 {
-              let message = list[0] as? [String: Any]
-              let ts = message?["ts"] as! String
-              let tsd = Double(ts)
-              Swift.print("JSON: \(tsd)")
+      let flavors = ["im", "groups", "channels"]
+      
+      for flavor in flavors {
+        
+        let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
+        
+        //Swift.print("Request: \(url)")
+        Alamofire.request(url).responseJSON { response in
+          if let json = response.result.value as? [String: Any] {
+            
+            let messages = json["messages"]
+            if messages != nil {
+              let list = json["messages"] as! NSArray
+              if list.count > 0 {
+                let message = list[0] as? [String: Any]
+                let ts = message?["ts"] as! String
+                let tsd = Double(ts)
+                self.sortList.append(tsd!)
+                //Swift.print("JSON: \(tsd)")
+              }
             }
           }
         }
@@ -95,8 +102,7 @@ class ChannelList: NSScrollView {
       
     }
     
-
-
+    //Swift.print("\(sortList)")
     
     //let alert = notification.object as! NSAlert
     //alert.buttons[0].performClick(self)

@@ -29,9 +29,9 @@ class ChannelApiImpl: ChannelApi {
   func getHistoryByFlavor(token: String, id: String, flavor: String, count: Int) -> Observable<Messages> {
     if flavor == "im" {
       return getHistoryIM(token: token, id: id, count: count)
-    } else if flavor == "group" {
+    } else if flavor == "groups" {
       return getHistoryGroup(token: token, id: id, count: count)
-    } else if flavor == "channel" {
+    } else if flavor == "channels" {
       return getHistoryChannel(token: token, id: id, count: count)
     }
     return getHistoryChannel(token: token, id: id, count: count)

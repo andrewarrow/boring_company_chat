@@ -80,10 +80,11 @@ class ChannelList: NSScrollView {
       
       let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
       
-      //Swift.print("Request: \(url)")
+      Swift.print("Request: \(url)")
       group.enter()
       
       Alamofire.request(url).responseJSON { response in
+      Swift.print("response: \(response)")
         if let json = response.result.value as? [String: Any] {
           
           let messages = json["messages"]
@@ -115,7 +116,7 @@ class ChannelList: NSScrollView {
       sortList = sortList.sorted (by: {
         let ts0 = $0["ts"] as! Double
         let ts1 = $1["ts"] as! Double
-        return ts0 < ts1
+        return ts0 > ts1
       })
       
       self.list.subviews = []
@@ -176,7 +177,7 @@ class ChannelList: NSScrollView {
             }
             
             self.addChannel(i: self.list.subviews.count, title: channel.name!,
-                            id: channel.id!, flavor: "channel",
+                            id: channel.id!, flavor: "channels",
                             red: red,
                             team: team)
           })
@@ -191,7 +192,7 @@ class ChannelList: NSScrollView {
             }
 
             self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
-                            flavor: "group",
+                            flavor: "groups",
                             red: red,
                             team: team)
           })

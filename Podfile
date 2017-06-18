@@ -4,6 +4,7 @@ platform :osx, '10.12'
 use_frameworks!
 
 target 'boring-company-chat' do
+    pod 'RealmSwift'
 		pod 'Moya-ObjectMapper'
 		pod 'Moya', :git => "https://github.com/cowboyrushforth/Moya.git", :branch => "error_fix"
 		pod 'Moya/RxSwift', :git => "https://github.com/cowboyrushforth/Moya.git", :branch => "error_fix"

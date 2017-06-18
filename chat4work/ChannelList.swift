@@ -58,7 +58,7 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
-  
+  var team: Team?
   
   func sortByLastMsgDate(notification: NSNotification) {
     
@@ -77,39 +77,38 @@ class ChannelList: NSScrollView {
       let id = cwr.button.stringTag
       
       //let ob = channelApi.getHistoryByFlavor(token: token!, id:id, flavor: flavor, count: 1)
-      let flavors = ["im", "groups", "channels"]
       
-      for flavor in flavors {
-        
-        let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
-        
-        //Swift.print("Request: \(url)")
-        group.enter()
-        
-        Alamofire.request(url).responseJSON { response in
-          if let json = response.result.value as? [String: Any] {
-            
-            let messages = json["messages"]
-            if messages != nil {
-              let list = json["messages"] as! NSArray
-              if list.count > 0 {
-                let message = list[0] as? [String: Any]
-                let ts = message?["ts"] as! String
-                let tsd = Double(ts)
-                var d = NSMutableDictionary()
-                d["ts"] = tsd
-                d["id"] = id
+      let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
+      
+      //Swift.print("Request: \(url)")
+      group.enter()
+      
+      Alamofire.request(url).responseJSON { response in
+        if let json = response.result.value as? [String: Any] {
+          
+          let messages = json["messages"]
+          if messages != nil {
+            let list = json["messages"] as! NSArray
+            if list.count > 0 {
+              let message = list[0] as? [String: Any]
+              let ts = message?["ts"] as! String
+              let tsd = Double(ts)
+              var d = NSMutableDictionary()
+              d["ts"] = tsd
+              d["id"] = id
+              d["flavor"] = flavor
+              d["name"] = cwr.button.title
                 sortList.append(d)
-                //Swift.print("JSON: \(tsd)")
-              }
+              //Swift.print("JSON: \(tsd)")
             }
           }
-          //
-          group.leave()
         }
+        //
+        group.leave()
       }
-      
     }
+    
+    
     
     group.notify(queue: DispatchQueue.main, execute: {
       
@@ -119,7 +118,19 @@ class ChannelList: NSScrollView {
         return ts0 < ts1
       })
       
-      Swift.print("\(sortList)")
+      self.list.subviews = []
+      
+      for d in sortList {
+        let title = d["name"] as! String
+        let flavor = d["flavor"] as! String
+        let id = d["id"] as! String
+        self.addChannel(i: self.list.subviews.count, title: title,
+                      id: id, flavor: flavor,
+                      red: 0,
+                      team: self.team!)
+      }
+      
+      //Swift.print("\(sortList)")
       let alert = notification.object as! NSAlert
       alert.buttons[0].performClick(self)
 
@@ -132,7 +143,7 @@ class ChannelList: NSScrollView {
     
   func companyDidChange(notification: NSNotification) {
     let team = notification.object as! Team
-
+    self.team = team
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)

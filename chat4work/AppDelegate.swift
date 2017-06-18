@@ -171,6 +171,14 @@ extension Double {
     let date = Date(timeIntervalSince1970: self)
     return date
   }
+  func getDateStringFromUTC() -> String {
+    let date = Date(timeIntervalSince1970: self)
+    
+    let dateFormatter = DateFormatter()
+    dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+    
+    return dateFormatter.string(from: date)
+  }
 }
 
 extension Date {

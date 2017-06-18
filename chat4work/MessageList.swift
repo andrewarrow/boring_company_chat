@@ -44,11 +44,12 @@ class MessageList: NSScrollView {
         bwst.flavor = "im"
       }
       if c[c.startIndex] == "C" {
-        bwst.flavor = "channel"
+        bwst.flavor = "channels"
       }
       if c[c.startIndex] == "G" {
-        bwst.flavor = "group"
+        bwst.flavor = "groups"
       }
+      bwst.team = self.team
     
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "channelDidChange"),
@@ -193,6 +194,7 @@ class MessageList: NSScrollView {
               
               mi.user.stringValue = UserHash[NameList[myi]]!
               mi.time.stringValue = (Double(TimeList[myi])?.getDateFromUTC().timeAgoSinceNow(useNumericDates: true))!
+              mi.time.stringValue = mi.time.stringValue + " " + (Double(TimeList[myi])?.getDateStringFromUTC())!
             }
           }
           

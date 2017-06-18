@@ -147,7 +147,7 @@ class MessageList: NSScrollView {
         
  
         
-        if ((messages.results?.count)! > 0) {
+        if (messages.results != nil && (messages.results?.count)! > 0) {
           
           for (_,m) in (messages.results?.enumerated())! {
             

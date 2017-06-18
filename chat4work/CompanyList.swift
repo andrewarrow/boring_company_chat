@@ -149,13 +149,30 @@ class CompanyList: NSScrollView {
   
   func channelDidChange(notification: NSNotification) {
     let b = notification.object as! ButtonWithStringTag
-    var newM = newMessages[b.team]
-    if (newM != nil) {
-      let c = newM?[b.stringTag]
+    
+    if (self.newMessages[b.team] != nil) {
+      let c = self.newMessages[b.team]?[b.stringTag]
       if (c != nil) {
-        self.newMessages[b.team]?[b.stringTag] = 0
+        self.newMessages[b.team]?[b.stringTag] = nil
       }
+      
+      var allNil = true
+      for (_,v) in (self.newMessages[b.team]?.enumerated())! {
+        NSLog("v \(v.value)")
+        if v.value == 1 {
+          allNil = false
+          break
+        }
+      }
+      
+      if allNil {
+        NotificationCenter.default.post(
+          name:NSNotification.Name(rawValue: "rtmMessage"),
+          object: ["team": b.team, "channel": "off"])
+      }
+      
     }
+    
     
   }
   
@@ -199,12 +216,6 @@ class CompanyList: NSScrollView {
     if sender.team?.id == "BCC" {
       return
     }
-    
-    /*
-    NotificationCenter.default.post(
-      name:NSNotification.Name(rawValue: "rtmMessage"),
-      object: ["team": sender.team?.id, "channel": "off"])
-    */
     
     var team = sender.team
     team?.listOfNew = newMessages[(team?.id)!]

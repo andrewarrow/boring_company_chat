@@ -19,9 +19,9 @@ enum ChatService {
   case showIMs(token: String)
   case showUsers(token: String)
   case showTeam(token: String)
-  case historyIM(token: String, id: String)
-  case historyGroup(token: String, id: String)
-  case historyChannel(token: String, id: String)
+  case historyIM(token: String, id: String, count: Int)
+  case historyGroup(token: String, id: String, count: Int)
+  case historyChannel(token: String, id: String, count: Int)
   case rtmConnect(token: String)
 }
 
@@ -71,9 +71,9 @@ extension ChatService: TargetType {
       return nil
     case .showChannels(let token), .showGroups(let token), .showIMs(let token), .showUsers(let token), .showTeam(let token), .rtmConnect(let token):
       return ["token": token]
-    case .historyIM(let token, let id), .historyGroup(let token, let id),
-         .historyChannel(let token, let id):
-      return ["token": token, "channel": id]
+    case .historyIM(let token, let id, let count), .historyGroup(let token, let id, let count),
+         .historyChannel(let token, let id, let count):
+      return ["token": token, "channel": id, "count": count]
     case .postMessage(let token, let id, let text):
       return ["channel": id, "text": text, "token": token, "as_user": "true"]
     case .updateUser(_, let firstName, let lastName):

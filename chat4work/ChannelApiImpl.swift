@@ -38,21 +38,21 @@ class ChannelApiImpl: ChannelApi {
   }
   
   func getHistoryChannel(token: String, id: String) -> Observable<Messages> {
-    return provider.request(.historyChannel(token: token, id: id))
+    return provider.request(.historyChannel(token: token, id: id, count: 100))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
   }
   
   func getHistoryGroup(token: String, id: String) -> Observable<Messages> {
-    return provider.request(.historyGroup(token: token, id: id))
+    return provider.request(.historyGroup(token: token, id: id, count: 100))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
   }
   
   func getHistoryIM(token: String, id: String) -> Observable<Messages> {
-    return provider.request(.historyIM(token: token, id: id))
+    return provider.request(.historyIM(token: token, id: id, count: 100))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)

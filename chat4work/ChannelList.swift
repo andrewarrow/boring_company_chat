@@ -57,7 +57,40 @@ class ChannelList: NSScrollView {
     
   let list = NSView(frame: NSMakeRect(0,0,220,1560+900))
   var disposeBag = DisposeBag()
-  var oms = Array<Any>()
+  
+  func sortHistoryIM(token: String, id: String) {
+    let provider = RxMoyaProvider<ChatService>()
+    
+    provider.request(.historyIM(token: token, id: id, count: 1)) { result in
+      switch result {
+      case let .success(moyaResponse):
+        
+        do {
+          let json = try JSONSerialization.jsonObject(with: moyaResponse.data) as? [String: Any]
+          let messages = json?["messages"] as? [[String: Any]]
+          
+          for message in messages! {
+            let ts = Double(message["ts"] as! String)
+            NSLog("\(ts)")
+          }
+          
+        } catch {
+          Swift.print("Error deserializing JSON: \(error)")
+        }
+        
+      case let .failure(error):
+        Swift.print("err \(error)")
+        
+      }
+    }
+  }
+  
+  func sortHistoryGroup(token: String, id: String) {
+          let provider = RxMoyaProvider<ChatService>()
+  }
+  func sortHistoryChannel(token: String, id: String) {
+          let provider = RxMoyaProvider<ChatService>()
+  }
   
   func sortByLastMsgDate(notification: NSNotification) {
     
@@ -66,28 +99,20 @@ class ChannelList: NSScrollView {
 
       
       let team = cwr.button.team
-      let provider = RxMoyaProvider<ChatService>()
-      let channelApi = ChannelApiImpl(provider: provider)
+
+      let flavor = cwr.button.flavor
+      let token = team?.token!
+      let id = cwr.button.stringTag
       
-      // Observable<Messages>
-      
-      let om = channelApi.getHistoryByFlavor(token: (team?.token!)!, id:cwr.button.stringTag, flavor: cwr.button.flavor)
-      oms.append(om.subscribe(
-        onNext: { messages in
-          
-          NSLog("\(cwr.button.stringTag)")
-          NSLog("\(cwr.button.flavor)")
-          
-          if (messages.results != nil && (messages.results?.count)! > 0) {
-            
-            NSLog("\(messages.results?.count)")
-            for (_,m) in (messages.results?.enumerated())! {
-            }
-          }
-      },
-        onError: { error in
-          NSLog("\(error)")
-      }))
+      if flavor == "im" {
+        NSLog("\(cwr.button.stringTag)")
+        NSLog("\(cwr.button.flavor)")
+        sortHistoryIM(token: token!, id: id)
+      } else if flavor == "group" {
+        sortHistoryGroup(token: token!, id: id)
+      } else if flavor == "channel" {
+        sortHistoryChannel(token: token!, id: id)
+      }
       
       /*
       channelApi.getHistoryByFlavor(token: (team?.token!)!, id:cwr.button.stringTag, flavor: cwr.button.flavor).subscribe(

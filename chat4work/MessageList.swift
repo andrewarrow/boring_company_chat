@@ -127,7 +127,7 @@ class MessageList: NSScrollView {
     
     Observable.zip(
       channelApi.getUsers(token: team.token!),
-      channelApi.getHistoryByFlavor(token: team.token!, id: channel, flavor: b.flavor)) { (users, messages) in
+      channelApi.getHistoryByFlavor(token: team.token!, id: channel, flavor: b.flavor, count: 100)) { (users, messages) in
         var UserHash = ["default":"system"]
         if let u = users.results {
           

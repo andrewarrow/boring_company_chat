@@ -26,33 +26,33 @@ class ChannelApiImpl: ChannelApi {
       .observeOn(MainScheduler.instance)
   }
   
-  func getHistoryByFlavor(token: String, id: String, flavor: String) -> Observable<Messages> {
+  func getHistoryByFlavor(token: String, id: String, flavor: String, count: Int) -> Observable<Messages> {
     if flavor == "im" {
-      return getHistoryIM(token: token, id: id)
+      return getHistoryIM(token: token, id: id, count: count)
     } else if flavor == "group" {
-      return getHistoryGroup(token: token, id: id)
+      return getHistoryGroup(token: token, id: id, count: count)
     } else if flavor == "channel" {
-      return getHistoryChannel(token: token, id: id)
+      return getHistoryChannel(token: token, id: id, count: count)
     }
-    return getHistoryChannel(token: token, id: id)
+    return getHistoryChannel(token: token, id: id, count: count)
   }
   
-  func getHistoryChannel(token: String, id: String) -> Observable<Messages> {
-    return provider.request(.historyChannel(token: token, id: id, count: 100))
+  func getHistoryChannel(token: String, id: String, count: Int) -> Observable<Messages> {
+    return provider.request(.historyChannel(token: token, id: id, count: count))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
   }
   
-  func getHistoryGroup(token: String, id: String) -> Observable<Messages> {
-    return provider.request(.historyGroup(token: token, id: id, count: 100))
+  func getHistoryGroup(token: String, id: String, count: Int) -> Observable<Messages> {
+    return provider.request(.historyGroup(token: token, id: id, count: count))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
   }
   
-  func getHistoryIM(token: String, id: String) -> Observable<Messages> {
-    return provider.request(.historyIM(token: token, id: id, count: 100))
+  func getHistoryIM(token: String, id: String, count: Int) -> Observable<Messages> {
+    return provider.request(.historyIM(token: token, id: id, count: count))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)

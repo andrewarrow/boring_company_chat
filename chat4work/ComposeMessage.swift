@@ -15,6 +15,11 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
   let text = NSTextField(frame: NSMakeRect(5, 5, 600, 50))
   var disposeBag = DisposeBag()
   
+  func pasteText(notification: NSNotification) {
+    let b = notification.object as! String
+    text.stringValue = text.stringValue + "" + b
+  }
+  
   func addToArrayOfTeams(id: String) {
     
      let existing = UserDefaults.standard.value(forKey: "bcc_teams")
@@ -106,6 +111,11 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
     //autoresizingMask.insert(NSAutoresizingMaskOptions.viewMinYMargin)
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewMaxYMargin)
     translatesAutoresizingMaskIntoConstraints = true
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(pasteText),
+                                           name: NSNotification.Name(rawValue: "pasteText"),
+                                           object: nil)
     
     wantsLayer = true
     layer?.backgroundColor = NSColor.darkGray.cgColor

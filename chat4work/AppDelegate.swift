@@ -26,10 +26,22 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     NSLog("hi")
     let pasteboard = NSPasteboard.general()
     
-    let item1 = pasteboard.pasteboardItems?[0]
+    //let item1 = pasteboard.pasteboardItems?[0]
     
     // kUTTypeJPEG
     // kUTTypeGIF
+    
+    // kUTTypeUTF8PlainText
+    
+    if let data = pasteboard.data(forType: kUTTypeUTF8PlainText as String) {
+      let pb = String(data: data, encoding: .utf8)
+      
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "pasteText"),
+        object: pb)
+      
+      return
+    }
     
     if let data = pasteboard.data(forType: kUTTypePNG as String) {
       

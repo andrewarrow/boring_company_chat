@@ -108,16 +108,20 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
       let notification = NSUserNotification()
       let d = NSUserNotificationCenter.default
       d.delegate = self
-      d.removeAllDeliveredNotifications()
+      
       
       notification.title = "BCC"
-      notification.subtitle = "sub"
+      //notification.subtitle = "sub"
       notification.identifier = "bcc"
       notification.informativeText = text
       //notification.soundName = NSUserNotificationDefaultSoundName
       //notification.deliveryDate = NSDate(timeIntervalSinceNow: delayBeforeDelivering) as Date
       //notification.scheduleNotification(notification)
+      
+      d.removeDeliveredNotification(notification)
       NSUserNotificationCenter.default.deliver(notification)
+      
+      
       
       if (team as! String) == self.button.team?.id {
         let channel = json["channel"] as! String

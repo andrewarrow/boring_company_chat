@@ -77,7 +77,7 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
   
 }
 
-class CompanyWithRed: NSView {
+class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
   let reddot = NSImage(named: "reddot.png")
   let button = ButtonWithTeam(frame: NSMakeRect(0,0,50,50))
   let red = NSImageView(frame: NSMakeRect(42,38,12,12))
@@ -99,6 +99,26 @@ class CompanyWithRed: NSView {
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
     if let team = json["team"] {
+      
+      let text = json["text"] as! String
+      
+      //let delayBeforeDelivering: TimeInterval = 10
+      //let delayBeforeDismissing: TimeInterval = 2
+      
+      let notification = NSUserNotification()
+      let d = NSUserNotificationCenter.default
+      d.delegate = self
+      d.removeAllDeliveredNotifications()
+      
+      notification.title = "BCC"
+      notification.subtitle = "sub"
+      notification.identifier = "bcc"
+      notification.informativeText = text
+      //notification.soundName = NSUserNotificationDefaultSoundName
+      //notification.deliveryDate = NSDate(timeIntervalSinceNow: delayBeforeDelivering) as Date
+      //notification.scheduleNotification(notification)
+      NSUserNotificationCenter.default.deliver(notification)
+      
       if (team as! String) == self.button.team?.id {
         let channel = json["channel"] as! String
         if channel == "off" {

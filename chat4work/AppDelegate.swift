@@ -21,6 +21,21 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ aNotification: Notification) {
     // Insert code here to tear down your application
   }
+  
+  @IBAction func paste(_ sender: AnyObject) {
+    NSLog("hi")
+    let pasteboard = NSPasteboard.general()
+    
+    let item1 = pasteboard.pasteboardItems?[0]
+    
+    // kUTTypeJPEG
+    // kUTTypeGIF
+    
+    if let data = pasteboard.data(forType: kUTTypePNG as String) {
+      
+      NSLog("\(data)")
+    }
+  }
 
   @IBAction func sortByLastMsgDate(_ sender:NSObject) {
     

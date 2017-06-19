@@ -27,6 +27,8 @@ class MessageItem: NSView {
     pasteboard.setString(msg.stringValue, forType: NSPasteboardTypeString)
   }
   
+  
+  
   override func mouseDown(with event: NSEvent) {
     NSApplication.shared().keyWindow!.makeFirstResponder(self)
     

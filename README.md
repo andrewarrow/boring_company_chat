@@ -1,6 +1,6 @@
 # boring company chat
 
-this a macOS native AppKit cocoa swift3 chat app.
+a macOS native AppKit cocoa swift3 chat app.
 
 The idea came from https://josephg.com/blog/electron-is-flash-for-the-desktop/
 

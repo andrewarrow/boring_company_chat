@@ -39,9 +39,13 @@ class UnreadFinder: NSObject {
               //listOfRed.append(c.id)
               
               try! realm.write {
-                //turn on red for team
                 c.possibly_new = 1
               }
+              
+              NotificationCenter.default.post(
+                name:NSNotification.Name(rawValue: "rtmMessage"),
+                object: ["team": team.id, "channel": "on"])
+
             }
           }
           

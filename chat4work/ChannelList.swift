@@ -61,7 +61,14 @@ class ChannelList: NSScrollView {
   var disposeBag = DisposeBag()
   var team: Team?
   
+  
+  
   func sortByLastMsgDate(notification: NSNotification) {
+    let uf = UnreadFinder()
+    uf.channelsWithUnread(team: team!)
+  }
+  
+  func sortByLastMsgDate2(notification: NSNotification) {
     
     //let provider = RxMoyaProvider<ChatService>()
     //let channelApi = ChannelApiImpl(provider: provider)

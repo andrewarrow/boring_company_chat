@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		000603401EFC21AD002AC468 /* UnreadFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0006033F1EFC21AD002AC468 /* UnreadFinder.swift */; };
 		000714871EED2D2F00215D8A /* reddot.png in Resources */ = {isa = PBXBuildFile; fileRef = 000714861EED2D2F00215D8A /* reddot.png */; };
 		001657981EEBD31500FB4EEC /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001657971EEBD31500FB4EEC /* Team.swift */; };
 		0016579B1EEC4C5A00FB4EEC /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001657991EEC4C5A00FB4EEC /* Group.swift */; };
@@ -50,6 +51,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		0006033F1EFC21AD002AC468 /* UnreadFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnreadFinder.swift; sourceTree = "<group>"; };
 		000714861EED2D2F00215D8A /* reddot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reddot.png; path = images/reddot.png; sourceTree = SOURCE_ROOT; };
 		001657971EEBD31500FB4EEC /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Team.swift; path = chat4work/Team.swift; sourceTree = "<group>"; };
 		001657991EEC4C5A00FB4EEC /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = chat4work/Group.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				00C8B81D1EE792300026590B /* CurrentCompany.swift */,
 				00C8B82A1EE7AFC80026590B /* ComposeMessage.swift */,
 				00C8B8261EE7A8FE0026590B /* CurrentChannel.swift */,
+				0006033F1EFC21AD002AC468 /* UnreadFinder.swift */,
 			);
 			path = chat4work;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				00B51FE11EEB81E900B7FA1D /* Channel.swift in Sources */,
 				00C8B82B1EE7AFC80026590B /* ComposeMessage.swift in Sources */,
 				003836B41EEBC89300A0D7A1 /* ChatService.swift in Sources */,
+				000603401EFC21AD002AC468 /* UnreadFinder.swift in Sources */,
 				0016579E1EEC514D00FB4EEC /* User.swift in Sources */,
 				00C8B81C1EE790070026590B /* CompanyList.swift in Sources */,
 				00B51FE41EEB88F100B7FA1D /* ChannelApi.swift in Sources */,

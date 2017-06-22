@@ -31,7 +31,7 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
   }
   
   func websocketDidReceiveMessage(socket: WebSocket, text: String) {
-    Swift.print("RT: \(text)")
+    //Swift.print("RT: \(text)")
     
     //RT: {"reply_to":53,"type":"message",
     //"channel":"D1KD59XH9",
@@ -98,6 +98,12 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
     let json = notification.object as! [String: Any]
     NSLog("\(json)")
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
+    
+    let text = json["text"]
+    
+    if text == nil {
+      return
+    }
     
     if let team = json["team"] {
       

@@ -62,7 +62,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       NSLog("\(data)")
     }
   }
-
+  
+  @IBAction func listChannelsWithCount(_ sender:NSObject) {
+NSLog("Wefwfe")
+  }
+  
   @IBAction func sortByLastMsgDate(_ sender:NSObject) {
     
     /*

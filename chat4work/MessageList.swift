@@ -9,6 +9,7 @@
 import Cocoa
 import Moya
 import RxSwift
+import RealmSwift
 
 class MessageList: NSScrollView {
     
@@ -222,6 +223,17 @@ class MessageList: NSScrollView {
   }
   
   func teamLogout(notification: NSNotification) {
+    // remove db
+    // refresh gui
+    
+    // col may not be there if fresh
+    let realm = try! Realm()
+    
+    try! realm.write {
+      let t = self.team?.id
+      let col = realm.objects(ChannelObjectList.self).filter("team = %@", t!).first!
+      realm.delete(col)
+    }
     
     let defaults = UserDefaults.standard
     let existing = defaults.value(forKey: "bcc_teams") as! Array<String>

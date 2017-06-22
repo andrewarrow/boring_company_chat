@@ -164,6 +164,11 @@ class ChannelList: NSScrollView {
     let team = notification.object as! Team
     self.team = team
     
+    NotificationCenter.default.post(
+      name:NSNotification.Name(rawValue: "rtmMessage"),
+      object: ["team": team.id, "channel": "off", "text": ""])
+
+    
     let realm = try! Realm()
     let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
     if (col != nil) {

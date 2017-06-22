@@ -94,10 +94,12 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         return true
       }
       
+      /*
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "sendMessage"),
         object: text.stringValue)
       text.stringValue = ""
+      */
       
       return true
     }

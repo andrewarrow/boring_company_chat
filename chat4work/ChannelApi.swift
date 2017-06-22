@@ -13,10 +13,10 @@ protocol ChannelApi {
   func getUsers(token: String) -> Observable<Users>
   func getTeamInfo(token: String) -> Observable<Team>
 
-  func getHistoryIM(token: String, id: String, count: Int) -> Observable<Messages>
-  func getHistoryGroup(token: String, id: String, count: Int) -> Observable<Messages>
-  func getHistoryChannel(token: String, id: String, count: Int) -> Observable<Messages>
-  func getHistoryByFlavor(token: String, id: String, flavor: String, count: Int) -> Observable<Messages>
+  func getHistoryIM(token: String, id: String, count: Int, unreads: Int) -> Observable<Messages>
+  func getHistoryGroup(token: String, id: String, count: Int, unreads: Int) -> Observable<Messages>
+  func getHistoryChannel(token: String, id: String, count: Int, unreads: Int) -> Observable<Messages>
+  func getHistoryByFlavor(token: String, id: String, flavor: String, count: Int, unreads: Int) -> Observable<Messages>
   
   func postMessage(token: String, id: String, text: String) -> Observable<Message>
   func rtmConnect(token: String) -> Observable<Team>

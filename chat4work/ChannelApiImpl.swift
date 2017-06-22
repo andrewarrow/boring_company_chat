@@ -26,33 +26,33 @@ class ChannelApiImpl: ChannelApi {
       .observeOn(MainScheduler.instance)
   }
   
-  func getHistoryByFlavor(token: String, id: String, flavor: String, count: Int) -> Observable<Messages> {
+  func getHistoryByFlavor(token: String, id: String, flavor: String, count: Int, unreads: Int) -> Observable<Messages> {
     if flavor == "im" {
-      return getHistoryIM(token: token, id: id, count: count)
+      return getHistoryIM(token: token, id: id, count: count, unreads: unreads)
     } else if flavor == "groups" {
-      return getHistoryGroup(token: token, id: id, count: count)
+      return getHistoryGroup(token: token, id: id, count: count, unreads: unreads)
     } else if flavor == "channels" {
-      return getHistoryChannel(token: token, id: id, count: count)
+      return getHistoryChannel(token: token, id: id, count: count, unreads: unreads)
     }
-    return getHistoryChannel(token: token, id: id, count: count)
+    return getHistoryChannel(token: token, id: id, count: count, unreads: unreads)
   }
   
-  func getHistoryChannel(token: String, id: String, count: Int) -> Observable<Messages> {
-    return provider.request(.historyChannel(token: token, id: id, count: count))
+  func getHistoryChannel(token: String, id: String, count: Int, unreads: Int) -> Observable<Messages> {
+    return provider.request(.historyChannel(token: token, id: id, count: count, unreads: unreads))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
   }
   
-  func getHistoryGroup(token: String, id: String, count: Int) -> Observable<Messages> {
-    return provider.request(.historyGroup(token: token, id: id, count: count))
+  func getHistoryGroup(token: String, id: String, count: Int, unreads: Int) -> Observable<Messages> {
+    return provider.request(.historyGroup(token: token, id: id, count: count, unreads: unreads))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
   }
   
-  func getHistoryIM(token: String, id: String, count: Int) -> Observable<Messages> {
-    return provider.request(.historyIM(token: token, id: id, count: count))
+  func getHistoryIM(token: String, id: String, count: Int, unreads: Int) -> Observable<Messages> {
+    return provider.request(.historyIM(token: token, id: id, count: count, unreads: unreads))
       .mapObject(Messages.self)
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)

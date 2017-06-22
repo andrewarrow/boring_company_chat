@@ -64,7 +64,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
   
   @IBAction func listChannelsWithCount(_ sender:NSObject) {
-NSLog("Wefwfe")
+    NSLog("Wefwfe")
   }
   
   @IBAction func sortByLastMsgDate(_ sender:NSObject) {

@@ -1,12 +1,23 @@
 # boring company chat
 
-this is the start of a macOS native AppKit cocoa swift3 chat app.
+this a macOS native AppKit cocoa swift3 chat app.
 
 The idea came from https://josephg.com/blog/electron-is-flash-for-the-desktop/
 
 ![](screenshot.png)
 
-# required reading
+it uses [Moya/RxSwift](https://github.com/Moya/Moya) (Network abstraction layer)
+
+[Hearst-DD/ObjectMapper](https://github.com/Hearst-DD/ObjectMapper) (Simple JSON Object mapping)
+
+[daltoniam/Starscream](https://github.com/daltoniam/Starscream) (Websockets)
+
+[Alamofire and AlamofireImage](https://github.com/Alamofire/Alamofireimage) (Elegant HTTP Networking)
+
+[realm-cocoa](https://github.com/realm/realm-cocoa) (database replacement for Core Data/SQLite)
+
+
+# useful links
 
 * https://josephg.com/blog/electron-is-flash-for-the-desktop/
 * https://slack.com
@@ -16,15 +27,6 @@ The idea came from https://josephg.com/blog/electron-is-flash-for-the-desktop/
 * https://www.bitrix24.com
 * http://moxtra.com
 * https://fleep.io
-* https://www.hipchat.com
-
-* https://www.skype.com/
-* https://en.wikipedia.org/wiki/AOL_Instant_Messenger
-* https://en.wikipedia.org/wiki/ICQ
-* https://en.wikipedia.org/wiki/Windows_Live_Messenger
-* https://messenger.yahoo.com
-* https://www.trillian.im
-* https://www.ejabberd.im
 
 # plans
 

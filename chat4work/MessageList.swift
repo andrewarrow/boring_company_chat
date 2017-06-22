@@ -25,7 +25,7 @@ class MessageList: NSScrollView {
 
   func rtmMessage(notification: NSNotification) {
     let json = notification.object as! [String: Any]
-    NSLog("\(json)")
+    //NSLog("\(json)")
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
     let c = json["channel"] as! String

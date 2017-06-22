@@ -42,7 +42,6 @@ class ViewController: NSViewController {
         var team = Team(JSONString: json)!
         team.index = i
 
-
         NotificationCenter.default.post(
          name:NSNotification.Name(rawValue: "newTeamAdded"),
         object: team)

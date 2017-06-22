@@ -203,12 +203,16 @@ class CompanyList: NSScrollView {
   
   func newTeamAdded(notification: NSNotification) {
     let team = notification.object as! Team
+    
     let token = team.token
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
     
     Alamofire.request(team.icon!).responseImage { response in
+      let uf = UnreadFinder()
+      uf.channelsWithUnread(team: team)
+
       
       if let image = response.result.value {
         let bwt = self.addIcon(i: team.index!+1, image: image, team: team)

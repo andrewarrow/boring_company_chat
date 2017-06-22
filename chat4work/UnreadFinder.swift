@@ -16,7 +16,7 @@ class UnreadFinder: NSObject {
   
   func channelsWithUnread(team: Team) {
     
-    var listOfRed = Array<String>()
+    //var listOfRed = Array<String>()
     
     let realm = try! Realm()
     let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
@@ -36,7 +36,12 @@ class UnreadFinder: NSObject {
           if let ucd = json["unread_count_display"] {
             let ucdi = ucd as! Int
             if ucdi > 0 {
-              listOfRed.append(c.id)
+              //listOfRed.append(c.id)
+              
+              try! realm.write {
+                //turn on red for team
+                c.possibly_new = 1
+              }
             }
           }
           
@@ -51,7 +56,7 @@ class UnreadFinder: NSObject {
     
     
     group.notify(queue: DispatchQueue.main, execute: {
-      NSLog("\(listOfRed)")
+     //NSLog("\(listOfRed)")
       
     })
   }

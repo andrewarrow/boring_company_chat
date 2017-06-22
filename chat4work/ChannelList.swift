@@ -154,7 +154,7 @@ class ChannelList: NSScrollView {
     for d in sortList {
       self.addChannel(i: self.list.subviews.count, title: d.name,
                       id: d.id, flavor: d.flavor,
-                      red: 0,
+                      red: d.possibly_new,
                       team: self.team!)
     }
 

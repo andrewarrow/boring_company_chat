@@ -12,6 +12,7 @@ import AlamofireImage
 import Starscream
 import Moya
 import RxSwift
+import RealmSwift
 
 class ButtonWithTeam: NSButton, WebSocketDelegate {
   var team = Team(JSONString: "{}")
@@ -250,15 +251,22 @@ class CompanyList: NSScrollView {
     
     let json = notification.object as! [String: Any]
     NSLog("\(json)")
-    //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
-    /*
     let team = json["team"] as? String
     let channel = json["channel"] as! String
-    if newMessages[team!] == nil {
-      newMessages[team!] = [channel: 1]
-    } else {
-      newMessages[team!]?[channel] = 1
-    }*/
+    
+    let realm = try! Realm()
+    
+    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team!).first!
+    for c in col.list {
+      if c.id == channel {
+        try! realm.write {
+          c.possibly_new = 1
+        }
+      }
+    }
+
+    //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
+    
   }
   
   override init(frame frameRect: NSRect) {

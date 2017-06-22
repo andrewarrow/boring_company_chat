@@ -12,6 +12,7 @@ class ChannelObject: Object {
   dynamic var id = ""
   dynamic var flavor = ""
   dynamic var ts = Double(0.0)
+  dynamic var possibly_new = 0
 }
 
 

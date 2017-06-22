@@ -270,12 +270,24 @@ class ChannelList: NSScrollView {
   }
   
   func changeChannel(sender:ButtonWithStringTag) {
+    let cwr = list.subviews[sender.tag] as! ChannelWithRed
+    cwr.red.isHidden = true
+    
+    let realm = try! Realm()
+    let team = cwr.button.team?.id!
+    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team as Any).first!
+    for c in col.list {
+      if c.id == cwr.channel_id {
+        try! realm.write {
+          c.possibly_new = 0
+        }
+      }
+    }
+
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "channelDidChange"),
       object: sender)
     
-    let cwr = list.subviews[sender.tag] as! ChannelWithRed
-    cwr.red.isHidden = true
   }
   
   override init(frame frameRect: NSRect) {

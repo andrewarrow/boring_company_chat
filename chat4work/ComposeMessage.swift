@@ -22,16 +22,15 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
   
   func addToArrayOfTeams(id: String) {
     
+     let defaults = UserDefaults.standard
      let existing = UserDefaults.standard.value(forKey: "bcc_teams")
      
      if (existing != nil) {
-       let defaults = UserDefaults.standard
        var to_save = defaults.value(forKey: "bcc_teams") as! Array<String>
        to_save.append(id)
        defaults.set(to_save, forKey: "bcc_teams")
      } else {
        let to_save = [id]
-       let defaults = UserDefaults.standard
        defaults.set(to_save, forKey: "bcc_teams")
      }
   }
@@ -87,11 +86,11 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       } else if text.stringValue.hasPrefix("/tokens") {
       } else if text.stringValue.hasPrefix("/logout") {
         text.stringValue = ""
-        let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
-        for team in existing {
-          UserDefaults.standard.removeObject(forKey: "bcc_\(team)")
-        }
-        UserDefaults.standard.removeObject(forKey: "bcc_teams")
+        
+        NotificationCenter.default.post(
+          name:NSNotification.Name(rawValue: "teamLogout"),
+          object: nil)
+        
         return true
       }
       

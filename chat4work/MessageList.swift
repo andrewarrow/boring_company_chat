@@ -221,6 +221,30 @@ class MessageList: NSScrollView {
     
   }
   
+  func teamLogout(notification: NSNotification) {
+    
+    let defaults = UserDefaults.standard
+    let existing = defaults.value(forKey: "bcc_teams") as! Array<String>
+    if existing.count == 1 {
+      
+      defaults.removeObject(forKey: "bcc_\(existing[0])")
+      defaults.removeObject(forKey: "bcc_teams")
+    } else {
+      
+      var to_save = [] as Array<String>
+      for team in existing {
+        if team != self.team?.id {
+          to_save.append(team)
+          continue
+        }
+        defaults.removeObject(forKey: "bcc_\(team)")
+      }
+      
+      defaults.set(to_save, forKey: "bcc_teams")
+    }
+  }
+    
+  
   func turnAllOff(notification: NSNotification) {
     for sv in list.subviews {
       let mi = sv as! MessageItem
@@ -262,7 +286,11 @@ class MessageList: NSScrollView {
          selector: #selector(rtmMessage),
          name: NSNotification.Name(rawValue: "rtmMessage"),
          object: nil)
-
+    
+    NotificationCenter.default.addObserver(self,
+         selector: #selector(teamLogout),
+         name: NSNotification.Name(rawValue: "teamLogout"),
+         object: nil)
     
     wantsLayer = true
     

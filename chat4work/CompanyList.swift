@@ -102,9 +102,6 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
       
       let text = json["text"] as! String
       
-      //let delayBeforeDelivering: TimeInterval = 10
-      //let delayBeforeDismissing: TimeInterval = 2
-      
       let notification = NSUserNotification()
       let d = NSUserNotificationCenter.default
       d.delegate = self
@@ -115,13 +112,9 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
       notification.identifier = "bcc"
       notification.informativeText = text
       //notification.soundName = NSUserNotificationDefaultSoundName
-      //notification.deliveryDate = NSDate(timeIntervalSinceNow: delayBeforeDelivering) as Date
-      //notification.scheduleNotification(notification)
       
       d.removeDeliveredNotification(notification)
       NSUserNotificationCenter.default.deliver(notification)
-      
-      
       
       if (team as! String) == self.button.team?.id {
         let channel = json["channel"] as! String
@@ -146,6 +139,7 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
                                            selector: #selector(checkRedDotStatus),
                                            name: NSNotification.Name(rawValue: "rtmMessage"),
                                            object: nil)
+    
   }
   
   required init?(coder: NSCoder) {

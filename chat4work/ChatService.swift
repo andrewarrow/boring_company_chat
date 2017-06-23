@@ -22,6 +22,11 @@ enum ChatService {
   case historyIM(token: String, id: String, count: Int, unreads: Int)
   case historyGroup(token: String, id: String, count: Int, unreads: Int)
   case historyChannel(token: String, id: String, count: Int, unreads: Int)
+
+  case markIM(token: String, id: String)
+  case markGroup(token: String, id: String)
+  case markChannel(token: String, id: String)
+
   case rtmConnect(token: String)
 }
 
@@ -48,6 +53,14 @@ extension ChatService: TargetType {
       return "/api/groups.history"
     case .historyChannel:
       return "/api/channels.history"
+      
+    case .markIM:
+      return "/api/im.mark"
+    case .markGroup:
+      return "/api/groups.mark"
+    case .markChannel:
+      return "/api/channels.mark"
+
     case .showUsers:
       return "/api/users.list"
     case .showTeam:
@@ -59,7 +72,8 @@ extension ChatService: TargetType {
   var method: Moya.Method {
     switch self {
     case .zen, .showUser, .showChannels, .showGroups, .showIMs, .showUsers,
-         .showTeam, .historyIM, .historyGroup, .historyChannel:
+         .showTeam, .historyIM, .historyGroup, .historyChannel,
+         .markIM, .markGroup, .markChannel:
       return .get
     case .postMessage, .updateUser, .rtmConnect:
       return .post
@@ -74,6 +88,8 @@ extension ChatService: TargetType {
     case .historyIM(let token, let id, let count, let unreads), .historyGroup(let token, let id, let count, let unreads),
          .historyChannel(let token, let id, let count, let unreads):
       return ["token": token, "channel": id, "count": count, "unreads": unreads]
+    case .markIM(let token, let id), .markGroup(let token, let id), .markChannel(let token, let id):
+      return ["token": token, "channel": id]
     case .postMessage(let token, let id, let text):
       return ["channel": id, "text": text, "token": token, "as_user": "true"]
     case .updateUser(_, let firstName, let lastName):

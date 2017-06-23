@@ -29,26 +29,30 @@ class UnreadFinder: NSObject {
     col = ChannelObjectList()
     col?.team = team.id!
     
-    let url = "https://slack.com/api/channels.list?token=\(team.token ?? "")"
-    
-    group.enter()
-    
-    Alamofire.request(url).responseJSON { response in
-      if let json = response.result.value as? [String: Any] {
-        
-        let channels = json["channels"] as! Array<[String: Any]>
-        
-        for c in channels {
-          
-          let co = ChannelObject()
-          co.id = c["id"] as! String
-          co.flavor = "channels"
-          co.name = c["name"] as! String
-          col?.list.append(co)
-        }
-      }
+    let flavors = ["channels", "groups", "im"]
+    let flavors_map = ["channels": "channels", "groups": "groups", "im": "ims"]
+    for f in flavors {
+      let url = "https://slack.com/api/\(f).list?token=\(team.token ?? "")"
       
-      group.leave()
+      group.enter()
+      
+      Alamofire.request(url).responseJSON { response in
+        if let json = response.result.value as? [String: Any] {
+          
+          let channels = json[flavors_map[f]!] as! Array<[String: Any]>
+          
+          for c in channels {
+            
+            let co = ChannelObject()
+            co.id = c["id"] as! String
+            co.flavor = f
+            co.name = c["name"] as! String
+            col?.list.append(co)
+          }
+        }
+        
+        group.leave()
+      }
     }
     
     group.notify(queue: DispatchQueue.main, execute: {
@@ -62,7 +66,7 @@ class UnreadFinder: NSObject {
       
     })
   }
-
+  
   
   func cacheUsers(team: Team) {
     let realm = try! Realm()
@@ -72,12 +76,12 @@ class UnreadFinder: NSObject {
       cacheChannels(team: team)
       return
     }
-
+    
     let group = DispatchGroup()
     
     uol = UserObjectList()
     uol?.team = team.id!
-
+    
     let url = "https://slack.com/api/users.list?token=\(team.token ?? "")"
     
     group.enter()

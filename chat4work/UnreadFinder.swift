@@ -46,7 +46,11 @@ class UnreadFinder: NSObject {
             let co = ChannelObject()
             co.id = c["id"] as! String
             co.flavor = f
-            co.name = c["name"] as! String
+            if f == "im" {
+              co.find_name(user: c["user"] as! String, team: team.id!)
+            } else {
+              co.name = c["name"] as! String
+            }
             col?.list.append(co)
           }
         }

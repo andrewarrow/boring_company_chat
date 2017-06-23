@@ -16,13 +16,7 @@ class CurrentCompany: NSView {
     let team = notification.object as! Team
     companyName.stringValue = team.name!
   }
-  
-  
-  func teamLogout(notification: NSNotification) {
-    
-  }
-  
-  
+
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
     

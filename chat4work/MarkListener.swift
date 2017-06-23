@@ -30,7 +30,7 @@ class MarkListener: NSObject {
     } else {
       let current = NSDate().timeIntervalSince1970
       let delta = current - lastMarked[channel]!
-      NSLog("d \(delta)")
+      //NSLog("d \(delta)")
       if delta < 5.0 {
         NSLog("5")
         talkAgain = true

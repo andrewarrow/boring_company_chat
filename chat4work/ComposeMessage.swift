@@ -9,6 +9,7 @@
 import Cocoa
 import Moya
 import RxSwift
+import RealmSwift
 
 class ComposeMessage: NSView, NSTextFieldDelegate {
   
@@ -22,17 +23,17 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
   
   func addToArrayOfTeams(id: String) {
     
-     let defaults = UserDefaults.standard
-     let existing = UserDefaults.standard.value(forKey: "bcc_teams")
-     
-     if (existing != nil) {
-       var to_save = defaults.value(forKey: "bcc_teams") as! Array<String>
-       to_save.append(id)
-       defaults.set(to_save, forKey: "bcc_teams")
-     } else {
-       let to_save = [id]
-       defaults.set(to_save, forKey: "bcc_teams")
-     }
+    let defaults = UserDefaults.standard
+    let existing = UserDefaults.standard.value(forKey: "bcc_teams")
+    
+    if (existing != nil) {
+      var to_save = defaults.value(forKey: "bcc_teams") as! Array<String>
+      to_save.append(id)
+      defaults.set(to_save, forKey: "bcc_teams")
+    } else {
+      let to_save = [id]
+      defaults.set(to_save, forKey: "bcc_teams")
+    }
   }
   
   func addNewTeam(token: String) {
@@ -83,7 +84,20 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         text.stringValue = ""
         addNewTeam(token: tokens[1])
         return true
-      } else if text.stringValue.hasPrefix("/tokens") {
+      } else if text.stringValue.hasPrefix("/logout all") {
+        let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
+        for team in existing {
+          UserDefaults.standard.removeObject(forKey: "bcc_\(team)")
+        }
+        UserDefaults.standard.removeObject(forKey: "bcc_teams")
+        
+        let realm = try! Realm()
+        
+        try! realm.write {
+          realm.deleteAll()
+        }
+        
+        exit(1)
       } else if text.stringValue.hasPrefix("/logout") {
         text.stringValue = ""
         
@@ -95,11 +109,11 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       }
       
       /*
-      NotificationCenter.default.post(
-        name:NSNotification.Name(rawValue: "sendMessage"),
-        object: text.stringValue)
-      text.stringValue = ""
-      */
+       NotificationCenter.default.post(
+       name:NSNotification.Name(rawValue: "sendMessage"),
+       object: text.stringValue)
+       text.stringValue = ""
+       */
       
       return true
     }

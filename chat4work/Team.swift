@@ -11,7 +11,6 @@ struct Team: Mappable {
   var token: String?
   var url: String?  // used in rtm
   var index: Int? // used in view
-  var listOfNew: [String: Any]?
     
   init?(map: Map) {
   }

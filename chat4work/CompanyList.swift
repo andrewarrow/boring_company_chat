@@ -213,7 +213,6 @@ class CompanyList: NSScrollView {
       let uf = UnreadFinder()
       uf.channelsWithUnread(team: team)
 
-      
       if let image = response.result.value {
         let bwt = self.addIcon(i: team.index!+1, image: image, team: team)
       
@@ -246,11 +245,7 @@ class CompanyList: NSScrollView {
       return
     }
     
-    var team = sender.team
-    team?.listOfNew = newMessages[(team?.id)!]
-    if team?.listOfNew == nil {
-      team?.listOfNew = ["c1": 1]
-    }
+    let team = sender.team
     
     NotificationCenter.default.post(
       name:NSNotification.Name(rawValue: "companyDidChange"),

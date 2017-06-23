@@ -13,6 +13,7 @@ class ChannelObject: Object {
   dynamic var flavor = ""
   dynamic var ts = Double(0.0)
   dynamic var possibly_new = 0
+  dynamic var mute = 0
 }
 
 

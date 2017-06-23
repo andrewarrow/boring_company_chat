@@ -16,6 +16,7 @@ class ButtonWithStringTag: NSButton {
   var stringTag: String = ""
   var flavor: String = ""
   var team: Team?
+  var channel: ChannelObject?
 }
 
 class ChannelWithRed: NSView {
@@ -61,90 +62,7 @@ class ChannelList: NSScrollView {
   var disposeBag = DisposeBag()
   var team: Team?
   
-  func sortByLastMsgDate(notification: NSNotification) {
-    
-    //let provider = RxMoyaProvider<ChatService>()
-    //let channelApi = ChannelApiImpl(provider: provider)
-    //var sortList: [ChannelObject] = []
-    let col: ChannelObjectList = ChannelObjectList()
-    col.team = (self.team?.id)!
-    
-    let group = DispatchGroup()
-    
-    for sv in list.subviews {
-      let cwr = sv as! ChannelWithRed
-
-      let team = cwr.button.team
-
-      let flavor = cwr.button.flavor
-      let token = team?.token!
-      let id = cwr.button.stringTag
-      
-      //let ob = channelApi.getHistoryByFlavor(token: token!, id:id, flavor: flavor, count: 1)
-      
-      let url = "https://slack.com/api/\(flavor).history?token=\(token ?? "")&channel=\(id)&count=1"
-      
-      //Swift.print("Request: \(url)")
-      group.enter()
-      
-      Alamofire.request(url).responseJSON { response in
-      //Swift.print("response: \(response)")
-        if let json = response.result.value as? [String: Any] {
-          
-          let messages = json["messages"]
-          if messages != nil {
-            let list = json["messages"] as! NSArray
-            if list.count > 0 {
-              let message = list[0] as? [String: Any]
-              let ts = message?["ts"] as! String
-              let tsd = Double(ts)
-              let d = ChannelObject()
-              d.ts = tsd!
-              d.id = id
-              d.flavor = flavor
-              d.name = cwr.button.title
-              col.list.append(d)
-              //sortList.append(d)
-              //Swift.print("JSON: \(tsd)")
-            }
-          }
-        }
-        //
-        group.leave()
-      }
-    }
-    
-    
-    
-    group.notify(queue: DispatchQueue.main, execute: {
-      
-      let sortList = col.list.sorted (by: { $0.ts > $1.ts })
-      
-      self.list.subviews = []
-      
-      for d in sortList {              
-        self.addChannel(i: self.list.subviews.count, title: d.name,
-                      id: d.id, flavor: d.flavor,
-                      red: 0,
-                      team: self.team!)
-      }
-      
-      let realm = try! Realm()
-      
-      try! realm.write {
-        realm.add(col)
-      }
-      
-      //Swift.print("\(sortList)")
-      let alert = notification.object as! NSAlert
-      alert.buttons[0].performClick(self)
-
-    })
-    
-    
-    
-    
-  }
+ 
   
   func makeListFromCol(col: ChannelObjectList) {
     let sortList = col.list.sorted (by: { $0.ts > $1.ts })

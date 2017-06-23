@@ -1,5 +1,16 @@
 import Foundation
 import ObjectMapper
+import RealmSwift
+
+class UserObjectList: Object {
+  dynamic var team = ""
+  let list = List<UserObject>()
+}
+
+class UserObject: Object {
+  dynamic var name = ""
+  dynamic var id = ""
+}
 
 struct Users: Mappable {
   

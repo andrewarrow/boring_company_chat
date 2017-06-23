@@ -19,34 +19,37 @@ class UnreadFinder: NSObject {
   func getUsersAndChannels(team: Team) {
     let group = DispatchGroup()
     
+    let uol: UserObjectList = UserObjectList()
+    uol.team = team.id!
+
     let url = "https://slack.com/api/users.list?token=\(team.token ?? "")"
     
     group.enter()
     
     Alamofire.request(url).responseJSON { response in
       if let json = response.result.value as? [String: Any] {
-        var UserHash = ["1":"2"]
         
         let members = json["members"] as! Array<[String: Any]>
-        NSLog("\(members.count)")
         
         for m in members {
-          let id = m["id"] as! String
-          let name = m["name"] as! String
-          UserHash[id] = name
+          let uo = UserObject()
+          uo.name = m["name"] as! String
+          uo.id = m["id"] as! String
+          uol.list.append(uo)
         }
-        
-        NSLog("\(UserHash)")
       }
       
       group.leave()
     }
     
     group.notify(queue: DispatchQueue.main, execute: {
+      let realm = try! Realm()
       
+      try! realm.write {
+        realm.add(uol)
+      }
       
     })
-    
   }
   
   func old(team: Team) {

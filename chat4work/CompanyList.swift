@@ -220,8 +220,8 @@ class CompanyList: NSScrollView {
           onNext: { team in
             let ws = WebSocket(url: URL(string: team.url!)!)
             ws.delegate = bwt
-            ws.connect()
-            self.sockets.append(ws)
+            //ws.connect()
+            //self.sockets.append(ws)
 
         },
           onError: { error in

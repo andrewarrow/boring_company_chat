@@ -102,7 +102,7 @@ class ChannelList: NSScrollView {
     let channelApi = ChannelApiImpl(provider: provider)
     
     self.list.subviews = []
-    
+/*
     Observable.zip(
       channelApi.getUsers(token: team.token!),
       channelApi.getChannels(token: team.token!),
@@ -168,7 +168,7 @@ class ChannelList: NSScrollView {
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
       .subscribe()
-      .addDisposableTo(disposeBag)
+      .addDisposableTo(disposeBag) */
   }
   
   func addChannel(i: Int, title: String, id: String, flavor: String,
@@ -218,11 +218,11 @@ class ChannelList: NSScrollView {
                                            selector: #selector(companyDidChange),
                                            name: NSNotification.Name(rawValue: "companyDidChange"),
                                            object: nil)
-    
+    /*
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(sortByLastMsgDate),
                                            name: NSNotification.Name(rawValue: "sortByLastMsgDate"),
-                                           object: nil)
+                                           object: nil) */
     
     wantsLayer = true
     

@@ -20,4 +20,8 @@ protocol ChannelApi {
   
   func postMessage(token: String, id: String, text: String) -> Observable<Message>
   func rtmConnect(token: String) -> Observable<Team>
+  
+  func markIM(token: String, id: String, ts: String) -> Observable<Messages>
+  func markGroup(token: String, id: String, ts: String) -> Observable<Messages>
+  func markChannel(token: String, id: String, ts: String) -> Observable<Messages>
 }

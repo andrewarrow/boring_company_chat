@@ -17,6 +17,7 @@ class MessageList: NSScrollView {
   var disposeBag = DisposeBag()
   var team:Team?
   var channel = ""
+  var flavor = ""
   
   func companyDidChange(notification: NSNotification) {
     team = notification.object as? Team
@@ -105,6 +106,7 @@ class MessageList: NSScrollView {
     let b = notification.object as! ButtonWithStringTag
     
     channel = b.stringTag
+    flavor = b.flavor
     
     let provider = RxMoyaProvider<ChatService>()
     let channelApi = ChannelApiImpl(provider: provider)
@@ -143,7 +145,7 @@ class MessageList: NSScrollView {
           NotificationCenter.default.post(
             name:NSNotification.Name(rawValue: "markChannel"),
             object: ["team": team, "channel": self.channel, "ts": messages.results?[0].ts ?? "",
-            "now": NSDate().timeIntervalSince1970])
+            "now": NSDate().timeIntervalSince1970, "flavor": self.flavor])
           
           for (_,m) in (messages.results?.enumerated())! {
             

@@ -23,9 +23,9 @@ enum ChatService {
   case historyGroup(token: String, id: String, count: Int, unreads: Int)
   case historyChannel(token: String, id: String, count: Int, unreads: Int)
 
-  case markIM(token: String, id: String)
-  case markGroup(token: String, id: String)
-  case markChannel(token: String, id: String)
+  case markIM(token: String, id: String, ts: String)
+  case markGroup(token: String, id: String, ts: String)
+  case markChannel(token: String, id: String, ts: String)
 
   case rtmConnect(token: String)
 }
@@ -88,8 +88,8 @@ extension ChatService: TargetType {
     case .historyIM(let token, let id, let count, let unreads), .historyGroup(let token, let id, let count, let unreads),
          .historyChannel(let token, let id, let count, let unreads):
       return ["token": token, "channel": id, "count": count, "unreads": unreads]
-    case .markIM(let token, let id), .markGroup(let token, let id), .markChannel(let token, let id):
-      return ["token": token, "channel": id]
+    case .markIM(let token, let id, let ts), .markGroup(let token, let id, let ts), .markChannel(let token, let id, let ts):
+      return ["token": token, "channel": id, "ts": ts]
     case .postMessage(let token, let id, let text):
       return ["channel": id, "text": text, "token": token, "as_user": "true"]
     case .updateUser(_, let firstName, let lastName):

@@ -58,6 +58,25 @@ class ChannelApiImpl: ChannelApi {
       .observeOn(MainScheduler.instance)
   }
   
+  func markIM(token: String, id: String, ts: String) -> Observable<Messages> {
+    return provider.request(.markIM(token: token, id: id, ts: ts))
+      .mapObject(Messages.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  func markGroup(token: String, id: String, ts: String) -> Observable<Messages> {
+    return provider.request(.markGroup(token: token, id: id, ts: ts))
+      .mapObject(Messages.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  func markChannel(token: String, id: String, ts: String) -> Observable<Messages> {
+    return provider.request(.markChannel(token: token, id: id, ts: ts))
+      .mapObject(Messages.self)
+      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
+      .observeOn(MainScheduler.instance)
+  }
+  
   func getUsers(token: String) -> Observable<Users> {
     return provider.request(.showUsers(token: token))
       .mapObject(Users.self)

@@ -16,6 +16,7 @@ class ViewController: NSViewController {
   let channel = CurrentChannel(frame: NSMakeRect(70+220,0,680,50))
   let rightscroll = MessageList(frame: NSMakeRect(70+220,30,680,250))
   let compose = ComposeMessage(frame: NSMakeRect(70+220,0,680,70))
+  let markListener = MarkListener()
   
   override func viewDidLoad() {
     super.viewDidLoad()

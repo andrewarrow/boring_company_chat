@@ -139,6 +139,11 @@ class MessageList: NSScrollView {
  
         
         if (messages.results != nil && (messages.results?.count)! > 0) {
+
+          NotificationCenter.default.post(
+            name:NSNotification.Name(rawValue: "markChannel"),
+            object: ["team": team, "channel": self.channel, "ts": messages.results?[0].ts ?? "",
+            "now": NSDate().timeIntervalSince1970])
           
           for (_,m) in (messages.results?.enumerated())! {
             

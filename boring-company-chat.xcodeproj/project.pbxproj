@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		000603401EFC21AD002AC468 /* UnreadFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0006033F1EFC21AD002AC468 /* UnreadFinder.swift */; };
 		000714871EED2D2F00215D8A /* reddot.png in Resources */ = {isa = PBXBuildFile; fileRef = 000714861EED2D2F00215D8A /* reddot.png */; };
+		0015333D1EFCCAAF0081C42B /* MarkListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0015333C1EFCCAAF0081C42B /* MarkListener.swift */; };
 		001657981EEBD31500FB4EEC /* Team.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001657971EEBD31500FB4EEC /* Team.swift */; };
 		0016579B1EEC4C5A00FB4EEC /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = 001657991EEC4C5A00FB4EEC /* Group.swift */; };
 		0016579C1EEC4C5A00FB4EEC /* Im.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0016579A1EEC4C5A00FB4EEC /* Im.swift */; };
@@ -53,6 +54,7 @@
 /* Begin PBXFileReference section */
 		0006033F1EFC21AD002AC468 /* UnreadFinder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UnreadFinder.swift; sourceTree = "<group>"; };
 		000714861EED2D2F00215D8A /* reddot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = reddot.png; path = images/reddot.png; sourceTree = SOURCE_ROOT; };
+		0015333C1EFCCAAF0081C42B /* MarkListener.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MarkListener.swift; sourceTree = "<group>"; };
 		001657971EEBD31500FB4EEC /* Team.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Team.swift; path = chat4work/Team.swift; sourceTree = "<group>"; };
 		001657991EEC4C5A00FB4EEC /* Group.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Group.swift; path = chat4work/Group.swift; sourceTree = "<group>"; };
 		0016579A1EEC4C5A00FB4EEC /* Im.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Im.swift; path = chat4work/Im.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 				00C8B82A1EE7AFC80026590B /* ComposeMessage.swift */,
 				00C8B8261EE7A8FE0026590B /* CurrentChannel.swift */,
 				0006033F1EFC21AD002AC468 /* UnreadFinder.swift */,
+				0015333C1EFCCAAF0081C42B /* MarkListener.swift */,
 			);
 			path = chat4work;
 			sourceTree = "<group>";
@@ -306,6 +309,7 @@
 			files = (
 				005E79651EE6208700160158 /* ViewController.swift in Sources */,
 				00C8B81E1EE792300026590B /* CurrentCompany.swift in Sources */,
+				0015333D1EFCCAAF0081C42B /* MarkListener.swift in Sources */,
 				001657981EEBD31500FB4EEC /* Team.swift in Sources */,
 				001657A01EEC542E00FB4EEC /* Message.swift in Sources */,
 				0016579B1EEC4C5A00FB4EEC /* Group.swift in Sources */,

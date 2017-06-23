@@ -28,7 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     Realm.Configuration.defaultConfiguration = config
     
-    try! Realm()
+    _ = try! Realm()
     
   }
 

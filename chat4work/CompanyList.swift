@@ -174,31 +174,7 @@ class CompanyList: NSScrollView {
   
   func channelDidChange(notification: NSNotification) {
     _ = notification.object as! ButtonWithStringTag
-    /*
-    if (self.newMessages[b.team] != nil) {
-      let c = self.newMessages[b.team]?[b.stringTag]
-      if (c != nil) {
-        self.newMessages[b.team]?[b.stringTag] = nil
-      }
-      
-      var allNil = true
-      for (_,v) in (self.newMessages[b.team]?.enumerated())! {
-        NSLog("v \(v.value)")
-        if v.value == 1 {
-          allNil = false
-          break
-        }
-      }
-      
-      if allNil {
-        NotificationCenter.default.post(
-          name:NSNotification.Name(rawValue: "rtmMessage"),
-          object: ["team": b.team, "channel": "off"])
-      }
-      
-    } */
-    
-    
+
   }
   
   func newTeamAdded(notification: NSNotification) {
@@ -212,7 +188,6 @@ class CompanyList: NSScrollView {
     Alamofire.request(team.icon!).responseImage { response in
       let uf = UnreadFinder()
       uf.cacheUsers(team: team)
-      //uf.channelsWithUnread(team: team)
 
       if let image = response.result.value {
         let bwt = self.addIcon(i: team.index!+1, image: image, team: team)
@@ -221,8 +196,8 @@ class CompanyList: NSScrollView {
           onNext: { team in
             let ws = WebSocket(url: URL(string: team.url!)!)
             ws.delegate = bwt
-            //ws.connect()
-            //self.sockets.append(ws)
+            ws.connect()
+            self.sockets.append(ws)
 
         },
           onError: { error in

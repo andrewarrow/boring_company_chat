@@ -288,6 +288,18 @@ class UnreadFinder: NSObject {
       Alamofire.request(url).responseJSON { response in
         if let json = response.result.value as? [String: Any] {
           
+          if let messages = json["messages"] {
+            let list = messages as! NSArray
+            if list.count > 0 {
+              let message = list[0] as? [String: Any]
+              let ts = message?["ts"] as! String
+              let tsd = Double(ts)
+              
+              try! realm.write {
+                c.ts = tsd!
+              }
+            }
+          }
           
           if let ucd = json["unread_count_display"] {
             let ucdi = ucd as! Int

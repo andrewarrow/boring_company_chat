@@ -26,7 +26,7 @@ class MarkListener: NSObject {
     var talkAgain = false
     
     if lastMarked[channel] == nil {
-      talkAgain = true
+      talkAgain = false
     } else {
       let current = NSDate().timeIntervalSince1970
       let delta = current - lastMarked[channel]!
@@ -62,13 +62,12 @@ class MarkListener: NSObject {
       o = channelApi.markChannel(token: team.token!, id: channel, ts: ts)
     }
     
-     o?.subscribe(
-     onNext: { messages in
-       NSLog("here")
-     },
-     onError: { error in
-       NSLog("err")
-     }).addDisposableTo(disposeBag)
+    o?.subscribe(
+      onNext: { messages in
+      },
+      onError: { error in
+        NSLog("err")
+      }).addDisposableTo(disposeBag)
     
   }
   

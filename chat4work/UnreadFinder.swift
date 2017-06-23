@@ -47,7 +47,7 @@ class UnreadFinder: NSObject {
             co.id = c["id"] as! String
             co.flavor = f
             if f == "im" {
-              co.find_name(user: c["user"] as! String, team: team.id!)
+              co.name = co.find_name(user: c["user"] as! String, team: team.id!)
             } else {
               co.name = c["name"] as! String
             }

@@ -211,7 +211,8 @@ class CompanyList: NSScrollView {
     
     Alamofire.request(team.icon!).responseImage { response in
       let uf = UnreadFinder()
-      uf.channelsWithUnread(team: team)
+      uf.cacheUsers(team: team)
+      //uf.channelsWithUnread(team: team)
 
       if let image = response.result.value {
         let bwt = self.addIcon(i: team.index!+1, image: image, team: team)

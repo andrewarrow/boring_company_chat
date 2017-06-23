@@ -16,11 +16,67 @@ class UnreadFinder: NSObject {
   
   var disposeBag = DisposeBag()
   
-  func getUsersAndChannels(team: Team) {
+  func cacheChannels(team: Team) {
+    let realm = try! Realm()
+    var col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
+    
+    if (col != nil) {
+      return
+    }
+    
     let group = DispatchGroup()
     
-    let uol: UserObjectList = UserObjectList()
-    uol.team = team.id!
+    col = ChannelObjectList()
+    col?.team = team.id!
+    
+    let url = "https://slack.com/api/channels.list?token=\(team.token ?? "")"
+    
+    group.enter()
+    
+    Alamofire.request(url).responseJSON { response in
+      if let json = response.result.value as? [String: Any] {
+        
+        let channels = json["channels"] as! Array<[String: Any]>
+        
+        for c in channels {
+          
+          let co = ChannelObject()
+          co.id = c["id"] as! String
+          co.flavor = "channels"
+          co.name = c["name"] as! String
+          col?.list.append(co)
+        }
+      }
+      
+      group.leave()
+    }
+    
+    group.notify(queue: DispatchQueue.main, execute: {
+      let realm = try! Realm()
+      
+      try! realm.write {
+        realm.add(col!)
+      }
+      
+      
+      
+    })
+  }
+
+  
+  func cacheUsers(team: Team) {
+    let realm = try! Realm()
+    var uol = realm.objects(UserObjectList.self).filter("team = %@", team.id!).first
+    
+    if (uol != nil) {
+      cacheChannels(team: team)
+      return
+    }
+
+    let group = DispatchGroup()
+    
+    uol = UserObjectList()
+    uol?.team = team.id!
 
     let url = "https://slack.com/api/users.list?token=\(team.token ?? "")"
     
@@ -35,7 +91,7 @@ class UnreadFinder: NSObject {
           let uo = UserObject()
           uo.name = m["name"] as! String
           uo.id = m["id"] as! String
-          uol.list.append(uo)
+          uol?.list.append(uo)
         }
       }
       
@@ -46,8 +102,10 @@ class UnreadFinder: NSObject {
       let realm = try! Realm()
       
       try! realm.write {
-        realm.add(uol)
+        realm.add(uol!)
       }
+      
+      self.cacheChannels(team: team)
       
     })
   }
@@ -213,7 +271,7 @@ class UnreadFinder: NSObject {
     let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
     
     if col == nil || col?.list.count == 0 {
-      getUsersAndChannels(team: team)
+      //getUsersAndChannels(team: team)
       return
     }
     

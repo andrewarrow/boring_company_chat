@@ -65,6 +65,7 @@ class ChannelList: NSScrollView {
  
   
   func makeListFromCol(col: ChannelObjectList) {
+    // let sortedDogs = person.dogs.sorted(property : "name")
     let sortList = col.list.sorted (by: { $0.ts > $1.ts })
     
     self.list.subviews = []
@@ -89,6 +90,8 @@ class ChannelList: NSScrollView {
     
     let realm = try! Realm()
     let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
+    
+    
     if (col != nil) {
       //let uf = UnreadFinder()
       //uf.channelsWithUnread(team: team)
@@ -97,78 +100,6 @@ class ChannelList: NSScrollView {
       return
     }
     
-    
-    let provider = RxMoyaProvider<ChatService>()
-    let channelApi = ChannelApiImpl(provider: provider)
-    
-    self.list.subviews = []
-/*
-    Observable.zip(
-      channelApi.getUsers(token: team.token!),
-      channelApi.getChannels(token: team.token!),
-      channelApi.getGroups(token: team.token!),
-      channelApi.getIMs(token: team.token!)) { (users, channels, groups, ims) in
-        var UserHash = ["1":"2"]
-        
-        if let u = users.results {
-          
-          u.forEach({
-            (user) in
-            UserHash[user.id!] = user.name
-          })
-        }
-        
-        
-        if let c = channels.results {
-          
-          c.forEach({
-            (channel) in
-            var red = 0
-            if ((team.listOfNew?[channel.id!]) != nil) {
-              red = 1
-            }
-            
-            self.addChannel(i: self.list.subviews.count, title: channel.name!,
-                            id: channel.id!, flavor: "channels",
-                            red: red,
-                            team: team)
-          })
-        }
-        
-        if let g = groups.results {
-          g.forEach({
-            (group) in
-            var red = 0
-            if ((team.listOfNew?[group.id!]) != nil) {
-              red = 1
-            }
-
-            self.addChannel(i: self.list.subviews.count, title: group.name!, id: group.id!,
-                            flavor: "groups",
-                            red: red,
-                            team: team)
-          })
-        }
-        
-        if let i = ims.results {
-          i.forEach({
-            (im) in
-            var red = 0
-            if ((team.listOfNew?[im.id!]) != nil) {
-              red = 1
-            }
-
-            self.addChannel(i: self.list.subviews.count, title: UserHash[im.user!]!, id: im.id!,
-                            flavor: "im",
-                            red: red,
-                            team: team)
-          })
-        }
-      }
-      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-      .observeOn(MainScheduler.instance)
-      .subscribe()
-      .addDisposableTo(disposeBag) */
   }
   
   func addChannel(i: Int, title: String, id: String, flavor: String,

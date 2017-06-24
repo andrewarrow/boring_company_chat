@@ -28,18 +28,6 @@
                                                 <action selector="pref" target="Voe-Tx-rLC" id="vkY-w7-6jV"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Sort Channels By Last Msg Date" id="XOM-9u-OXN">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="sortByLastMsgDate:" target="Voe-Tx-rLC" id="o7n-bY-kUg"/>
-                                            </connections>
-                                        </menuItem>
-                                        <menuItem title="List Channels with Count" id="ayJ-nT-6Kb">
-                                            <modifierMask key="keyEquivalentModifierMask"/>
-                                            <connections>
-                                                <action selector="listChannelsWithCount:" target="Voe-Tx-rLC" id="ldQ-at-6Rh"/>
-                                            </connections>
-                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="wFC-TO-SCJ"/>
                                         <menuItem title="Services" id="NMo-om-nkz">
                                             <modifierMask key="keyEquivalentModifierMask"/>

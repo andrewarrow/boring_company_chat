@@ -46,8 +46,12 @@ class UnreadFinder: NSObject {
           mo.team = team.id!
           mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
           
-          try! realm.write {
-            realm.add(mo)
+          let existing = realm.object(ofType: MessageObject.self, forPrimaryKey: mo.id as AnyObject)
+          
+          if (existing == nil) {
+            try! realm.write {
+              realm.add(mo)
+            }
           }
         }
       }

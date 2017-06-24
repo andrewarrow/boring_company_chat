@@ -68,7 +68,17 @@ class MessageList: NSScrollView {
       return
     }
     
-    everyOneMoveUp(data: mo.text, user: "me")
+    if list.subviews.count == 0 {
+      return
+    }
+    
+    let item = list.subviews[0] as! MessageItem
+    
+    if item.user.stringValue == mo.username {
+      item.setStringValue(val: item.msg.stringValue + "\n" + mo.text)
+    } else {
+      everyOneMoveUp(data: mo.text, user: "me")
+    }
   }
   
   func everyOneMoveUp(data: String, user: String) {

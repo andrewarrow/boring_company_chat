@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     
     let config = Realm.Configuration(
-      schemaVersion: 3,
+      schemaVersion: 4,
       
       migrationBlock: { migration, oldSchemaVersion in
         if (oldSchemaVersion < 1) {

@@ -18,8 +18,12 @@ class UnreadFinder: NSObject {
     let realm = try! Realm()
     let group = DispatchGroup()
 
-    //var ms = realm.objects(MessageObject.self).filter(
-      //"team = %@ and channel = %@", team.id!, channel.id)
+    var ms = realm.objects(MessageObject.self).filter(
+      "team = %@ and channel = %@", team.id!, channel.id)
+    
+    NSLog("\(ms.count)")
+    
+        NSLog("\(ms)")
     
     let url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=40&token=\(team.token ?? "")"
     
@@ -39,6 +43,7 @@ class UnreadFinder: NSObject {
           mo.channel = channel.id
           mo.text = m["text"] as! String
           mo.user = m["user"] as! String
+          mo.team = team.id!
           mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
           
           try! realm.write {

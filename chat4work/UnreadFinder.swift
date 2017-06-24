@@ -14,7 +14,46 @@ import RealmSwift
 
 class UnreadFinder: NSObject {
   
-  var disposeBag = DisposeBag()
+  func cacheMessages(team: Team, channel: ChannelObject) {
+    let realm = try! Realm()
+    let group = DispatchGroup()
+
+    //var ms = realm.objects(MessageObject.self).filter(
+      //"team = %@ and channel = %@", team.id!, channel.id)
+    
+    let url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=40&token=\(team.token ?? "")"
+    
+    NSLog("\(url)")
+    
+    group.enter()
+    
+    Alamofire.request(url).responseJSON { response in
+      if let json = response.result.value as? [String: Any] {
+        
+        NSLog("\(json)")
+        let messages = json["messages"] as! Array<[String: Any]>
+
+        for m in messages {
+          let mo = MessageObject()
+          mo.ts = m["ts"] as! String
+          mo.channel = channel.id
+          mo.text = m["text"] as! String
+          mo.user = m["user"] as! String
+          mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
+          
+          try! realm.write {
+            realm.add(mo)
+          }
+        }
+      }
+      group.leave()
+    }
+    
+    group.notify(queue: DispatchQueue.main, execute: {
+      
+    })
+  }
+
   
   func cacheChannels(team: Team) {
     let realm = try! Realm()

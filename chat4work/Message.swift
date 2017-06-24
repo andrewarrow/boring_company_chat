@@ -1,5 +1,22 @@
 import Foundation
 import ObjectMapper
+import RealmSwift
+
+class MessageObjectList: Object {
+  dynamic var team = ""
+  dynamic var channel = ""
+  let list = List<MessageObject>()
+}
+
+class MessageObject: Object {
+  dynamic var id = ""
+  dynamic var text = ""
+  dynamic var channel = ""
+  dynamic var ts = ""
+  dynamic var user = ""
+  
+  override class func primaryKey() -> String? { return "id" }
+}
 
 struct Messages: Mappable {
   

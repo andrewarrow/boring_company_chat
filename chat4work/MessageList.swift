@@ -99,8 +99,18 @@ class MessageList: NSScrollView {
         
     }).addDisposableTo(disposeBag)
   }
-  
+
   func channelDidChange(notification: NSNotification) {
+    let b = notification.object as! ButtonWithStringTag
+    
+    channel = b.stringTag
+    flavor = b.flavor
+
+    let u = UnreadFinder()
+    u.cacheMessages(team: team!, channel: b.channel!)
+  }
+  
+  func channelDidChange2(notification: NSNotification) {
     guard let team = team else { return }
     
     let b = notification.object as! ButtonWithStringTag

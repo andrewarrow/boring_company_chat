@@ -74,6 +74,7 @@ class ChannelList: NSScrollView {
       self.addChannel(i: self.list.subviews.count, title: d.name,
                       id: d.id, flavor: d.flavor,
                       red: d.possibly_new,
+                      channel: d,
                       team: self.team!)
     }
 
@@ -103,12 +104,13 @@ class ChannelList: NSScrollView {
   }
   
   func addChannel(i: Int, title: String, id: String, flavor: String,
-                  red: Int, team: Team) {
+                  red: Int, channel: ChannelObject, team: Team) {
     let cwr = ChannelWithRed(frame: NSMakeRect(10,(CGFloat(i*30)),200,25))
     cwr.button.title = title
     cwr.button.tag = i
     cwr.button.stringTag = id
     cwr.channel_id = id
+    cwr.button.channel = channel
     cwr.button.flavor = flavor
     cwr.button.team = team
     cwr.button.target = self

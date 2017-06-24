@@ -84,7 +84,8 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
   func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
     
     if commandSelector == #selector(NSResponder.insertNewline(_:)) {
-      
+      let realm = try! Realm()
+
       if text.stringValue.hasPrefix("/token ") {
         let tokens = text.stringValue.components(separatedBy: " ")
         text.stringValue = ""
@@ -96,8 +97,6 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
           UserDefaults.standard.removeObject(forKey: "bcc_\(team)")
         }
         UserDefaults.standard.removeObject(forKey: "bcc_teams")
-        
-        let realm = try! Realm()
         
         try! realm.write {
           realm.deleteAll()
@@ -121,10 +120,40 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
       let json = UserDefaults.standard.value(forKey: "bcc_\(channel?.team ?? def)") as! String
       let team = Team(JSONString: json)!
       
-      channelApi.postMessage(token: team.token!, id: (channel?.id)!, text: text.stringValue).subscribe(
+      let say = text.stringValue
+      text.stringValue = ""
+      channelApi.postMessage(token: team.token!, id: (channel?.id)!, text: say).subscribe(
         onNext: { message in
           
-          NSLog("\(String(describing: message.ts))")
+          //NSLog("\(String(describing: message.ts))")
+          
+          let mo = MessageObject()
+          mo.ts = message.ts!
+          mo.tsd = Double(mo.ts)!
+          mo.channel = (self.channel?.id)!
+          
+          mo.text = say
+          mo.user = message.user!
+          mo.username = "me"
+          
+          let pkey = "\(team.id!).\(mo.user)"
+          if let existing = realm.object(ofType: UserObject.self,
+                                         forPrimaryKey: pkey as AnyObject) {
+            mo.username = existing.name
+            
+          }
+          
+          mo.team = team.id!
+          mo.id = "\(team.id!).\(self.channel?.id ?? "").\(mo.ts)"
+          
+          let existing = realm.object(ofType: MessageObject.self, forPrimaryKey: mo.id as AnyObject)
+          
+          if (existing == nil) {
+            try! realm.write {
+              realm.add(mo)
+            }
+          }
+          
           
       },
         onError: { error in

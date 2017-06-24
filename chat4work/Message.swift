@@ -38,10 +38,10 @@ struct Message: Mappable, Equatable {
   }
   
   mutating func mapping(map: Map) {
-    type <- map["type"]
+    type <- map["message.type"]
     ts <- map["ts"]
-    user <- map["user"]
-    text <- map["text"]
+    user <- map["message.user"]
+    text <- map["message.text"]
   }
   
   func briefDescription() -> String {

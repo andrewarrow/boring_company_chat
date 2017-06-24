@@ -104,10 +104,14 @@ class MessageList: NSScrollView {
     let data = notification.object as! [String: Any?]
     
     let realm = try! Realm()
-    let sortProperties = [SortDescriptor(keyPath: "tsd", ascending: true)]
+    let sortProperties = [SortDescriptor(keyPath: "tsd", ascending: false)]
     
     let ms = realm.objects(MessageObject.self).filter(
       "team = %@ and channel = %@", data["team"] as Any, data["channel"] as Any).sorted(by: sortProperties)
+    
+    if ms.count == 0 {
+      return
+    }
     
     var lastUser = ""
     var lastTime = ""
@@ -193,69 +197,16 @@ class MessageList: NSScrollView {
       mi.time.stringValue = ""
     }
   }
-  
+ 
+  /*
   func channelDidChange2(notification: NSNotification) {
-    guard let team = team else { return }
-    
-    let b = notification.object as! ButtonWithStringTag
-    
-    channel = b.stringTag
-    flavor = b.flavor
-    
-    let provider = RxMoyaProvider<ChatService>()
-    let channelApi = ChannelApiImpl(provider: provider)
-    
-    
-    Observable.zip(
-      channelApi.getUsers(token: team.token!),
-      channelApi.getHistoryByFlavor(token: team.token!, id: channel, flavor: b.flavor, count: 100, unreads: 0)) { (users, messages) in
-        var UserHash = ["default":"system"]
-        if let u = users.results {
-          
-          u.forEach({
-            (user) in
-            UserHash[user.id!] = user.name
-          })
-        }
-        
-        
-        
-        
-        if (messages.results != nil && (messages.results?.count)! > 0) {
-          
           NotificationCenter.default.post(
             name:NSNotification.Name(rawValue: "markChannel"),
             object: ["team": team, "channel": self.channel, "ts": messages.results?[0].ts ?? "",
                      "now": NSDate().timeIntervalSince1970, "flavor": self.flavor])
           
-          for (_,m) in (messages.results?.enumerated())! {
-            
-           
-          }
-
-          
-          
-        }
-        
-      }
-      .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
-      .observeOn(MainScheduler.instance)
-      .subscribe(
-        onError: { error in
-          NSLog("1111 \(error)")
-          
-          for i in 0...81 {
-            let mi = self.list.subviews[i] as! MessageItem
-            mi.user.stringValue = ""
-            mi.msg.stringValue = "there was an http api error, try again"
-            mi.time.stringValue = ""
-          }
-          
-      }
-      )
-      .addDisposableTo(disposeBag)
     
-  }
+  }*/
   
   func teamLogout(notification: NSNotification) {
     // remove db

@@ -28,14 +28,14 @@ class UnreadFinder: NSObject {
       return
     }
     
-    let url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=40&token=\(team.token ?? "")"
+    let url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=100&token=\(team.token ?? "")"
     
     group.enter()
     
     Alamofire.request(url).responseJSON { response in
       if let json = response.result.value as? [String: Any] {
         
-        NSLog("\(json)")
+        //NSLog("\(json)")
         let messages = json["messages"] as! Array<[String: Any]>
 
         for m in messages {

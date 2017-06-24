@@ -2,12 +2,6 @@ import Foundation
 import ObjectMapper
 import RealmSwift
 
-class MessageObjectList: Object {
-  dynamic var team = ""
-  dynamic var channel = ""
-  let list = List<MessageObject>()
-}
-
 class MessageObject: Object {
   dynamic var id = ""
   dynamic var text = ""

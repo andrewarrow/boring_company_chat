@@ -15,6 +15,12 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
   
   let text = NSTextField(frame: NSMakeRect(5, 5, 600, 50))
   var disposeBag = DisposeBag()
+  var channel: ChannelObject?
+  
+  func channelDidChange(notification: NSNotification) {
+    let b = notification.object as! ButtonWithStringTag
+    channel = b.channel
+  }
   
   func pasteText(notification: NSNotification) {
     let b = notification.object as! String
@@ -108,12 +114,24 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
         return true
       }
       
-      /*
-       NotificationCenter.default.post(
-       name:NSNotification.Name(rawValue: "sendMessage"),
-       object: text.stringValue)
-       text.stringValue = ""
-       */
+      let provider = RxMoyaProvider<ChatService>()
+      let channelApi = ChannelApiImpl(provider: provider)
+      
+      let def = ""
+      let json = UserDefaults.standard.value(forKey: "bcc_\(channel?.team ?? def)") as! String
+      let team = Team(JSONString: json)!
+      
+      channelApi.postMessage(token: team.token!, id: (channel?.id)!, text: text.stringValue).subscribe(
+        onNext: { message in
+          
+          NSLog("\(String(describing: message.ts))")
+          
+      },
+        onError: { error in
+          
+      }).addDisposableTo(disposeBag)
+    
+      
       
       return true
     }
@@ -130,6 +148,11 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(pasteText),
                                            name: NSNotification.Name(rawValue: "pasteText"),
+                                           object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(channelDidChange),
+                                           name: NSNotification.Name(rawValue: "channelDidChange"),
                                            object: nil)
     
     wantsLayer = true

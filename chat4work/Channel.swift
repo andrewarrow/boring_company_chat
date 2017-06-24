@@ -2,18 +2,17 @@ import Foundation
 import ObjectMapper
 import RealmSwift
 
-class ChannelObjectList: Object {
-  dynamic var team = ""
-  let list = List<ChannelObject>()
-}
-
 class ChannelObject: Object {
+  dynamic var team = ""
   dynamic var name = ""
   dynamic var id = ""
+  dynamic var pkey = ""
   dynamic var flavor = ""
   dynamic var ts = Double(0.0)
   dynamic var possibly_new = 0
   dynamic var mute = 0
+  
+  override class func primaryKey() -> String? { return "pkey" }
 }
 
 struct Channels: Mappable {

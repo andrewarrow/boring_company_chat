@@ -237,11 +237,11 @@ class CompanyList: NSScrollView {
     
     let realm = try! Realm()
     
-    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team!).first
-    if col == nil {
+    let cos = realm.objects(ChannelObject.self).filter("team = %@", team!)
+    if cos.count == 0 {
        return
     }
-    for c in col!.list {
+    for c in cos {
       if c.id == channel {
         try! realm.write {
           c.possibly_new = 1

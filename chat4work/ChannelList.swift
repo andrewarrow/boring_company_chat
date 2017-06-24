@@ -64,13 +64,10 @@ class ChannelList: NSScrollView {
   
  
   
-  func makeListFromCol(col: ChannelObjectList) {
-    // let sortedDogs = person.dogs.sorted(property : "name")
-    let sortList = col.list.sorted (by: { $0.ts > $1.ts })
-    
+  func makeListFromCol(cos: Results<ChannelObject>) {
     self.list.subviews = []
     
-    for d in sortList {
+    for d in cos {
       self.addChannel(i: self.list.subviews.count, title: d.name,
                       id: d.id, flavor: d.flavor,
                       red: d.possibly_new,
@@ -90,14 +87,15 @@ class ChannelList: NSScrollView {
 
     
     let realm = try! Realm()
-    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
+    let sortProperties = [SortDescriptor(keyPath: "ts", ascending: false)]
+    let cos = realm.objects(ChannelObject.self).filter("team = %@", team.id!).sorted(by: sortProperties)
     
     
-    if (col != nil) {
+    if (cos.count != 0) {
       //let uf = UnreadFinder()
       //uf.channelsWithUnread(team: team)
       
-      makeListFromCol(col: col!)
+      makeListFromCol(cos: cos)
       return
     }
     
@@ -129,8 +127,8 @@ class ChannelList: NSScrollView {
     
     let realm = try! Realm()
     let team = cwr.button.team?.id!
-    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team as Any).first!
-    for c in col.list {
+    let cos = realm.objects(ChannelObject.self).filter("team = %@", team as Any)
+    for c in cos {
       if c.id == cwr.channel_id {
         try! realm.write {
           c.possibly_new = 0

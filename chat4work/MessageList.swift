@@ -25,18 +25,18 @@ class MessageList: NSScrollView {
   
   
   func rtmMessage(notification: NSNotification) {
-    let json = notification.object as! [String: Any]
+    //let json = notification.object as! [String: Any]
     //NSLog("\(json)")
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
-    
+    /*
     let c = json["channel"] as! String
     
-    /*
+    
      let t = json["text"] as! String
      let user = json["user"] as! String
      if c == self.channel {
      everyOneMoveUp(data: t, user: user)
-     } */
+     }
     
     if c == self.channel {
       
@@ -56,9 +56,7 @@ class MessageList: NSScrollView {
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "channelDidChange"),
         object: bwst)
-      
-      
-    }
+    }*/
   }
   
   func everyOneMoveUp(data: String, user: String) {
@@ -86,18 +84,7 @@ class MessageList: NSScrollView {
     
     everyOneMoveUp(data: data, user: "me")
     
-    let provider = RxMoyaProvider<ChatService>()
-    let channelApi = ChannelApiImpl(provider: provider)
-    
-    channelApi.postMessage(token: team.token!, id: channel, text: data).subscribe(
-      onNext: { message in
-        
-        NSLog("\(String(describing: message.ts))")
-        
-    },
-      onError: { error in
-        
-    }).addDisposableTo(disposeBag)
+
   }
   
   func contentIsReady(notification: NSNotification) {
@@ -215,12 +202,12 @@ class MessageList: NSScrollView {
     // col may not be there if fresh
     let realm = try! Realm()
     let t = self.team?.id
-    let col = realm.objects(ChannelObjectList.self).filter("team = %@", t!).first!
+    let channels = realm.objects(ChannelObject.self).filter("team = %@", t!)
     let users = realm.objects(UserObject.self).filter("team = %@", t!)
     let messages = realm.objects(MessageObject.self).filter("team = %@", t!)
     
     try! realm.write {
-      realm.delete(col)
+      realm.delete(channels)
       realm.delete(users)
       realm.delete(messages)
     }

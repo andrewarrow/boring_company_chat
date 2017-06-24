@@ -89,17 +89,14 @@ class UnreadFinder: NSObject {
   
   func cacheChannels(team: Team) {
     let realm = try! Realm()
-    var col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
+    let cos = realm.objects(ChannelObject.self).filter("team = %@", team.id!)
     
-    if (col != nil) {
+    if (cos.count > 0) {
       channelsWithUnread(team: team)
       return
     }
     
     let group = DispatchGroup()
-    
-    col = ChannelObjectList()
-    col?.team = team.id!
     
     let flavors = ["channels", "groups", "im"]
     let flavors_map = ["channels": "channels", "groups": "groups", "im": "ims"]
@@ -117,6 +114,8 @@ class UnreadFinder: NSObject {
             
             let co = ChannelObject()
             co.id = c["id"] as! String
+            co.team = team.id!
+            co.pkey = "\(co.team).\(co.id)"
             co.flavor = f
             if f == "im" {
               let user = c["user"] as! String
@@ -127,7 +126,11 @@ class UnreadFinder: NSObject {
             } else {
               co.name = c["name"] as! String
             }
-            col?.list.append(co)
+            
+            try! realm.write {
+              realm.add(co)
+            }
+
           }
         }
         
@@ -136,14 +139,7 @@ class UnreadFinder: NSObject {
     }
     
     group.notify(queue: DispatchQueue.main, execute: {
-      let realm = try! Realm()
-      
-      try! realm.write {
-        realm.add(col!)
-      }
-      
       self.channelsWithUnread(team: team)
-      
     })
   }
   
@@ -197,11 +193,11 @@ class UnreadFinder: NSObject {
   func channelsWithUnread(team: Team) {
     
     let realm = try! Realm()
-    let col = realm.objects(ChannelObjectList.self).filter("team = %@", team.id!).first
+    let cos = realm.objects(ChannelObject.self).filter("team = %@", team.id!)
     
     let group = DispatchGroup()
     
-    for c in (col?.list)! {
+    for c in cos {
       
       let url = "https://slack.com/api/\(c.flavor).history?token=\(team.token ?? "")&channel=\(c.id)&count=1&unreads=1"
       //NSLog("\(url)")

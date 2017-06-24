@@ -22,6 +22,9 @@ class UnreadFinder: NSObject {
       "team = %@ and channel = %@", team.id!, channel.id)
     
     if ms.count > 0 {
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "contentIsReady"),
+        object: ["team": team.id, "channel": channel.id])
       return
     }
     
@@ -59,7 +62,10 @@ class UnreadFinder: NSObject {
     }
     
     group.notify(queue: DispatchQueue.main, execute: {
-      
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "contentIsReady"),
+        object: ["team": team.id, "channel": channel.id])
+
     })
   }
 

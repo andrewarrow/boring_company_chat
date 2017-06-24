@@ -12,7 +12,7 @@ import RxSwift
 import RealmSwift
 
 class MessageList: NSScrollView {
-    
+  
   let list = NSView(frame: NSMakeRect(0,0,680,1560+(300*75)))
   var disposeBag = DisposeBag()
   var team:Team?
@@ -22,21 +22,21 @@ class MessageList: NSScrollView {
   func companyDidChange(notification: NSNotification) {
     team = notification.object as? Team
   }
-
-
+  
+  
   func rtmMessage(notification: NSNotification) {
     let json = notification.object as! [String: Any]
     //NSLog("\(json)")
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
     let c = json["channel"] as! String
-
+    
     /*
-    let t = json["text"] as! String
-    let user = json["user"] as! String
-    if c == self.channel {
-      everyOneMoveUp(data: t, user: user)
-    } */
+     let t = json["text"] as! String
+     let user = json["user"] as! String
+     if c == self.channel {
+     everyOneMoveUp(data: t, user: user)
+     } */
     
     if c == self.channel {
       
@@ -52,7 +52,7 @@ class MessageList: NSScrollView {
         bwst.flavor = "groups"
       }
       bwst.team = self.team
-    
+      
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "channelDidChange"),
         object: bwst)
@@ -83,7 +83,7 @@ class MessageList: NSScrollView {
     
     
     let data = notification.object as! String
-
+    
     everyOneMoveUp(data: data, user: "me")
     
     let provider = RxMoyaProvider<ChatService>()
@@ -99,13 +99,27 @@ class MessageList: NSScrollView {
         
     }).addDisposableTo(disposeBag)
   }
-
+  
+  func contentIsReady(notification: NSNotification) {
+    let data = notification.object as! [String: Any?]
+    
+    let realm = try! Realm()
+    let sortProperties = [SortDescriptor(keyPath: "tsd", ascending: true)]
+    
+    let ms = realm.objects(MessageObject.self).filter(
+      "team = %@ and channel = %@", data["team"] as Any, data["channel"] as Any).sorted(by: sortProperties)
+    
+    for m in ms {
+      NSLog("\(m.ts)")
+    }
+  }
+  
   func channelDidChange(notification: NSNotification) {
     let b = notification.object as! ButtonWithStringTag
     
     channel = b.stringTag
     flavor = b.flavor
-
+    
     let u = UnreadFinder()
     u.cacheMessages(team: team!, channel: b.channel!)
   }
@@ -148,14 +162,14 @@ class MessageList: NSScrollView {
         var HeightList = Array<CGFloat>()
         var buffer = ""
         
- 
+        
         
         if (messages.results != nil && (messages.results?.count)! > 0) {
-
+          
           NotificationCenter.default.post(
             name:NSNotification.Name(rawValue: "markChannel"),
             object: ["team": team, "channel": self.channel, "ts": messages.results?[0].ts ?? "",
-            "now": NSDate().timeIntervalSince1970, "flavor": self.flavor])
+                     "now": NSDate().timeIntervalSince1970, "flavor": self.flavor])
           
           for (_,m) in (messages.results?.enumerated())! {
             
@@ -218,7 +232,7 @@ class MessageList: NSScrollView {
           
           
         }
-
+        
       }
       .subscribeOn(ConcurrentDispatchQueueScheduler(qos: .background))
       .observeOn(MainScheduler.instance)
@@ -233,7 +247,7 @@ class MessageList: NSScrollView {
             mi.time.stringValue = ""
           }
           
-        }
+      }
       )
       .addDisposableTo(disposeBag)
     
@@ -272,7 +286,7 @@ class MessageList: NSScrollView {
       defaults.set(to_save, forKey: "bcc_teams")
     }
   }
-    
+  
   
   func turnAllOff(notification: NSNotification) {
     for sv in list.subviews {
@@ -292,34 +306,39 @@ class MessageList: NSScrollView {
     super.init(frame:frameRect);
     
     NotificationCenter.default.addObserver(self,
-      selector: #selector(channelDidChange),
-      name: NSNotification.Name(rawValue: "channelDidChange"),
-      object: nil)
+                                           selector: #selector(channelDidChange),
+                                           name: NSNotification.Name(rawValue: "channelDidChange"),
+                                           object: nil)
     
     NotificationCenter.default.addObserver(self,
-      selector: #selector(sendMessage),
-      name: NSNotification.Name(rawValue: "sendMessage"),
-      object: nil)
+                                           selector: #selector(contentIsReady),
+                                           name: NSNotification.Name(rawValue: "contentIsReady"),
+                                           object: nil)
     
     NotificationCenter.default.addObserver(self,
-         selector: #selector(turnAllOff),
-         name: NSNotification.Name(rawValue: "turnAllOff"),
-         object: nil)
+                                           selector: #selector(sendMessage),
+                                           name: NSNotification.Name(rawValue: "sendMessage"),
+                                           object: nil)
     
     NotificationCenter.default.addObserver(self,
-         selector: #selector(companyDidChange),
-         name: NSNotification.Name(rawValue: "companyDidChange"),
-         object: nil)
-
-    NotificationCenter.default.addObserver(self,
-         selector: #selector(rtmMessage),
-         name: NSNotification.Name(rawValue: "rtmMessage"),
-         object: nil)
+                                           selector: #selector(turnAllOff),
+                                           name: NSNotification.Name(rawValue: "turnAllOff"),
+                                           object: nil)
     
     NotificationCenter.default.addObserver(self,
-         selector: #selector(teamLogout),
-         name: NSNotification.Name(rawValue: "teamLogout"),
-         object: nil)
+                                           selector: #selector(companyDidChange),
+                                           name: NSNotification.Name(rawValue: "companyDidChange"),
+                                           object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(rtmMessage),
+                                           name: NSNotification.Name(rawValue: "rtmMessage"),
+                                           object: nil)
+    
+    NotificationCenter.default.addObserver(self,
+                                           selector: #selector(teamLogout),
+                                           name: NSNotification.Name(rawValue: "teamLogout"),
+                                           object: nil)
     
     wantsLayer = true
     
@@ -327,12 +346,12 @@ class MessageList: NSScrollView {
     
     list.wantsLayer = true
     list.layer?.backgroundColor = NSColor.white.cgColor
-
+    
     translatesAutoresizingMaskIntoConstraints = true
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewMinYMargin)
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewMaxYMargin)
-
+    
     documentView = list
     hasVerticalScroller = true
     //documentView?.scroll(NSPoint(x: 0, y:2000))
@@ -341,6 +360,6 @@ class MessageList: NSScrollView {
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
+  
 }
- 
+

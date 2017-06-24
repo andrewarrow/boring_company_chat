@@ -14,24 +14,7 @@ class ChannelObject: Object {
   dynamic var ts = Double(0.0)
   dynamic var possibly_new = 0
   dynamic var mute = 0
-  
-  func find_name(user: String, team: String) -> String {
-    let realm = try! Realm()
-    // https://github.com/realm/realm-cocoa/issues/3241
-    // var uol = realm.objects(UserObjectList.self).filter("team = %@ and list.id = %@", team, user).first
-    
-    let uol = realm.objects(UserObjectList.self).filter("team = %@", team).first
-    
-    for u in (uol?.list)! {
-      if u.id == user {
-        return u.name
-      }
-    }
-    
-    return "?"
-  }
 }
-
 
 struct Channels: Mappable {
   

@@ -18,16 +18,14 @@ class UnreadFinder: NSObject {
     let realm = try! Realm()
     let group = DispatchGroup()
 
-    var ms = realm.objects(MessageObject.self).filter(
+    let ms = realm.objects(MessageObject.self).filter(
       "team = %@ and channel = %@", team.id!, channel.id)
     
-    NSLog("\(ms.count)")
-    
-        NSLog("\(ms)")
+    if ms.count > 0 {
+      return
+    }
     
     let url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=40&token=\(team.token ?? "")"
-    
-    NSLog("\(url)")
     
     group.enter()
     
@@ -40,9 +38,11 @@ class UnreadFinder: NSObject {
         for m in messages {
           let mo = MessageObject()
           mo.ts = m["ts"] as! String
+          mo.tsd = Double(mo.ts)!
           mo.channel = channel.id
           mo.text = m["text"] as! String
           mo.user = m["user"] as! String
+          mo.username = ""
           mo.team = team.id!
           mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
           
@@ -96,7 +96,11 @@ class UnreadFinder: NSObject {
             co.id = c["id"] as! String
             co.flavor = f
             if f == "im" {
-              co.name = co.find_name(user: c["user"] as! String, team: team.id!)
+              let user = c["user"] as! String
+              let pkey = "\(team.id!).\(user)"
+              let existing = realm.object(ofType: UserObject.self, forPrimaryKey: pkey as AnyObject)
+              
+              co.name = (existing?.name)!
             } else {
               co.name = c["name"] as! String
             }
@@ -123,17 +127,14 @@ class UnreadFinder: NSObject {
   
   func cacheUsers(team: Team) {
     let realm = try! Realm()
-    var uol = realm.objects(UserObjectList.self).filter("team = %@", team.id!).first
+    let uol = realm.objects(UserObject.self).filter("team = %@", team.id!)
     
-    if (uol != nil) {
+    if (uol.count > 0) {
       cacheChannels(team: team)
       return
     }
     
     let group = DispatchGroup()
-    
-    uol = UserObjectList()
-    uol?.team = team.id!
     
     let url = "https://slack.com/api/users.list?token=\(team.token ?? "")"
     
@@ -148,7 +149,13 @@ class UnreadFinder: NSObject {
           let uo = UserObject()
           uo.name = m["name"] as! String
           uo.id = m["id"] as! String
-          uol?.list.append(uo)
+          uo.team = team.id!
+          uo.pkey = "\(uo.team).\(uo.id)"
+          
+          try! realm.write {
+            realm.add(uo)
+          }
+          
         }
       }
       
@@ -156,11 +163,8 @@ class UnreadFinder: NSObject {
     }
     
     group.notify(queue: DispatchQueue.main, execute: {
-      let realm = try! Realm()
       
-      try! realm.write {
-        realm.add(uol!)
-      }
+      
       
       self.cacheChannels(team: team)
       

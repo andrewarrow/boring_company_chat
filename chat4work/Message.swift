@@ -13,7 +13,9 @@ class MessageObject: Object {
   dynamic var text = ""
   dynamic var channel = ""
   dynamic var ts = ""
+  dynamic var tsd = Double(0.0)
   dynamic var user = ""
+  dynamic var username = ""
   dynamic var team = ""
   
   override class func primaryKey() -> String? { return "id" }

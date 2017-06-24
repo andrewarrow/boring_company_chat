@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     
     let config = Realm.Configuration(
-      schemaVersion: 4,
+      schemaVersion: 7,
       
       migrationBlock: { migration, oldSchemaVersion in
         if (oldSchemaVersion < 1) {
@@ -27,6 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     })
     
     Realm.Configuration.defaultConfiguration = config
+    Swift.print(Realm.Configuration.defaultConfiguration.fileURL!)
     
     _ = try! Realm()
     

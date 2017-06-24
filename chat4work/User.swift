@@ -2,14 +2,13 @@ import Foundation
 import ObjectMapper
 import RealmSwift
 
-class UserObjectList: Object {
-  dynamic var team = ""
-  let list = List<UserObject>()
-}
-
 class UserObject: Object {
   dynamic var name = ""
+  dynamic var team = ""
   dynamic var id = ""
+  dynamic var pkey = ""
+  
+  override class func primaryKey() -> String? { return "pkey" }
 }
 
 struct Users: Mappable {

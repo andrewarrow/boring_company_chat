@@ -43,9 +43,26 @@ class UnreadFinder: NSObject {
           mo.ts = m["ts"] as! String
           mo.tsd = Double(mo.ts)!
           mo.channel = channel.id
-          mo.text = m["text"] as! String
-          mo.user = m["user"] as! String
-          mo.username = ""
+          
+          mo.text = ""
+          if m["text"] != nil {
+            mo.text = m["text"] as! String
+          }
+          mo.user = ""
+          if m["user"] != nil {
+            mo.user = m["user"] as! String
+          }
+          
+          mo.username = "system"
+          
+          let pkey = "\(team.id!).\(mo.user)"
+          if let existing = realm.object(ofType: UserObject.self,
+                                         forPrimaryKey: pkey as AnyObject) {
+            mo.username = existing.name
+          
+          }
+
+          
           mo.team = team.id!
           mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
           

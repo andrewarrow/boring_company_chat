@@ -214,11 +214,15 @@ class MessageList: NSScrollView {
     
     // col may not be there if fresh
     let realm = try! Realm()
+    let t = self.team?.id
+    let col = realm.objects(ChannelObjectList.self).filter("team = %@", t!).first!
+    let users = realm.objects(UserObject.self).filter("team = %@", t!)
+    let messages = realm.objects(MessageObject.self).filter("team = %@", t!)
     
     try! realm.write {
-      let t = self.team?.id
-      let col = realm.objects(ChannelObjectList.self).filter("team = %@", t!).first!
       realm.delete(col)
+      realm.delete(users)
+      realm.delete(messages)
     }
     
     let defaults = UserDefaults.standard
@@ -240,6 +244,8 @@ class MessageList: NSScrollView {
       
       defaults.set(to_save, forKey: "bcc_teams")
     }
+    
+    exit(1)
   }
   
   

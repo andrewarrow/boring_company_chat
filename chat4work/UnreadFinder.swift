@@ -17,18 +17,24 @@ class UnreadFinder: NSObject {
   func cacheMessages(team: Team, channel: ChannelObject, lastTs: Double) {
     let realm = try! Realm()
     let group = DispatchGroup()
-
+    
     let ms = realm.objects(MessageObject.self).filter(
       "team = %@ and channel = %@", team.id!, channel.id)
     
-    if ms.count > 0 {
+    if ms.count > 0 && lastTs == 0 {
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "contentIsReady"),
         object: ["team": team.id, "channel": channel.id])
       return
     }
     
-    let url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=100&token=\(team.token ?? "")"
+    var url = "https://slack.com/api/\(channel.flavor).history?channel=\(channel.id)&count=100&token=\(team.token ?? "")"
+    
+    if lastTs > 0 {
+      url = url + "&oldest=\(lastTs)"
+    }
+    
+    NSLog("\(url)")
     
     group.enter()
     
@@ -36,41 +42,44 @@ class UnreadFinder: NSObject {
       if let json = response.result.value as? [String: Any] {
         
         //NSLog("\(json)")
-        let messages = json["messages"] as! Array<[String: Any]>
-
-        for m in messages {
-          let mo = MessageObject()
-          mo.ts = m["ts"] as! String
-          mo.tsd = Double(mo.ts)!
-          mo.channel = channel.id
+        if json["messages"] != nil {
           
-          mo.text = ""
-          if m["text"] != nil {
-            mo.text = m["text"] as! String
-          }
-          mo.user = ""
-          if m["user"] != nil {
-            mo.user = m["user"] as! String
-          }
+          let messages = json["messages"] as! Array<[String: Any]>
           
-          mo.username = "system"
-          
-          let pkey = "\(team.id!).\(mo.user)"
-          if let existing = realm.object(ofType: UserObject.self,
-                                         forPrimaryKey: pkey as AnyObject) {
-            mo.username = existing.name
-          
-          }
-
-          
-          mo.team = team.id!
-          mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
-          
-          let existing = realm.object(ofType: MessageObject.self, forPrimaryKey: mo.id as AnyObject)
-          
-          if (existing == nil) {
-            try! realm.write {
-              realm.add(mo)
+          for m in messages {
+            let mo = MessageObject()
+            mo.ts = m["ts"] as! String
+            mo.tsd = Double(mo.ts)!
+            mo.channel = channel.id
+            
+            mo.text = ""
+            if m["text"] != nil {
+              mo.text = m["text"] as! String
+            }
+            mo.user = ""
+            if m["user"] != nil {
+              mo.user = m["user"] as! String
+            }
+            
+            mo.username = "system"
+            
+            let pkey = "\(team.id!).\(mo.user)"
+            if let existing = realm.object(ofType: UserObject.self,
+                                           forPrimaryKey: pkey as AnyObject) {
+              mo.username = existing.name
+              
+            }
+            
+            
+            mo.team = team.id!
+            mo.id = "\(team.id!).\(channel.id).\(mo.ts)"
+            
+            let existing = realm.object(ofType: MessageObject.self, forPrimaryKey: mo.id as AnyObject)
+            
+            if (existing == nil) {
+              try! realm.write {
+                realm.add(mo)
+              }
             }
           }
         }
@@ -82,10 +91,10 @@ class UnreadFinder: NSObject {
       NotificationCenter.default.post(
         name:NSNotification.Name(rawValue: "contentIsReady"),
         object: ["team": team.id, "channel": channel.id])
-
+      
     })
   }
-
+  
   
   func cacheChannels(team: Team) {
     let realm = try! Realm()
@@ -130,7 +139,7 @@ class UnreadFinder: NSObject {
             try! realm.write {
               realm.add(co)
             }
-
+            
           }
         }
         

@@ -113,6 +113,7 @@ class MessageList: NSScrollView {
     var HeightList = Array<CGFloat>()
     var buffer = ""
 
+    var j=0
     for m in ms {
       if m.username != lastUser && lastUser != "" {
         MsgList.append(buffer)
@@ -131,6 +132,11 @@ class MessageList: NSScrollView {
       
       lastUser = m.username
       lastTime = m.ts
+      
+      j += 1
+      if j > 80 {
+        break
+      }
     }
     
     MsgList.append(buffer)
@@ -184,6 +190,9 @@ class MessageList: NSScrollView {
     
     if ms.count > 0 {
       lastTs = (ms.first?.tsd)!
+      NotificationCenter.default.post(
+        name:NSNotification.Name(rawValue: "contentIsReady"),
+        object: ["team": theTeamStr, "channel": channel])
     }
     
     let u = UnreadFinder()

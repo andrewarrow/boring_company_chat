@@ -46,3 +46,7 @@ So I want to build an "open source slack replacement" with the following goals:
 * then open `boring-company-chat.xcworkspace` not the project
 * run from xcode
 
+# data on your hard drive is stored at:
+
+* ~/Library/Preferences/higher.team.chat4work.plist 
+* "~/Library/Application Support/higher.team.chat4work/default.realm.management"

@@ -248,6 +248,48 @@ class CompanyList: NSScrollView {
         }
       }
     }
+    
+    if let jtype = json["type"] {
+      let theType = jtype as! String
+      if theType == "message"  {
+        let mo = MessageObject()
+        mo.ts = json["ts"] as! String
+        mo.tsd = Double(mo.ts)!
+        mo.channel = json["channel"] as! String
+        mo.text = json["text"] as! String
+        mo.user = ""
+        
+        if json["user"] != nil {
+          mo.user = json["user"] as! String
+          mo.username = "system"
+
+          let pkey = "\(team ?? "").\(mo.user)"
+          if let existing = realm.object(ofType: UserObject.self,
+                                         forPrimaryKey: pkey as AnyObject) {
+            mo.username = existing.name
+            
+          }
+
+        }
+        
+        mo.team = team!
+        mo.id = "\(team ?? "").\(mo.channel).\(mo.ts)"
+
+        let existing = realm.object(ofType: MessageObject.self, forPrimaryKey: mo.id as AnyObject)
+        
+        if (existing == nil) {
+          try! realm.write {
+            realm.add(mo)
+          }
+          
+          NotificationCenter.default.post(
+            name:NSNotification.Name(rawValue: "contentIsReady"),
+            object: ["team": team!, "channel": mo.channel])
+          
+        }
+
+      }
+    }
 
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     

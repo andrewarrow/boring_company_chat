@@ -14,7 +14,7 @@ import RealmSwift
 
 class UnreadFinder: NSObject {
   
-  func cacheMessages(team: Team, channel: ChannelObject) {
+  func cacheMessages(team: Team, channel: ChannelObject, lastTs: Double) {
     let realm = try! Realm()
     let group = DispatchGroup()
 

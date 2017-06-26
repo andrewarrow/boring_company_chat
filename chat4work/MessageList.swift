@@ -81,6 +81,16 @@ class MessageList: NSScrollView {
 
   }
   
+  func queryMessages(team: String, channel: String) -> Results<MessageObject> {
+    let realm = try! Realm()
+    let sortProperties = [SortDescriptor(keyPath: "tsd", ascending: false)]
+    
+    let ms = realm.objects(MessageObject.self).filter(
+      "team = %@ and channel = %@", team as Any, channel as Any).sorted(by: sortProperties)
+    
+    return ms
+  }
+  
   func contentIsReady(notification: NSNotification) {
     let data = notification.object as! [String: Any?]
     
@@ -89,11 +99,7 @@ class MessageList: NSScrollView {
       return
     }
     
-    let realm = try! Realm()
-    let sortProperties = [SortDescriptor(keyPath: "tsd", ascending: false)]
-    
-    let ms = realm.objects(MessageObject.self).filter(
-      "team = %@ and channel = %@", data["team"] as Any, data["channel"] as Any).sorted(by: sortProperties)
+    let ms = queryMessages(team: data["team"] as! String, channel: data["channel"] as! String)
     
     if ms.count == 0 {
       return
@@ -168,11 +174,20 @@ class MessageList: NSScrollView {
     clearCurrentMsgs()
     let b = notification.object as! ButtonWithStringTag
     
+    let theTeam = b.team
+    let theTeamStr = theTeam?.id
     channel = b.stringTag
     flavor = b.flavor
     
+    let ms = queryMessages(team: theTeamStr!, channel: channel)
+    var lastTs = Double(0.0)
+    
+    if ms.count > 0 {
+      lastTs = (ms.first?.tsd)!
+    }
+    
     let u = UnreadFinder()
-    u.cacheMessages(team: team!, channel: b.channel!)
+    u.cacheMessages(team: theTeam!, channel: b.channel!, lastTs: lastTs)
   }
   
   func clearCurrentMsgs() {

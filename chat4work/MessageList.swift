@@ -59,28 +59,6 @@ class MessageList: NSScrollView {
     }*/
   }
   
-  func messagePosted(notification: NSNotification) {
-    let data = notification.object as! [String: Any]
-    
-    let mo = data["message"] as! MessageObject
-    
-    if channel != mo.channel {
-      return
-    }
-    
-    if list.subviews.count == 0 {
-      return
-    }
-    
-    let item = list.subviews[0] as! MessageItem
-    
-    if item.user.stringValue == mo.username {
-      item.setStringValue(val: item.msg.stringValue + "\n" + mo.text)
-    } else {
-      everyOneMoveUp(data: mo.text, user: "me")
-    }
-  }
-  
   func everyOneMoveUp(data: String, user: String) {
     var i = 81
     while i > 0 {
@@ -105,6 +83,11 @@ class MessageList: NSScrollView {
   
   func contentIsReady(notification: NSNotification) {
     let data = notification.object as! [String: Any?]
+    
+    let c = data["channel"] as! String
+    if (c != channel) {
+      return
+    }
     
     let realm = try! Realm()
     let sortProperties = [SortDescriptor(keyPath: "tsd", ascending: false)]
@@ -277,11 +260,6 @@ class MessageList: NSScrollView {
     NotificationCenter.default.addObserver(self,
                                            selector: #selector(contentIsReady),
                                            name: NSNotification.Name(rawValue: "contentIsReady"),
-                                           object: nil)
-
-    NotificationCenter.default.addObserver(self,
-                                           selector: #selector(messagePosted),
-                                           name: NSNotification.Name(rawValue: "messagePosted"),
                                            object: nil)
     
     NotificationCenter.default.addObserver(self,

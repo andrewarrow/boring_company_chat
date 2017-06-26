@@ -155,8 +155,8 @@ class ComposeMessage: NSView, NSTextFieldDelegate {
           }
           
           NotificationCenter.default.post(
-            name:NSNotification.Name(rawValue: "messagePosted"),
-            object: ["team": mo.team, "channel": mo.channel, "message": mo])
+            name:NSNotification.Name(rawValue: "contentIsReady"),
+            object: ["team": mo.team, "channel": mo.channel])
           
       },
         onError: { error in

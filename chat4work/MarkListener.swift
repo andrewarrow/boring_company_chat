@@ -32,7 +32,6 @@ class MarkListener: NSObject {
       let delta = current - lastMarked[channel]!
       //NSLog("d \(delta)")
       if delta < 5.0 {
-        NSLog("5")
         talkAgain = true
       }
     }

@@ -7,14 +7,24 @@
 //
 
 import Cocoa
+import RealmSwift
 
 class CurrentChannel: NSView {
   
-  let channelName = NSTextField(frame: NSMakeRect(5, 5, 200, 30))
+  let channelName = NSTextField(frame: NSMakeRect(60, 5, 200, 30))
+  let muteButton = NSButton(frame: NSMakeRect(5,10,50,25))
+  var channel: ChannelObject?
   
   func channelDidChange(notification: NSNotification) {
     let b = notification.object as! ButtonWithStringTag
     channelName.stringValue = b.title
+    channel = b.channel
+    
+    if channel!.mute == 1 {
+      muteButton.title = "Show"
+    } else {
+      muteButton.title = "Mute"
+    }
   }
   
   override init(frame frameRect: NSRect) {
@@ -39,6 +49,30 @@ class CurrentChannel: NSView {
     channelName.font = NSFont.boldSystemFont(ofSize: 14.0)
     addSubview(channelName)
     
+    muteButton.title = "Mute"
+    muteButton.action = #selector(muteToggle)
+    muteButton.target = self
+    addSubview(muteButton)
+    
+  }
+  
+  func muteToggle() {
+    if channel == nil {
+      return
+    }
+    let realm = try! Realm()
+    if muteButton.title == "Mute" {
+      muteButton.title = "Show"
+      try! realm.write {
+        channel!.mute = 0
+      }
+      
+    } else {
+      muteButton.title = "Mute"
+      try! realm.write {
+        channel!.mute = 1
+      }
+    }
   }
   
   required init?(coder: NSCoder) {

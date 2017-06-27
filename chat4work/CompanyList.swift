@@ -18,28 +18,28 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
   var team = Team(JSONString: "{}")
   var reconnect_url: String?
   var ws: WebSocket?
-  var lastWsReconnect: Int64?
   
   func websocketDidConnect(socket: WebSocket) {
+    
     Swift.print("websocket is connected")
     //socket.write(string: "hello there!")
   }
   
+  func reconnect() {
+    ws = WebSocket(url: URL(string: reconnect_url!)!)
+    ws?.delegate = self
+    ws?.connect()
+  }
+  
   func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
+    /*
     if let e = error {
       Swift.print("websocket is disconnected: \(e.localizedDescription)")
     } else {
       Swift.print("websocket disconnected")
-    }
-    let now = Int64(NSDate().timeIntervalSince1970)
+    }*/
     
-    if now - lastWsReconnect! > 5000 {
-      lastWsReconnect = now
-      ws = WebSocket(url: URL(string: reconnect_url!)!)
-      ws?.delegate = self
-      ws?.connect()
-    }
-    
+    // reconnect() TODO reconnect once every 5 seconds
   }
   
   func websocketDidReceiveMessage(socket: WebSocket, text: String) {
@@ -147,7 +147,7 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
       }
     }
   }
-
+  
   override init(frame frameRect: NSRect) {
     super.init(frame:frameRect);
     red.image = reddot
@@ -169,7 +169,7 @@ class CompanyWithRed: NSView, NSUserNotificationCenterDelegate {
 }
 
 class CompanyList: NSScrollView {
-    
+  
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
   let image5 = NSImage(named: "mena.png")
   var disposeBag = DisposeBag()
@@ -186,7 +186,7 @@ class CompanyList: NSScrollView {
   
   func channelDidChange(notification: NSNotification) {
     _ = notification.object as! ButtonWithStringTag
-
+    
   }
   
   func newTeamAdded(notification: NSNotification) {
@@ -200,13 +200,12 @@ class CompanyList: NSScrollView {
     Alamofire.request(team.icon!).responseImage { response in
       let uf = UnreadFinder()
       uf.cacheUsers(team: team)
-
+      
       if let image = response.result.value {
         let bwt = self.addIcon(i: team.index!+1, image: image, team: team)
-      
+        
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
-            bwt.lastWsReconnect = Int64(NSDate().timeIntervalSince1970)
             bwt.ws = WebSocket(url: URL(string: team.url!)!)
             bwt.ws?.delegate = bwt
             bwt.ws?.connect()
@@ -219,13 +218,13 @@ class CompanyList: NSScrollView {
     }
     
   }
-    
+  
   func changeCompany(sender:ButtonWithTeam) {
     
-     // let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
-     // let token = existing[sender.tag-1]
-     // let cwr = left.subviews[sender.tag] as! CompanyWithRed
-     // cwr.toggleOff()
+    // let existing = UserDefaults.standard.value(forKey: "bcc_teams") as! Array<String>
+    // let token = existing[sender.tag-1]
+    // let cwr = left.subviews[sender.tag] as! CompanyWithRed
+    // cwr.toggleOff()
     
     
     if sender.team?.id == "BCC" {
@@ -250,7 +249,7 @@ class CompanyList: NSScrollView {
     
     let cos = realm.objects(ChannelObject.self).filter("team = %@", team!)
     if cos.count == 0 {
-       return
+      return
     }
     for c in cos {
       if c.id == channel {
@@ -276,19 +275,19 @@ class CompanyList: NSScrollView {
         if json["user"] != nil {
           mo.user = json["user"] as! String
           mo.username = "system"
-
+          
           let pkey = "\(team ?? "").\(mo.user)"
           if let existing = realm.object(ofType: UserObject.self,
                                          forPrimaryKey: pkey as AnyObject) {
             mo.username = existing.name
             
           }
-
+          
         }
         
         mo.team = team!
         mo.id = "\(team ?? "").\(mo.channel).\(mo.ts)"
-
+        
         let existing = realm.object(ofType: MessageObject.self, forPrimaryKey: mo.id as AnyObject)
         
         if (existing == nil) {
@@ -301,10 +300,10 @@ class CompanyList: NSScrollView {
             object: ["team": team!, "channel": mo.channel])
           
         }
-
+        
       }
     }
-
+    
     //2017-06-11 03:53:46.014074+0000 boring-company-chat[7958:82613] ["team": T035N23CL, "source_team": T035N23CL, "user": U035LF6C1, "text": wefwef, "channel": D1KD59XH9, "type": message, "ts": 1497153225.487018]
     
   }
@@ -335,22 +334,22 @@ class CompanyList: NSScrollView {
       let team = Team(withToken: "", id: "BCC")!
       _ = addIcon(i: i, image: image5!, team: team)
     }
-
+    
     translatesAutoresizingMaskIntoConstraints = true
     autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
     
     left.translatesAutoresizingMaskIntoConstraints = true
     left.autoresizingMask.insert(NSAutoresizingMaskOptions.viewHeightSizable)
-
+    
     documentView = left
     hasVerticalScroller = false
     //documentView?.scroll(NSPoint(x: 0, y:200))
   }
-
+  
   
   required init?(coder: NSCoder) {
     fatalError("init(coder:) has not been implemented")
   }
-
+  
 }
- 
+

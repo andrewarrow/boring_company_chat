@@ -18,6 +18,7 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
   var team = Team(JSONString: "{}")
   var reconnect_url: String?
   var ws: WebSocket?
+  var lastReconnect: Double?
   
   func websocketDidConnect(socket: WebSocket) {
     
@@ -32,14 +33,26 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
   }
   
   func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
-    /*
-    if let e = error {
-      Swift.print("websocket is disconnected: \(e.localizedDescription)")
-    } else {
-      Swift.print("websocket disconnected")
-    }*/
     
-    // reconnect() TODO reconnect once every 5 seconds
+    //if let e = error {
+      //Swift.print("websocket is disconnected: \(e.localizedDescription)")
+    //} else {
+      Swift.print("websocket disconnected")
+    //}
+    
+    DispatchQueue.global().async {
+      let now = Date().timeIntervalSince1970
+      NSLog("\(now) \(self.lastReconnect!)")
+      if now-self.lastReconnect! < 5 {
+      NSLog("here")
+        sleep(5)
+        NSLog("here2")
+      }
+      NSLog("here3")
+      self.reconnect()
+      self.lastReconnect = now
+    }
+    
   }
   
   func websocketDidReceiveMessage(socket: WebSocket, text: String) {
@@ -208,6 +221,7 @@ class CompanyList: NSScrollView {
           onNext: { team in
             bwt.ws = WebSocket(url: URL(string: team.url!)!)
             bwt.ws?.delegate = bwt
+            bwt.lastReconnect = Date().timeIntervalSince1970
             bwt.ws?.connect()
         },
           onError: { error in

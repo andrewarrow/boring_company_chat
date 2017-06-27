@@ -33,22 +33,13 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
   }
   
   func websocketDidDisconnect(socket: WebSocket, error: NSError?) {
-    
-    //if let e = error {
-      //Swift.print("websocket is disconnected: \(e.localizedDescription)")
-    //} else {
-      Swift.print("websocket disconnected")
-    //}
+    Swift.print("websocket disconnected")
     
     DispatchQueue.global().async {
       let now = Date().timeIntervalSince1970
-      NSLog("\(now) \(self.lastReconnect!)")
       if now-self.lastReconnect! < 5 {
-      NSLog("here")
         sleep(5)
-        NSLog("here2")
       }
-      NSLog("here3")
       self.reconnect()
       self.lastReconnect = now
     }

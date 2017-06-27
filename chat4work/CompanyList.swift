@@ -16,6 +16,9 @@ import RealmSwift
 
 class ButtonWithTeam: NSButton, WebSocketDelegate {
   var team = Team(JSONString: "{}")
+  var reconnect_url: String?
+  var ws: WebSocket?
+  var lastWsReconnect: Int64?
   
   func websocketDidConnect(socket: WebSocket) {
     Swift.print("websocket is connected")
@@ -28,10 +31,19 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
     } else {
       Swift.print("websocket disconnected")
     }
+    let now = Int64(NSDate().timeIntervalSince1970)
+    
+    if now - lastWsReconnect! > 5000 {
+      lastWsReconnect = now
+      ws = WebSocket(url: URL(string: reconnect_url!)!)
+      ws?.delegate = self
+      ws?.connect()
+    }
+    
   }
   
   func websocketDidReceiveMessage(socket: WebSocket, text: String) {
-    //Swift.print("RT: \(text)")
+    Swift.print("RT: \(text)")
     
     //RT: {"reply_to":53,"type":"message",
     //"channel":"D1KD59XH9",
@@ -47,6 +59,8 @@ class ButtonWithTeam: NSButton, WebSocketDelegate {
         NotificationCenter.default.post(
           name:NSNotification.Name(rawValue: "rtmMessage"),
           object: json)
+      } else if etype == "reconnect_url" {
+        reconnect_url = json?["url"] as? String
       }
     } catch {
       Swift.print("Error deserializing JSON: \(error)")
@@ -158,9 +172,7 @@ class CompanyList: NSScrollView {
     
   let left = NSView(frame: NSMakeRect(0,0,70,1560+900))
   let image5 = NSImage(named: "mena.png")
-  var sockets = [WebSocket]()
   var disposeBag = DisposeBag()
-  var newMessages = ["team1": ["c1": 1], "team2": ["c2": 1]]
   
   func addIcon(i: Int, image: NSImage, team: Team) -> ButtonWithTeam {
     let cwr = CompanyWithRed(frame: NSMakeRect(10,(CGFloat(i*60)),60,50))
@@ -194,11 +206,10 @@ class CompanyList: NSScrollView {
       
         channelApi.rtmConnect(token: token!).subscribe(
           onNext: { team in
-            let ws = WebSocket(url: URL(string: team.url!)!)
-            ws.delegate = bwt
-            ws.connect()
-            self.sockets.append(ws)
-
+            bwt.lastWsReconnect = Int64(NSDate().timeIntervalSince1970)
+            bwt.ws = WebSocket(url: URL(string: team.url!)!)
+            bwt.ws?.delegate = bwt
+            bwt.ws?.connect()
         },
           onError: { error in
             
@@ -249,7 +260,10 @@ class CompanyList: NSScrollView {
       }
     }
     
-    if let jtype = json["type"] {
+    let jtype = json["type"]
+    let jtext = json["text"]
+    
+    if jtype != nil && jtext != nil {
       let theType = jtype as! String
       if theType == "message"  {
         let mo = MessageObject()
